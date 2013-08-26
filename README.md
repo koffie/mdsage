@@ -7,4 +7,4 @@ To use the functions in here simply execute the following command in sage:
 
 load("https://raw.github.com/koffie/mdsage/master/load_everything.py")
 
-Everything here is available under the LGPL license.
+Everything here is available under the GPL v3 license or any later version.
