@@ -8,7 +8,7 @@ To use the functions in here simply execute the following command in sage:
 load("https://raw.github.com/koffie/mdsage/master/load_everything.py")
 
 
-
+    copyright (C) 2013 Maarten Derickx
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
