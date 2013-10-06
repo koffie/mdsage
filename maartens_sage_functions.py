@@ -15,7 +15,15 @@ def tate_normal_form(E,p):
     ainvs=[a1/u,a2/u**2,a3/u**3,a4/u**4,a6/u**6]
     return ainvs
 
+def diamond_operator(E,d):
+    return tate_normal_form(E,E([0,0])*d)
 
+def diamond_orbit(E,N=None):
+    if N==None:
+        N=E([0,0]).order()
+    for d in xrange(1,N):
+        if gcd(d,N)==1:
+            yield diamond_operator(E,d)
 
 def ambient_integral_structure_matrix(M,verbose=False):
     """
