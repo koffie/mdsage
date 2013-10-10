@@ -55,7 +55,7 @@ def LB_c(N):
     return [divisor_F_bc(N,k) for k in srange(2,N//2+2)]
 
 def conjectural_cuspidal_classgroup(N):
-    cusp_divisors = ZZ^(N//2+1)
+    cusp_divisors = ZZ**(N//2+1)
     return cusp_divisors.quotient(cusp_divisors.span(LB_c(N)))
     
 def cusp_number_from_signature((v2, v3), N):
