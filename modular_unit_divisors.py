@@ -46,7 +46,7 @@ def min_formula(N,t):
     if N == 2:
         return 4 * t -1
     if N == 3:
-        return 9 * min(t, 1/3) - 8*t
+        return 9 * min(t, ZZ(1)/3) - 8*t
     return sum(N * Phi(gcd(i,N)) * (min(t, i/N) - 4*(i/N)*(1-i/N)*t) for i in srange(1,(N-1)//2+1))
     
 def divisor_F_bc(N,k):
