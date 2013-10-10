@@ -40,7 +40,7 @@ def min_formula(N,t):
     """
     Function MinFormula in Mark his code 
     """
-    N = ZZ(N); t = ZZ(t)
+    N = ZZ(N); t = QQ(t)
     if N < 2:
         raise ValueError
     if N == 2:
