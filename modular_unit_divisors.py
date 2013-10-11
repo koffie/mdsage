@@ -76,3 +76,37 @@ def cusp_number_from_signature((v2, v3), N):
     if v3-v2 < 0:
         return (3*v2+v3)*N/(8*v2+4*v3)
     return N/3
+
+##########################
+#
+# From this point on these are extra functions not in Mark his original file
+#
+# Written by Maarten Derickx
+#
+##########################
+
+
+def cusp_sums_from_signature_to_standard_basis(cuspsums,signatures,level):
+    """
+    Converts a list of cuspsums where each entry is a list of multiplicities with respect
+    to the input signature order. To a list of cuspsums where each entry is a list of multiplicities
+    with respect to the standard order of the cusps.
+    """
+    P = Permutation([cusp_number_from_signature(s,level)+1 for s in signatures]).inverse()
+    return [permutation_action(P,s) for s in cuspsums]
+
+def diamond_permutation(list,d,level):
+    N = len(list)
+    return [list[(i*d)%level if (i*d)%level < N else (-i*d)%level] for i in range(N)]   
+    
+def diamond_orbits_cuspsum(list,level):
+    return [diamond_permutation(list,n,level) for n in range(1,level//2+1) if gcd(n,level) == 1]
+    
+def split_into_diamond_orbits(cuspsums,level):
+    """
+    Input a list of cuspsums w.r.t. to the standard basis. Output a list of orbits of these cuspsums.  
+    """
+    csp_grp = conjectural_cuspidal_classgroup(level)
+    diamonds = counts([tuple(sorted(set(csp_grp(vector(i)) for i in diamond_orbits_cuspsum(c,level)))) for c in cuspsums])
+    cusp_grp_to_cusp_sum = dict((csp_grp(vector(c)),c) for c in cuspsums)
+    return [[cusp_grp_to_cusp_sum[k] for k in d[0]] for d in diamonds]
