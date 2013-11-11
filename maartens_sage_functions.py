@@ -1,10 +1,19 @@
 from sage.all import *
 
 def counts(list):
+    """
+    On input of some iterable l, this function returns a list of pairs (s,c) where s runs trough
+    the distinct elements of l and c indicates how often each element occurs.
+    """
     s=set(list)
     return [(i,list.count(i)) for i in sorted(s)]
 
 def tate_normal_form(E,p):
+    """
+    On input a pair (E,p) where E is an elliptic curve and p a point of order > 3 this function
+    returns the a invariants a1,a2,a3,a4,a6 after writing the pair (E,p) in the tate normal form.
+    I.e. the form in which p=(0,0), a4=a6=0 and a2=a3 .
+    """
     assert p!=E([0,1,0])
     #assert p*2!=E([0,1,0])
     #assert p*3!=E([0,1,0])
@@ -12,7 +21,7 @@ def tate_normal_form(E,p):
     E=E.change_weierstrass_model(1,0,E.a4()/E.a3(),0)
     u=E.a3()/E.a2()
     a1,a2,a3,a4,a6=E.ainvs()
-    ainvs=[a1/u,a2/u**2,a3/u**3,a4/u**4,a6/u**6]
+    ainvs=[a1/u,a2/u**2,a3/u**3,0,0]
     return ainvs
 
 def diamond_operator(E,d):
@@ -185,6 +194,45 @@ def rational_modular_unit_lattice(G,return_ambient=True):
 
   
 def rational_cuspidal_classgroup(G):
+    """
+    On input a congruence subgroup G this function returns the lattice of sums of galois invariant orbits of cusps
+    modulo divisors of modular units.
+    """
     functions,divisors=rational_modular_unit_lattice(G,return_ambient=True)
     return divisors.quotient(functions)
+    
+def generators_of_subgroups_of_unit_group(R):
+    """
+    Input:
+        R - a ring whose unit group is finite
+    Output:
+        An iterator which yields a set of generators for each subgroup of R^*
+    """
+    gens = R.unit_gens()
+    invariants = [g.multiplicative_order() for g in gens]
+    assert all(i!=0 for i in invariants)
+    A=AbelianGroup(invariants)
+    for G in A.subgroups():
+        yield [prod(f^e for f,e in zip(gens,g.exponents())) for g in G.gens()]
+        
+def QuadraticForm_from_quadric(Q):
+    """
+    On input a homogeneous polynomial of degree 2 return the Quadratic Form corresponding to it.
+    """
+    R = Q.parent()
+    assert all([sum(e)==2 for e in Q.exponents()])
+    M = copy(zero_matrix(R.ngens(),R.ngens()))
+    for i in range(R.ngens()):
+        for j in range(R.ngens()):
+            if i==j:
+                M[i,j]=2*Q.coefficient(R.gen(i)*R.gen(j))
+                #print "Q",Q
+                #print "mon",R.gen(i)*R.gen(j)
+                #print "R", R
+                #Q.coefficient(R.gen(i)*R.gen(j))
+            else:
+                M[i,j]=Q.coefficient(R.gen(i)*R.gen(j))
+                #Q.coefficient(R.gen(i)*R.gen(j))
+   
+    return QuadraticForm(M)
 
