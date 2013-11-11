@@ -213,7 +213,7 @@ def generators_of_subgroups_of_unit_group(R):
     assert all(i!=0 for i in invariants)
     A=AbelianGroup(invariants)
     for G in A.subgroups():
-        yield [prod(f^e for f,e in zip(gens,g.exponents())) for g in G.gens()]
+        yield [prod(f**e for f,e in zip(gens,g.exponents())) for g in G.gens()]
         
 def QuadraticForm_from_quadric(Q):
     """
@@ -226,13 +226,8 @@ def QuadraticForm_from_quadric(Q):
         for j in range(R.ngens()):
             if i==j:
                 M[i,j]=2*Q.coefficient(R.gen(i)*R.gen(j))
-                #print "Q",Q
-                #print "mon",R.gen(i)*R.gen(j)
-                #print "R", R
-                #Q.coefficient(R.gen(i)*R.gen(j))
             else:
                 M[i,j]=Q.coefficient(R.gen(i)*R.gen(j))
-                #Q.coefficient(R.gen(i)*R.gen(j))
    
     return QuadraticForm(M)
 
