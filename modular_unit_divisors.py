@@ -62,8 +62,9 @@ def LB_c(N):
 
 def conjectural_cuspidal_classgroup(N):
     N = ZZ(N);
-    cusp_divisors = ZZ**(N//2+1)
-    return cusp_divisors.quotient(cusp_divisors.span(LB_c(N)))
+    cups_div = ZZ**N
+    cusp_div_0 = cusp_div.span([cusp_div.gen(i)  - degree_cusp(i,N) * cusp_div.gen(1) for i in range(N//2+1)])
+    return cusp_div_0.quotient(cusp_div_0.span(LB_c(N)))
     
 def cusp_number_from_signature((v2, v3), N):
     """
