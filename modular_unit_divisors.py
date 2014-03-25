@@ -60,11 +60,12 @@ def LB_c(N):
     N = ZZ(N);
     return [divisor_F_bc(N,k) for k in srange(2,N//2+2)]
 
-def conjectural_cuspidal_classgroup(N):
+def conjectural_cuspidal_classgroup(N,degree_0_part = False):
     N = ZZ(N);
     cusp_div = ZZ**(N//2+1)
-    cusp_div_0 = cusp_div.span([cusp_div.gen(i)  - degree_cusp(i,N) * cusp_div.gen(1) for i in range(N//2+1)])
-    return cusp_div_0.quotient(cusp_div_0.span(LB_c(N)))
+    if degree_0_part:
+        cusp_div = cusp_div.span([cusp_div.gen(i)  - degree_cusp(i,N) * cusp_div.gen(1) for i in range(N//2+1)])
+    return cusp_div.quotient(cusp_div.span(LB_c(N)))
     
 def cusp_number_from_signature((v2, v3), N):
     """
