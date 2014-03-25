@@ -4,15 +4,40 @@ def counts(list):
     """
     On input of some iterable l, this function returns a list of pairs (s,c) where s runs trough
     the distinct elements of l and c indicates how often each element occurs.
+    
+    EXAMPLE::
+    
+        sage: l = "A string is also iterable!"
+        sage: counts(l)
+        [(' ', 4), ('!', 1), ('A', 1), ('a', 2), ('b', 1), ('e', 2), ('g', 1), ('i', 3), ('l', 2), ('n', 1), ('o', 1), ('r', 2), ('s', 3), ('t', 2)]
     """
     s=set(list)
     return [(i,list.count(i)) for i in sorted(s)]
 
 def tate_normal_form(E,p):
     """
-    On input a pair (E,p) where E is an elliptic curve and p a point of order > 3 this function
+    Writes a pair (E,p) of elliptic curve with a point in tate normal form.
+    
+    On input a pair (E,p) where E is an elliptic curve and p a point of order > 3 on E, this function
     returns the a invariants a1,a2,a3,a4,a6 after writing the pair (E,p) in the tate normal form.
     I.e. the form in which p=(0,0), a4=a6=0 and a2=a3 .
+   
+    EXAMPLE::
+
+    We show in this example how to calculate the diamond operators
+    on X_1(5) which is isomorphic to P1:
+ 
+        sage: R.<b> = QQ[]
+
+    This is a model of the universal elliptic curve over X_1(5):
+
+        sage: E_univ = EllipticCurve(R.fraction_field(),[b+1,b,b,0,0])
+        sage: E_univ([0,0])*5
+        (0 : 1 : 0)
+        sage: tate_normal_form(E_univ,2*(E_univ(0,0)))
+        [(-b + 1)/-b, -1/b, 1/-b, 0, 0]
+        
+    This shows that <2> works on the above model of X_1(5) by sending b to -1/b.
     """
     assert p!=E([0,1,0])
     #assert p*2!=E([0,1,0])
@@ -25,9 +50,30 @@ def tate_normal_form(E,p):
     return ainvs
 
 def diamond_operator(E,d):
+    """
+    Returns the tate normal form of the pair (E,d*(0,0))
+    
+    INPUT:
+    
+        - E - an elliptic curve in tate normal form
+        - d - an integer
+        
+    OUTPUT:
+    
+        a1,a2,a3,a4,a6 - the a invatiants of E after writing
+        (E,d*(0,0)) in tate normal form.
+        
+    EXAMPLES::
+    
+        sage: E = EllipticCurve([11,10,10,0,0])
+        sage: diamond_operator(E,2)
+        [9/10, -1/10, -1/10, 0, 0]
+    """
     return tate_normal_form(E,E([0,0])*d)
 
 def diamond_orbit(E,N=None):
+    """
+    """
     if N==None:
         N=E([0,0]).order()
     for d in xrange(1,N):
