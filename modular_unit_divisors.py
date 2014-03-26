@@ -112,3 +112,40 @@ def split_into_diamond_orbits(cuspsums,level):
     diamonds = counts([tuple(sorted(set(csp_grp(vector(i)) for i in diamond_orbits_cuspsum(c,level)))) for c in cuspsums])
     cusp_grp_to_cusp_sum = dict((csp_grp(vector(c)),c) for c in cuspsums)
     return [[cusp_grp_to_cusp_sum[k] for k in d[0]] for d in diamonds]
+    
+def cuspsums_on_Gamma1_of_degree(N,degree):
+    """
+    Returns all rational sums of cusps on X_1(N) of a given degree.
+    
+    INPUT:
+        
+        - N - an integer
+        - degree - an integer
+        
+    OUTPUT:
+        
+        - A set of tuples of integers. Each output tuple (t_0,...,t_n) has length N//2+1 (i.e. n = N//2). A tuple (t_0,...,t_n) encodes the cuspsum t_0*C_0 + t_1*C_1 + ... + t_n*C_n. Where the C_i are as defined on page 4 of http://arxiv.org/pdf/1307.5719v2.pdf .
+        
+    EXAMPLES::
+        
+        sage: sorted(cuspsums_on_Gamma1_of_degree(5,3))
+        [(0, 0, 3), (0, 1, 2), (0, 2, 1), (0, 3, 0), (1, 0, 1), (1, 1, 0)]
+      
+    Note that the degrees of the cusps C_0,C_1,C_2 in this case are 2,1,1 respectively so each cusp sum above indeed has  total degree 3. 
+    """
+    cusp_sums = set([])
+    cusp_div = ZZ**(N//2+1)
+    cusp_sums_old=set([(tuple(cusp_div(0)),0)])
+    cusp_sums_new=set([])
+    while len(cusp_sums_old)>0:
+        for cuspsum,e in cusp_sums_old:
+            cuspsum = vector(cuspsum)
+            for i in range(N//2+1):  
+                d = degree_cusp(i,N)
+                if e+d < degree:
+                    cusp_sums_new.add((tuple(cuspsum+cusp_div.gen(i)),e+d))
+                if e+d == degree:
+                    cusp_sums.add(tuple(cuspsum+cusp_div.gen(i)))
+        cusp_sums_old = cusp_sums_new
+        cusp_sums_new=set([])
+    return cusp_sums
