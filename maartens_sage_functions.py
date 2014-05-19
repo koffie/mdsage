@@ -334,7 +334,7 @@ def cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(G):
         return tuple()
         
     N=G.level()
-    ZZcusp=ZZ^G.ncusps()
+    ZZcusp=ZZ**G.ncusps()
     unit_gens=Integers(N).unit_gens()
     L,D=modular_unit_lattice(G)
     Lrat,Drat=rational_modular_unit_lattice(G)
