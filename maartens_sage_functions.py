@@ -128,6 +128,22 @@ def ambient_integral_structure_matrix(M,verbose=False):
 def cuspidal_integral_structure_matrix(M,verbose=False):
     """
     Computes the cuspidal integral structure matrix of a modular symbols space in a runningtime hopefully faster then that of sage
+    
+    Input::
+    
+        - a modular symbols space M
+    
+    Output::
+    
+        - a matrix whose rows give a ZZ basis for the cuspidals supspace with respect to the standard basis of M
+    
+    Tests::
+    
+        sage: M = ModularSymbols(Gamma1(15))
+        sage: cuspidal_integral_structure_matrix(M)
+        [ 0  0  0  0  0  0  0  0  0  0 -1  0  0  0  0  1  0]
+        [ 0  0  0  0  0 -1  0  0 -1  0  0  1  0  0  0  0  0]
+    
     """
     #now we compute the integral kernel of the boundary map with respect to the integral basis. This will give us the integral cuspidal submodule.
     ZZbasis = ambient_integral_structure_matrix(M,verbose=verbose)              
