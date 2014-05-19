@@ -55,13 +55,12 @@ def diamond_operator(E,d):
     
     INPUT:
     
-        - E - an elliptic curve in tate normal form
-        - d - an integer
+    - E - an elliptic curve in tate normal form
+    - d - an integer
         
     OUTPUT:
     
-        a1,a2,a3,a4,a6 - the a invatiants of E after writing
-        (E,d*(0,0)) in tate normal form.
+    - a1,a2,a3,a4,a6 - the a invatiants of E after writing  (E,d*(0,0)) in tate normal form.
         
     EXAMPLES::
     
@@ -129,13 +128,13 @@ def cuspidal_integral_structure_matrix(M,verbose=False):
     """
     Computes the cuspidal integral structure matrix of a modular symbols space in a runningtime hopefully faster then that of sage
     
-    Input::
+    Input:
     
-        - a modular symbols space M
+    - M - a modular symbols space
     
-    Output::
+    Output:
     
-        - a matrix whose rows give a ZZ basis for the cuspidals supspace with respect to the standard basis of M
+    - a matrix whose rows give a ZZ basis for the cuspidals supspace with respect to the standard basis of M
     
     Tests::
     
