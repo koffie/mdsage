@@ -1,3 +1,5 @@
+from maartens_sage_functions import *
+
 def intersection(self,other):
     """Returns the intersection of two quotient modules self = V1/W and other V2/W
     V1 and V2 should be submodulus of the same ambient module.
