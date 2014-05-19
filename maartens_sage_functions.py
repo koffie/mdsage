@@ -264,10 +264,19 @@ def rational_cuspidal_classgroup(G):
     
 def generators_of_subgroups_of_unit_group(R):
     """
-    Input:
-        R - a ring whose unit group is finite
-    Output:
-        An iterator which yields a set of generators for each subgroup of R^*
+    INPUT:
+    
+    - R - a commutative ring whose unit group is finite
+    
+    OUTPUT:
+    
+    - An iterator which yields a set of generators for each subgroup of R^*
+    
+    EXAMPLES::
+        
+        sage: list(generators_of_subgroups_of_unit_group(Integers(28)))
+        [[15, 17], [11], [3], [13, 15], [15], [27], [17], [9], [13], []]
+    
     """
     gens = R.unit_gens()
     invariants = [g.multiplicative_order() for g in gens]
