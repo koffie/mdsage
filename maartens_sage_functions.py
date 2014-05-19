@@ -327,7 +327,7 @@ def cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(G):
     
     EXAMPLES::
         
-        sage: check_surjectivity_rational_cusps(Gamma1(26))
+        sage: cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(Gamma1(26))
         ()
     """
     if G.genus() == 0:
