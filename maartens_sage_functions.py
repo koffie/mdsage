@@ -313,7 +313,31 @@ def congruence_groups_between_gamma0_and_gamma1(N):
         level_N_modular_groups.add(G)
     return level_N_modular_groups
 
-
+def count_points_J_H(G,p):
+    """
+    Returns the number of points on J_H(GF(p))
+    
+    INPUT:
+        
+    - G - a congruence subgroup of type GammaH
+    - p - a prime
+    
+    OUTPUT:
+        
+    - the number of F_p points on the jacobian of the modular curve X_H
+    
+    EXAMPLES::
+        
+        sage: count_points_J_H(Gamma0(29),p)
+        196
+    """
+    M=ModularSymbols(G,sign=1)
+    S=M.cuspidal_subspace()
+    dq=S.diamond_bracket_matrix(p)
+    #print "computing tq"
+    Tq=S.hecke_matrix(p)
+    #assert (Tq-dq-p).det() == (Tq-p*dq-1).det()
+    return (dq+p-Tq).det()
       
 def QuadraticForm_from_quadric(Q):
     """
