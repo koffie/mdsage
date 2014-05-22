@@ -52,3 +52,56 @@ def cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(G):
         #print kernels[-1]
     rat_cusp_tors=reduce(intersection,kernels)
     return rat_cusp_tors.V().quotient(Drat+L).invariants()
+    
+def upper_bound_index_cusps_in_JG_torsion(G,d, bound = 60):
+    """
+    INPUT:
+        
+    - G - a congruence subgroup
+    - d - integer, the size of the rational cuspidal subgroup
+    - bound (optional, default = 60) - the bound for the primes p up to which to use
+    the hecke matrix T_p - <p> - p for bounding the torsion subgroup
+    
+    OUTPUT:
+        
+    - an integer `i` such that #J_G(Q)_tors/d is a divisor of `i`.
+    
+    EXAMPLES::
+        
+        sage: d = rational_cuspidal_classgroup(Gamma1(23)).cardinality()
+        sage: upper_bound_index_cusps_in_JG_torsion(Gamma1(23),d)
+        1
+
+    """
+    N = G.level()
+    M=ModularSymbols(G);
+    S=M.cuspidal_subspace()
+    Sint=cuspidal_integral_structure(M)
+    kill_mat=(M.star_involution().matrix().restrict(Sint)-1)
+    kill=kill_mat.transpose().change_ring(ZZ).row_module()
+    for p in prime_range(3,30):
+        if not N % p ==0:
+            kill+=kill_torsion_coprime_to_q(p,M).restrict(Sint).change_ring(ZZ).transpose().row_module()
+        if kill.matrix().is_square() and kill.matrix().determinant()==d:
+            #print p
+            break
+    kill_mat=kill.matrix().transpose()
+    #print N,"index of torsion in stuff killed",kill.matrix().determinant()/d
+    if kill.matrix().determinant()==d:
+        return 1
+        
+    pm=integral_period_mapping(M)
+    period_images1=[sum([M.coordinate_vector(M([c,infinity])) for c in cusps])*pm for cusps in galois_orbits(G)]
+    
+    m=(Matrix(period_images1)*kill_mat).stack(kill_mat)
+    diag=m.change_ring(ZZ).echelon_form().diagonal()
+    #print diag,prod(diag)
+    assert prod(diag)==kill.matrix().determinant()/d
+    
+    period_images2=[M.coordinate_vector(M([c,infinity]))*pm for c in G.cusps() if c != Cusp(oo)]
+    m=(Matrix(period_images2)*kill_mat).stack(kill_mat)
+    m,denom=m._clear_denom()
+    diag=(m.change_ring(ZZ).echelon_form()/denom).diagonal()
+    #print diag
+    #print prod(i.numerator() for i in diag),"if this is 1 then :)"
+    return prod(i.numerator() for i in diag)
