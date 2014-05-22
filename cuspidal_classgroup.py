@@ -105,3 +105,15 @@ def upper_bound_index_cusps_in_JG_torsion(G,d, bound = 60):
     #print diag
     #print prod(i.numerator() for i in diag),"if this is 1 then :)"
     return prod(i.numerator() for i in diag)
+    
+def kill_torsion_coprime_to_q(q,S):
+    """This is with respect to the Xmu model"""
+    #print "computing diamond",q
+    dq=S.diamond_bracket_matrix(q)
+    #print "computing tq"
+    Tq=S.hecke_matrix(q)
+    return (Tq-dq-q)
+
+def cuspidal_integral_structure(M):
+    B = cuspidal_integral_structure_matrix(M)
+    return B._row_ambient_module(QQ).submodule_with_basis(B).change_ring(ZZ)
