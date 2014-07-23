@@ -338,6 +338,23 @@ def count_points_J_H(G,p):
     Tq=S.hecke_matrix(p)
     #assert (Tq-dq-p).det() == (Tq-p*dq-1).det()
     return (dq+p-Tq).det()
+
+
+def Gamma11(m,n):
+    """
+    sage doesn't have  the congruence subgroup
+    for the curve X_1(m,mn) but the 
+    group G defined here is conjugate to the group
+    defining the modular curve X_1(m,mn)the one we are
+    interested in so give isomorphic modular curves
+    where the isomorphism even has a moduli interpretation
+    In particular I use the surjection X_1(m^2n) -> X_1(m,mn)
+    Which sends (E,P) to (E/<mnP>, Q mod <mnP>, P mod <mnP>) where Q in E
+    is such that <Q,mnP> = zeta_m
+    note that this surjection is defined over Q <=> m=2
+    """
+    return GammaH(m^2*n,[m*n+1])
+
       
 def QuadraticForm_from_quadric(Q):
     """
