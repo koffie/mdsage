@@ -353,7 +353,7 @@ def Gamma11(m,n):
     is such that <Q,mnP> = zeta_m
     note that this surjection is defined over Q <=> m=2
     """
-    return GammaH(m^2*n,[m*n+1])
+    return GammaH(m**2*n,[m*n+1])
 
       
 def QuadraticForm_from_quadric(Q):
