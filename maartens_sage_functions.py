@@ -472,3 +472,46 @@ def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bo
             return True,L(v)
     assert short_vectors[0].sage() < 2*qfminim_bound
     return False,None
+
+def modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bound = 10**5):
+    """
+    Returns an iterator over all modular units on the curve X(G).
+    
+    INPUT:
+        
+    - ``G`` - a congruence subgroup
+    - ``deg`` - int, the degree of modular unit to search for
+    - ``rational`` - bool, true means modular unit should be defined over QQ
+    - ``verbose`` - bool (default = false), wether or not to print progress
+    - ``qfminim_bound`` - int (default - 10^5), given to pari's qfminim command, and is an upper bound on
+                          how many vectors of short l2 norm are returned by pari
+                          this function will raise an error if pari finds more short
+                          vectors then it returns
+
+    """
+    if rational:
+        L,D=rational_modular_unit_lattice(G)
+    else:
+        L,D=modular_unit_lattice(G)
+    
+    M = L.basis_matrix().change_ring(ZZ).LLL()
+    
+       
+    GS_matrix=M*M.transpose()
+    pari_gs=pari(GS_matrix)
+    
+    
+    short_vectors=pari_gs.qfminim(deg^2*2,qfminim_bound)
+    
+    if verbose:
+        print short_vectors[:2]
+    
+    count = 0
+    for i in short_vectors[2]:
+        count+=1
+        if verbose and count%10000==0:
+            print count
+        v=vector(QQ,i.list())*M
+        if v.norm(1)/2 == deg:
+            yield L(v)
+    assert short_vectors[0].sage() < 2*qfminim_bound
