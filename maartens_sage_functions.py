@@ -1,5 +1,25 @@
 from sage.all import *
 
+def gonality_lower_bound(G,lambda1 = 0.238):
+    """
+    Return the gonality bound of the modular curve X(G)
+    as given by Dan Abramovich in "A linear lower bound on the
+    gonality of modular curves"
+    
+    lambda1 is conjectured to 1/4th, but has only been proven to be
+    > 0.238 [1, p. 3], bigger lambda1 means a better lowerbound.
+    
+    EXAMPLES::
+        
+        sage: gonality_lower_bound(Gamma1(171))
+        129
+    
+    [1] ON THE TORSION OF ELLIPTIC CURVES OVER QUARTIC NUMBER FIELDS
+DAEYEOL JEON, CHANG HEON KIM and EUISUNG PARK
+    """
+    return ceil(G.projective_index()*lambda1/24)
+
+
 def counts(list):
     """
     On input of some iterable l, this function returns a list of pairs (s,c) where s runs trough
