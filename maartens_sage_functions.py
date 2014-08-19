@@ -434,7 +434,7 @@ def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bo
     M = L.basis_matrix().change_ring(ZZ).LLL()
     for v in M:
         if v.norm(1)/2 == deg:
-            True,L(v)
+            return True,L(v)
        
     GS_matrix=M*M.transpose()
     pari_gs=pari(GS_matrix)
