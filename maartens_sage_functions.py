@@ -473,7 +473,7 @@ def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bo
     assert short_vectors[0].sage() < 2*qfminim_bound
     return False,None
 
-def modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bound = 10**5):
+def modular_units_of_degree(G,deg,rational = True, verbose = False,qfminim_bound = 10**5):
     """
     Returns an iterator over all modular units on the curve X(G).
     
