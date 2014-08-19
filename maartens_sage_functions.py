@@ -44,7 +44,7 @@ def positive_part(v):
         sage: positive_part(v)
         (1, 0, 2, 0, 3, 0)
     """
-    return v.parent([i if i > 0 else 0 for i in v])
+    return v.parent.ambient_module()([i if i > 0 else 0 for i in v])
 
 def tate_normal_form(E,p):
     """
