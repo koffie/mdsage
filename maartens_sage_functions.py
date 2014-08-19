@@ -406,3 +406,69 @@ def QuadraticForm_from_quadric(Q):
    
     return QuadraticForm(M)
 
+
+
+def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bound = 10**5,l2_step=0):
+    """
+    Returns True,v if the modular curve X(G) has a modular unit v of degree equal to deg, and false,None otherwise.
+    
+    INPUT:
+        
+    - ``G`` - a congruence subgroup
+    - ``deg`` - int, the degree of modular unit to search for
+    - ``rational`` - bool, true means modular unit should be defined over QQ
+    - ``verbose`` - bool (default = false), wether or not to print progress
+    - ``qfminim_bound`` - int (default - 10^5), given to pari's qfminim command, and is an upper bound on
+                          how many vectors of short l2 norm are returned by pari
+                          this function will raise an error if pari finds more short
+                          vectors then it returns
+    - ``l2_step`` - int (default = 0) If l2_step>0 this function first searches the modular units with l2 norm equal to l2_step
+                                      then 2*l2_step, 3*l2_step, e.t.c. instead of searching all vectors with l2 norm 2*deg^2.
+                                      The l2 norm of a modular unit with divisor n1*c1 + ... + nk*ck is the l2 norm of (n1,...nk). 
+    """
+    if rational:
+        L,D=rational_modular_unit_lattice(G)
+    else:
+        L,D=modular_unit_lattice(G)
+    
+    M = L.basis_matrix().change_ring(ZZ).LLL()
+    for v in M:
+        if v.norm(1)/2 == deg:
+            True,L(v)
+       
+    GS_matrix=M*M.transpose()
+    pari_gs=pari(GS_matrix)
+    
+    
+    #just to speed up positive results
+    if l2_step > 0:
+        for l2 in range(l2_step,deg^2*2-l2_step+1,l2_step):
+            short_vectors=pari_gs.qfminim(l2,qfminim_bound)
+            if verbose:
+                print short_vectors[:2]
+            
+            count = 0
+            for i in short_vectors[2]:
+                count+=1
+                if verbose and count%10000==0:
+                    print count
+                v=vector(QQ,i.list())*M
+                if v.norm(1)/2 == deg:
+                    return True,L(v)
+    
+    
+    short_vectors=pari_gs.qfminim(deg^2*2,qfminim_bound)
+    
+    if verbose:
+        print short_vectors[:2]
+    
+    count = 0
+    for i in short_vectors[2]:
+        count+=1
+        if verbose and count%10000==0:
+            print count
+        v=vector(QQ,i.list())*M
+        if v.norm(1)/2 == deg:
+            return True,L(v)
+    assert short_vectors[0].sage() < 2*qfminim_bound
+    return False,None
