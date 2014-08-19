@@ -14,6 +14,18 @@ def counts(list):
     s=set(list)
     return [(i,list.count(i)) for i in sorted(s)]
 
+def positive_part(v):
+    """
+    Returns the vector consisting only of the postive entries of the given vector
+    
+    EXAMPLES::
+        
+        sage: v = vector([1,-1,2,-2,3,-3])
+        sage: positive_part(v)
+        (1, 0, 2, 0, 3, 0)
+    """
+    return v.parent([i if i > 0 else 0 for i in v])
+
 def tate_normal_form(E,p):
     """
     Writes a pair (E,p) of elliptic curve with a point in tate normal form.
