@@ -222,7 +222,7 @@ def period_mapping(M):
 def integral_period_mapping(M):
     return period_mapping(M)*cuspidal_rational_to_integral_basis(M)   
     
-def modular_unit_lattice(G,return_ambient=True):
+def modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=True):
     M=G.modular_symbols()
     S=M.cuspidal_subspace()
     period_mapping=integral_period_mapping(M)
@@ -238,15 +238,17 @@ def modular_unit_lattice(G,return_ambient=True):
     kernel=mint.kernel()
     F0=kernel.basis_matrix().change_ring(ZZ).transpose()[:n-1].transpose()
     F0inD0=D0.submodule([D0.linear_combination_of_basis(i) for i in F0])
-    if return_ambient:
+    if return_ambient and ambient_degree_zero:
         return F0inD0,D0
+    if return_ambient:
+        return F0inD0,D
     return F0inD0
     
-def rational_modular_unit_lattice(G,return_ambient=True):
+def rational_modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=True):
     cusps=G.cusps()
     n=len(cusps)
     D=ZZ**n
-    F0inD0,D0=modular_unit_lattice(G,return_ambient=True)
+    F0inD0,D0=modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=ambient_degree_zero)
     Drational=D.submodule([sum([D.gen(cusps.index(i)) for i in j]) for j in galois_orbits(G)])
     F0rational=F0inD0.intersection(Drational)
     if return_ambient:
@@ -254,12 +256,12 @@ def rational_modular_unit_lattice(G,return_ambient=True):
     return F0rational
 
   
-def rational_cuspidal_classgroup(G):
+def rational_cuspidal_classgroup(G,degree_zero=True):
     """
     On input a congruence subgroup G this function returns the lattice of sums of galois invariant orbits of cusps
     modulo divisors of modular units.
     """
-    functions,divisors=rational_modular_unit_lattice(G,return_ambient=True)
+    functions,divisors=rational_modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=degree_zero)
     return divisors.quotient(functions)
     
 def generators_of_subgroups_of_unit_group(R):
