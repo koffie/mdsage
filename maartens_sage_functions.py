@@ -442,7 +442,7 @@ def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bo
     
     #just to speed up positive results
     if l2_step > 0:
-        for l2 in range(l2_step,deg^2*2-l2_step+1,l2_step):
+        for l2 in range(l2_step,deg**2*2-l2_step+1,l2_step):
             short_vectors=pari_gs.qfminim(l2,qfminim_bound)
             if verbose:
                 print short_vectors[:2]
@@ -457,7 +457,7 @@ def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bo
                     return True,L(v)
     
     
-    short_vectors=pari_gs.qfminim(deg^2*2,qfminim_bound)
+    short_vectors=pari_gs.qfminim(deg**2*2,qfminim_bound)
     
     if verbose:
         print short_vectors[:2]
@@ -501,7 +501,7 @@ def modular_units_of_degree(G,deg,rational = True, verbose = False,qfminim_bound
     pari_gs=pari(GS_matrix)
     
     
-    short_vectors=pari_gs.qfminim(deg^2*2,qfminim_bound)
+    short_vectors=pari_gs.qfminim(deg**2*2,qfminim_bound)
     
     if verbose:
         print short_vectors[:2]
