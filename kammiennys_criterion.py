@@ -225,7 +225,7 @@ class KamiennyCriterion:
         sage: C.t()
         26 x 26 dense matrix over Finite Field of size 2
     """
-    def __init__(self, p, congruence_type=1, algorithm="custom", verbose=False, dump_dir=None):
+    def __init__(self, p, congruence_type=1, sign=1, algorithm="custom", verbose=False, dump_dir=None):
         """
         Create a Kamienny criterion object.
 
@@ -233,6 +233,7 @@ class KamiennyCriterion:
 
             - `p` -- prime -- verify that there is no order p torsion
               over a degree `d` field
+            - `sign` -- 1 (default),-1 or 0 -- the sign of the modular symbols space to use 
             - ``algorithm`` -- "default" or "custom" whether to use a custom (faster)
               integral structure algorithm or to use the sage builtin algortihm
             - ``verbose`` -- bool; whether to print extra stuff while
@@ -263,7 +264,7 @@ class KamiennyCriterion:
             self.congruence_group=Gamma1(p)
         else:
             raise TypeError("congruence_type=%s but should be 0 or 1"%congruence_type)
-        self.M = ModularSymbols(self.congruence_group, sign=1)
+        self.M = ModularSymbols(self.congruence_group, sign=sign)
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "modsym"
         self.S = self.M.cuspidal_submodule()
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "cuspsub"
@@ -845,7 +846,7 @@ class KamiennyCriterion:
     def integral_cuspidal_subspace(self):
         """
         In certatain cases this might return the integral structure of the cuspidal subspace.
-        This code is manly a way to compute the integral structe faster than sage does now. 
+        This code is mainly a way to compute the integral structe faster than sage does now. 
         It returns None if it cannot find the integral subspace. 
         """
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "Int struct start"
