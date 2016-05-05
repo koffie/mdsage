@@ -1,5 +1,25 @@
 from sage.all import *
 
+def gonality_lower_bound(G,lambda1 = 0.238):
+    """
+    Return the gonality bound of the modular curve X(G)
+    as given by Dan Abramovich in "A linear lower bound on the
+    gonality of modular curves"
+    
+    lambda1 is conjectured to 1/4th, but has only been proven to be
+    > 0.238 [1, p. 3], bigger lambda1 means a better lowerbound.
+    
+    EXAMPLES::
+        
+        sage: gonality_lower_bound(Gamma1(171))
+        129
+    
+    [1] ON THE TORSION OF ELLIPTIC CURVES OVER QUARTIC NUMBER FIELDS
+DAEYEOL JEON, CHANG HEON KIM and EUISUNG PARK
+    """
+    return ceil(G.projective_index()*lambda1/24)
+
+
 def counts(list):
     """
     On input of some iterable l, this function returns a list of pairs (s,c) where s runs trough
@@ -13,6 +33,18 @@ def counts(list):
     """
     s=set(list)
     return [(i,list.count(i)) for i in sorted(s)]
+
+def positive_part(v):
+    """
+    Returns the vector consisting only of the postive entries of the given vector
+    
+    EXAMPLES::
+        
+        sage: v = vector([1,-1,2,-2,3,-3])
+        sage: positive_part(v)
+        (1, 0, 2, 0, 3, 0)
+    """
+    return v.parent().ambient_module()([i if i > 0 else 0 for i in v])
 
 def tate_normal_form(E,p):
     """
@@ -55,13 +87,12 @@ def diamond_operator(E,d):
     
     INPUT:
     
-        - E - an elliptic curve in tate normal form
-        - d - an integer
+    - E - an elliptic curve in tate normal form
+    - d - an integer
         
     OUTPUT:
     
-        a1,a2,a3,a4,a6 - the a invatiants of E after writing
-        (E,d*(0,0)) in tate normal form.
+    - a1,a2,a3,a4,a6 - the a invatiants of E after writing  (E,d*(0,0)) in tate normal form.
         
     EXAMPLES::
     
@@ -128,6 +159,22 @@ def ambient_integral_structure_matrix(M,verbose=False):
 def cuspidal_integral_structure_matrix(M,verbose=False):
     """
     Computes the cuspidal integral structure matrix of a modular symbols space in a runningtime hopefully faster then that of sage
+    
+    Input:
+    
+    - M - a modular symbols space
+    
+    Output:
+    
+    - a matrix whose rows give a ZZ basis for the cuspidals supspace with respect to the standard basis of M
+    
+    Tests::
+    
+        sage: M = ModularSymbols(Gamma1(15))
+        sage: cuspidal_integral_structure_matrix(M)
+        [ 0  0  0  0  0  0  0  0  0  0 -1  0  0  0  0  1  0]
+        [ 0  0  0  0  0 -1  0  0 -1  0  0  1  0  0  0  0  0]
+    
     """
     #now we compute the integral kernel of the boundary map with respect to the integral basis. This will give us the integral cuspidal submodule.
     ZZbasis = ambient_integral_structure_matrix(M,verbose=verbose)              
@@ -207,7 +254,7 @@ def period_mapping(M):
 def integral_period_mapping(M):
     return period_mapping(M)*cuspidal_rational_to_integral_basis(M)   
     
-def modular_unit_lattice(G,return_ambient=True):
+def modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=True):
     M=G.modular_symbols()
     S=M.cuspidal_subspace()
     period_mapping=integral_period_mapping(M)
@@ -223,15 +270,17 @@ def modular_unit_lattice(G,return_ambient=True):
     kernel=mint.kernel()
     F0=kernel.basis_matrix().change_ring(ZZ).transpose()[:n-1].transpose()
     F0inD0=D0.submodule([D0.linear_combination_of_basis(i) for i in F0])
-    if return_ambient:
+    if return_ambient and ambient_degree_zero:
         return F0inD0,D0
+    if return_ambient:
+        return F0inD0,D
     return F0inD0
     
-def rational_modular_unit_lattice(G,return_ambient=True):
+def rational_modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=True):
     cusps=G.cusps()
     n=len(cusps)
     D=ZZ**n
-    F0inD0,D0=modular_unit_lattice(G,return_ambient=True)
+    F0inD0,D0=modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=ambient_degree_zero)
     Drational=D.submodule([sum([D.gen(cusps.index(i)) for i in j]) for j in galois_orbits(G)])
     F0rational=F0inD0.intersection(Drational)
     if return_ambient:
@@ -239,20 +288,29 @@ def rational_modular_unit_lattice(G,return_ambient=True):
     return F0rational
 
   
-def rational_cuspidal_classgroup(G):
+def rational_cuspidal_classgroup(G,degree_zero=True):
     """
     On input a congruence subgroup G this function returns the lattice of sums of galois invariant orbits of cusps
     modulo divisors of modular units.
     """
-    functions,divisors=rational_modular_unit_lattice(G,return_ambient=True)
+    functions,divisors=rational_modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=degree_zero)
     return divisors.quotient(functions)
     
 def generators_of_subgroups_of_unit_group(R):
     """
-    Input:
-        R - a ring whose unit group is finite
-    Output:
-        An iterator which yields a set of generators for each subgroup of R^*
+    INPUT:
+    
+    - R - a commutative ring whose unit group is finite
+    
+    OUTPUT:
+    
+    - An iterator which yields a set of generators for each subgroup of R^*
+    
+    EXAMPLES::
+        
+        sage: list(generators_of_subgroups_of_unit_group(Integers(28)))
+        [[15, 17], [11], [3], [13, 15], [15], [27], [17], [9], [13], []]
+    
     """
     gens = R.unit_gens()
     invariants = [g.multiplicative_order() for g in gens]
@@ -260,7 +318,78 @@ def generators_of_subgroups_of_unit_group(R):
     A=AbelianGroup(invariants)
     for G in A.subgroups():
         yield [prod(f**e for f,e in zip(gens,g.exponents())) for g in G.gens()]
+
+def congruence_groups_between_gamma0_and_gamma1(N):
+    """
+    INPUT:
         
+    - N - an integer
+    
+    OUTPUT:
+        
+    - The set of all congruence subgroups contained in Gamma0(N) that contain Gamma1(N)
+    
+    EXAMPLES::
+    
+        sage: congruence_groups_between_gamma0_and_gamma1(1)
+        set([Modular Group SL(2,Z)])
+    
+        sage: congruence_groups_between_gamma0_and_gamma1(15)
+        set([Congruence Subgroup Gamma0(15), Congruence Subgroup Gamma_H(15) with H generated by [4, 11, 14], Congruence Subgroup Gamma_H(15) with H generated by [14]]) 
+    """
+    if N == 1:
+        return set([Gamma0(1)])
+    level_N_modular_groups = set([])
+    for gens in generators_of_subgroups_of_unit_group(Integers(N)):
+        gens = gens+[-1]
+        H = sage.modular.arithgroup.congroup_gammaH._list_subgroup(N,gens)
+        G = GammaH(N,H)
+        level_N_modular_groups.add(G)
+    return level_N_modular_groups
+
+def count_points_J_H(G,p):
+    """
+    Returns the number of points on J_H(GF(p))
+    
+    INPUT:
+        
+    - G - a congruence subgroup of type GammaH
+    - p - a prime
+    
+    OUTPUT:
+        
+    - the number of F_p points on the jacobian of the modular curve X_H
+    
+    EXAMPLES::
+        
+        sage: count_points_J_H(Gamma0(29),p)
+        196
+    """
+    M=ModularSymbols(G,sign=1)
+    S=M.cuspidal_subspace()
+    dq=S.diamond_bracket_matrix(p)
+    #print "computing tq"
+    Tq=S.hecke_matrix(p)
+    #assert (Tq-dq-p).det() == (Tq-p*dq-1).det()
+    return (dq+p-Tq).det()
+
+
+def Gamma11(m,n):
+    """
+    sage doesn't have  the congruence subgroup
+    for the curve X_1(m,mn) but the 
+    group G defined here is conjugate to the group
+    defining the modular curve X_1(m,mn)the one we are
+    interested in so give isomorphic modular curves
+    where the isomorphism even has a moduli interpretation
+    In particular I use the surjection X_1(m^2n) -> X_1(m,mn)
+    Which sends (E,P) to (E/<mnP>, Q mod <mnP>, P mod <mnP>) where Q in E
+    is such that <Q,mnP> = zeta_m
+    note that this surjection is defined over Q <=> m=2
+    """
+    return GammaH(m**2*n,[m*n+1])
+
+      
 def QuadraticForm_from_quadric(Q):
     """
     On input a homogeneous polynomial of degree 2 return the Quadratic Form corresponding to it.
@@ -277,3 +406,112 @@ def QuadraticForm_from_quadric(Q):
    
     return QuadraticForm(M)
 
+
+
+def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bound = 10**5,l2_step=0):
+    """
+    Returns True,v if the modular curve X(G) has a modular unit v of degree equal to deg, and false,None otherwise.
+    
+    INPUT:
+        
+    - ``G`` - a congruence subgroup
+    - ``deg`` - int, the degree of modular unit to search for
+    - ``rational`` - bool, true means modular unit should be defined over QQ
+    - ``verbose`` - bool (default = false), wether or not to print progress
+    - ``qfminim_bound`` - int (default - 10^5), given to pari's qfminim command, and is an upper bound on
+                          how many vectors of short l2 norm are returned by pari
+                          this function will raise an error if pari finds more short
+                          vectors then it returns
+    - ``l2_step`` - int (default = 0) If l2_step>0 this function first searches the modular units with l2 norm equal to l2_step
+                                      then 2*l2_step, 3*l2_step, e.t.c. instead of searching all vectors with l2 norm 2*deg^2.
+                                      The l2 norm of a modular unit with divisor n1*c1 + ... + nk*ck is the l2 norm of (n1,...nk). 
+    """
+    if rational:
+        L,D=rational_modular_unit_lattice(G)
+    else:
+        L,D=modular_unit_lattice(G)
+    
+    M = L.basis_matrix().change_ring(ZZ).LLL()
+    for v in M:
+        if v.norm(1)/2 == deg:
+            return True,L(v)
+       
+    GS_matrix=M*M.transpose()
+    pari_gs=pari(GS_matrix)
+    
+    
+    #just to speed up positive results
+    if l2_step > 0:
+        for l2 in range(l2_step,deg**2*2-l2_step+1,l2_step):
+            short_vectors=pari_gs.qfminim(l2,qfminim_bound)
+            if verbose:
+                print short_vectors[:2]
+            
+            count = 0
+            for i in short_vectors[2]:
+                count+=1
+                if verbose and count%10000==0:
+                    print count
+                v=vector(QQ,i.list())*M
+                if v.norm(1)/2 == deg:
+                    return True,L(v)
+    
+    
+    short_vectors=pari_gs.qfminim(deg**2*2,qfminim_bound)
+    
+    if verbose:
+        print short_vectors[:2]
+    
+    count = 0
+    for i in short_vectors[2]:
+        count+=1
+        if verbose and count%10000==0:
+            print count
+        v=vector(QQ,i.list())*M
+        if v.norm(1)/2 == deg:
+            return True,L(v)
+    assert short_vectors[0].sage() < 2*qfminim_bound
+    return False,None
+
+def modular_units_of_degree(G,deg,rational = True, verbose = False,qfminim_bound = 10**5):
+    """
+    Returns an iterator over all modular units on the curve X(G).
+    
+    INPUT:
+        
+    - ``G`` - a congruence subgroup
+    - ``deg`` - int, the degree of modular unit to search for
+    - ``rational`` - bool, true means modular unit should be defined over QQ
+    - ``verbose`` - bool (default = false), wether or not to print progress
+    - ``qfminim_bound`` - int (default - 10^5), given to pari's qfminim command, and is an upper bound on
+                          how many vectors of short l2 norm are returned by pari
+                          this function will raise an error if pari finds more short
+                          vectors then it returns
+
+    """
+    if rational:
+        L,D=rational_modular_unit_lattice(G)
+    else:
+        L,D=modular_unit_lattice(G)
+    
+    M = L.basis_matrix().change_ring(ZZ).LLL()
+    
+       
+    GS_matrix=M*M.transpose()
+    pari_gs=pari(GS_matrix)
+    
+    
+    short_vectors=pari_gs.qfminim(deg**2*2,qfminim_bound)
+    
+    if verbose:
+        print short_vectors[:2]
+    
+    count = 0
+    for i in short_vectors[2]:
+        count+=1
+        if verbose and count%10000==0:
+            print count
+        v=vector(QQ,i.list())*M
+        if v.norm(1)/2 == deg:
+            yield L(v)
+    assert short_vectors[0].sage() < 2*qfminim_bound
