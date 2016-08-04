@@ -79,7 +79,7 @@ def upper_bound_index_cusps_in_JG_torsion(G,d, bound = 60):
     Sint=cuspidal_integral_structure(M)
     kill_mat=(M.star_involution().matrix().restrict(Sint)-1)
     kill=kill_mat.transpose().change_ring(ZZ).row_module()
-    for p in prime_range(3,30):
+    for p in prime_range(3,bound):
         if not N % p ==0:
             kill+=kill_torsion_coprime_to_q(p,M).restrict(Sint).change_ring(ZZ).transpose().row_module()
         if kill.matrix().is_square() and kill.matrix().determinant()==d:
