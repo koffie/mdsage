@@ -377,7 +377,7 @@ def count_points_J_H(G,p):
 def Gamma11(m,n):
     """
     sage doesn't have  the congruence subgroup
-    for the curve X_1(m,mn) but the 
+    for the curve X_1(m,mn) but the
     group G defined here is conjugate to the group
     defining the modular curve X_1(m,mn)the one we are
     interested in so give isomorphic modular curves
@@ -385,9 +385,13 @@ def Gamma11(m,n):
     In particular I use the surjection X_1(m^2n) -> X_1(m,mn)
     Which sends (E,P) to (E/<mnP>, Q mod <mnP>, P mod <mnP>) where Q in E
     is such that <Q,mnP> = zeta_m
-    note that this surjection is defined over Q <=> m=2
+    note that this surjection is defined over Q <=> m=2.
+    
+    If d is a unit in Z/m^2nZ then sometimes (E,P) and (E,dP) are
+    mapped to the same point on X_1(m,mn)
+    This happens precicely if d is +- 1 modulo mn if j(E) is not 0 or 1728
     """
-    return GammaH(m**2*n,[m*n+1])
+    return GammaH(m**2*n,[-1]+[d*m*n+1 for d in range(1,m)])
 
       
 def QuadraticForm_from_quadric(Q):
