@@ -358,8 +358,8 @@ class KamiennyCriterion:
         from itertools import product
         v = [None] * self.p
         for ei in product(*[range(i) for i in orders]):
-            di = prod(g^e for e,g in zip(ei,gens)).lift()
-            m = prod(g^e for e,g in zip(ei,X))
+            di = prod(g**e for e,g in zip(ei,gens)).lift()
+            m = prod(g**e for e,g in zip(ei,X))
             v[di] = m
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "mul"
 
