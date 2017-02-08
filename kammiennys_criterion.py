@@ -207,8 +207,8 @@ def get_verify_input_for_prime(result_table,prime):
 
 class KamiennyCriterion:
     """
-    This class if for verification of Kamienny's criterion for quartic fields
-    using ell=2 for a given p.
+    This class if for verification of Kamienny's criterion for arbitrary fields
+    using ell=2 for arbitrary level.
 
     EXAMPLES::
 
@@ -253,17 +253,23 @@ class KamiennyCriterion:
         self.verbose = verbose
         self.dump_dir = dump_dir
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "init"
-        if not is_prime(p):
-            raise ValueError, "p must be prime"
-        self.p = p
+        assert congruence_type == 0 or congruence_type == 1
         self.congruence_type=congruence_type
+        try:
+            p = ZZ(p)
+            if congruence_type==0:
+                self.congruence_group = Gamma0(p)
+            if congruence_type==1:
+                self.congruence_group = GammaH(p,[-1])
+        except TypeError:
+            self.congruence_group = GammaH(p.level(),[-1]+p._generators_for_H())
+            self.congruence_type = ("H",self.congruence_group._list_of_elements_in_H())
+            
+        self.p = self.congruence_group.level()
+  
         self.algorithm=algorithm
-        if congruence_type==0:
-            self.congruence_group=Gamma0(p)
-        elif congruence_type==1:
-            self.congruence_group=Gamma1(p)
-        else:
-            raise TypeError("congruence_type=%s but should be 0 or 1"%congruence_type)
+        self.sign=sign
+        
         self.M = ModularSymbols(self.congruence_group, sign=sign)
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "modsym"
         self.S = self.M.cuspidal_submodule()
@@ -298,6 +304,19 @@ class KamiennyCriterion:
         """
         return "Kamienny's Criterion for p=%s" % self.p
 
+    @cached_method
+    def coset_representatives_H(self):
+        G = self.congruence_group
+        coset_reps = []
+        done = set([])
+        for i in Integers(self.p):
+            if not i.is_unit() or i in done:
+                continue
+            coset_reps.append(i)
+            done.update([i*h for h in G._list_of_elements_in_H()])
+        return tuple(coset_reps)
+
+
     def dbd(self, d):
         """
         Return matrix of <d>.
@@ -318,33 +337,33 @@ class KamiennyCriterion:
             sage: C.dbd(2)[0]
             (0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         """
+        d=ZZ(d)
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "dbd start"
         try: return self._dbd[d % self.p]
         except AttributeError: pass
-        # Find a generator of the integers modulo p:
-        z = primitive_root(self.p)
+        # Find generators of the integers modulo p:
+        gens = Integers(self.p).unit_gens()
+        orders = [g.multiplicative_order() for g in gens]
         # Compute corresponding <z> operator on integral cuspidal modular symbols
         
-        X = self.M.diamond_bracket_operator(z).matrix()
+        X = [self.M.diamond_bracket_operator(z).matrix() for z in gens]
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "create d"
-        X = X.restrict(self.S_integral, check=False)
+        X = [x.restrict(self.S_integral, check=False) for x in X]
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "restrict d"
         
-        X = matrix_modp(X)
+        X = [matrix_modp(x) for x in X]
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "mod d"
-        # Take powers to make list self._dbd of all dbd's such that
+        # Take combinations to make list self._dbd of all dbd's such that
         # self._dbd[d] = <d>
+        from itertools import product
         v = [None] * self.p
-        v[z] = X
-        a = Mod(z, self.p)
-        Y = X
-        for i in range(self.p - 2): 
-            Y *= X
-            a *= z
-            v[a] = Y
+        for ei in product(*[range(i) for i in orders]):
+            di = prod(g^e for e,g in zip(ei,gens)).lift()
+            m = prod(g^e for e,g in zip(ei,X))
+            v[di] = m
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "mul"
 
-        assert v.count(None) == 1
+        assert v.count(None) == (self.p-euler_phi(self.p))
         self._dbd = v
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "bdb finnished"
         return v[d % self.p]
@@ -564,12 +583,12 @@ class KamiennyCriterion:
             sage: C.t2()[0]
             (0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1)
         """
-        if q==2 or q==self.p:
-            raise ValueError("q must be unequal to 2 or self.p")
-        if self.congruence_type==1:
-            return self.T(q) -  self.dbd(q) - q
-        else:
+        if q==2 or q.divides(self.p) or not is_prime(q):
+            raise ValueError("q must be prime, unequal to 2 and not divide self.p")
+        if self.congruence_type==0:
             return self.T(q) - (q  + 1)
+        else:
+            return self.T(q) -  self.dbd(q) - q
 
     def t(self, n=5, p=65521, q=3):
         """
@@ -607,7 +626,8 @@ class KamiennyCriterion:
 
     def tdbdTi(self, t, k, v):
         """
-        Return a list of lists which contains precomputed values of t*dbd(d)*T(i) with 0<d<p/2 and 0<i<=k 
+        Return a list of lists which contains precomputed values of t*dbd(d)*T(i)*v with d a set of coset 
+        representatives of (Z/NZ)*/(+/-H) and 0<i<=k 
         
         INPUT:
             
@@ -628,14 +648,12 @@ class KamiennyCriterion:
             sage: C.t()*C.dbd(2)*C.T(2)==C.tdbdTi(C.t(),2,Id)[1][1]
             True
         """
-        #make sure that _dbd gets initialized
-        self.dbd(2)
-        return [[t * (d * (self.T(i) * v)) for d in self._dbd[1:self.p // 2 + 1]] for i in xrange(1, k + 1)]
+        return [[t * (self.dbd(d) * (self.T(i) * v)) for d in self.coset_representatives_H()] for i in xrange(1, k + 1)]
     
     def dependancies(self, t, k, l, v):
         """
-        Return the vectorspace of dependancies between the t*dbd(d)*T(i) with 0<d<p/2 and 0<i<=l
-        and t*T(l+1),...,t*T(k)
+        Return the vectorspace of dependancies between the t*dbd(d)*T(i)*v with d a set of coset 
+        representatives of (Z/NZ)*/(+/-H) and 0<i<=kl, and t*T(l+1),...,t*T(k)
         
         INPUT:
             
@@ -797,13 +815,13 @@ class KamiennyCriterion:
             dependancy = self.dependancies(t, i, d - i, v)
             dependancies.append(dependancy)
             if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "dep (%s,%s)" % (i, d - i)
-            assert dependancy.degree() == self.p // 2 * (d - i) + 2 * i - d
+            assert dependancy.degree() == len(self.coset_representatives_H()) * (d - i) + 2 * i - d
             assert dependancy.degree() - dependancy.dimension() <= self.S.dimension()
             if dimension(dependancy) == 0:
                 if self.verbose: print "...no dependancies found"
             elif dimension(dependancy) > 12:
                 satisfied=False
-                print "dependancy dimension to large to search trough"
+                print "dependancy dimension to large to search through"
             else:
                 if self.verbose: print "dependancy dimension is:", dimension(dependancy)
                 min_dist = LinearCodeFromVectorSpace(dependancy).minimum_distance()
