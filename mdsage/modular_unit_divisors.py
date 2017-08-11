@@ -7,6 +7,18 @@ code can be found at:
 The code is for computing divisors of the modular unit F_k as defined in:
 http://arxiv.org/abs/1307.5719
 """
+from sage.all import (ceil,
+                      euler_phi,
+                      gcd,
+                      Permutation, 
+                      permutation_action, 
+                      QQ,
+                      srange,
+                      vector,
+                      ZZ)
+
+from maartens_sage_functions import counts
+
 def Phi(d):
     """
     Function Phi in Mark his code

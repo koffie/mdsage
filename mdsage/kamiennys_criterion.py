@@ -11,16 +11,40 @@ Kamienny_Version = "1.4"
 
 import os
 
-from sage.all import *
-from sqlalchemy import Column,Table,create_engine,MetaData
-from sqlalchemy import Integer as SQLInteger
-from sqlalchemy import String as SQLString
-from sqlalchemy import Boolean as SQLBoolean
-from sqlalchemy import select
+from sage.all import (cputime,
+                      euler_phi,
+                      Gamma0,
+                      GammaH,
+                      GF,
+                      get_memory_usage,
+                      identity_matrix,
+                      is_prime,
+                      Integers,
+                      LinearCodeFromVectorSpace,
+                      loads,
+                      oo,
+                      QQ,
+                      RR,
+                      matrix,
+                      MatrixSpace,
+                      ModularSymbols,
+                      prime_range,
+                      prod,
+                      vector,
+                      VectorSpace,
+                      version,
+                      zero_matrix,
+                      ZZ)
+try:
+    from sqlalchemy import Column,Table,create_engine,MetaData
+    from sqlalchemy import Integer as SQLInteger
+    from sqlalchemy import String as SQLString
+    from sqlalchemy import Boolean as SQLBoolean
+    from sqlalchemy import select
+except ImportError:
+    pass
 
-from sage.misc.lazy_attribute import lazy_attribute
 from sage.misc.cachefunc import cached_method
-from sage.structure.dynamic_class import dynamic_class
 
 
 def verify_result(i,result_dir="kamienny_run",verbose=True):
@@ -29,7 +53,7 @@ def verify_result(i,result_dir="kamienny_run",verbose=True):
         C = KamiennyCriterion(i['torsion_order'],i['congruence_type'])
         v=None
         if i['use_rand_vec']:
-            result_filename=os.path.join(result_dir,"result_%s_%s"%(torsion,congurence))
+            result_filename=os.path.join(result_dir,"result_%s_%s"%(torsion,congruence))
             with open(result_filename) as file:
                 v=loads(file.read())
         satisfied,message,dependencies = C.verify_criterion(i['degree'],n=i['n'],
@@ -53,6 +77,7 @@ def get_results_from_file(filename,soft_fail=True):
             return []
         else:
             raise error
+    result=0 #to keep pyflakes happy
     exec("result="+result_str)
     return result
 
@@ -215,15 +240,15 @@ class KamiennyCriterion:
         sage: C = KamiennyCriterion(31); C
         Kamienny's Criterion for p=31
         sage: C.dbd(2)
-        26 x 26 dense matrix over Finite Field of size 2
+        26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
         sage: C.T(2)
-        26 x 26 dense matrix over Finite Field of size 2
+        26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
         sage: C.t1()
-        26 x 26 dense matrix over Finite Field of size 2
+        26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
         sage: C.t2()
-        26 x 26 dense matrix over Finite Field of size 2
+        26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
         sage: C.t()
-        26 x 26 dense matrix over Finite Field of size 2
+        26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
     """
     def __init__(self, p, congruence_type=1, sign=1, algorithm="custom", verbose=False, dump_dir=None):
         """
@@ -333,9 +358,9 @@ class KamiennyCriterion:
 
             sage: C = KamiennyCriterion(29)
             sage: C.dbd(2)
-            22 x 22 dense matrix over Finite Field of size 2
+            22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
             sage: C.dbd(2)[0]
-            (0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+            (0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1)
         """
         d=ZZ(d)
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "dbd start"
@@ -386,9 +411,9 @@ class KamiennyCriterion:
 
             sage: C = KamiennyCriterion(29)
             sage: C.T(2)
-            22 x 22 dense matrix over Finite Field of size 2
+            22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
             sage: C.T(2)[0]
-            (0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)
+            (1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1)
         """
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "T(%s) start" % (n)
         
@@ -420,12 +445,12 @@ class KamiennyCriterion:
 
             sage: C = KamiennyCriterion(29)
             sage: C.t1()
-            22 x 22 dense matrix over Finite Field of size 2
+            22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
             sage: C.t1() == 1
             True
             sage: C = KamiennyCriterion(37)
             sage: C.t1()[0]
-            (0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1)
+            (1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0) 
         """
         T = self.S.hecke_matrix(n)
         f = T.charpoly()
@@ -495,12 +520,12 @@ class KamiennyCriterion:
 
             sage: C = KamiennyCriterion(29)
             sage: C.t1_prime()
-            22 x 22 dense matrix over Finite Field of size 2
+            22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
             sage: C.t1_prime() == 1
             True
             sage: C = KamiennyCriterion(37)
             sage: C.t1_prime()[0]
-            (0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1)
+            (1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0)
         """
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "t1 start"
         T = self.S.hecke_matrix(n)
@@ -583,7 +608,7 @@ class KamiennyCriterion:
             sage: C.t2()[0]
             (0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1)
         """
-        if q==2 or q.divides(self.p) or not is_prime(q):
+        if q==2 or self.p % q == 0 or not is_prime(q):
             raise ValueError("q must be prime, unequal to 2 and not divide self.p")
         if self.congruence_type==0:
             return self.T(q) - (q  + 1)
@@ -799,7 +824,7 @@ class KamiennyCriterion:
         return True, "All conditions are satified for Gamma%s d=%s p=%s. Using n=%s, modp=%s, q=%s in Kamienny Version %s and %s" % (self.congruence_type,d, self.p, n, p, q, Kamienny_Version, version()),dependancies
 
     def verify_gamma0(self,d,t,v):
-        ker = Matrix(GF(2),[(t * self.T(n) * v).list() for n in xrange(1,d+1)]).kernel()
+        ker = matrix(GF(2),[(t * self.T(n) * v).list() for n in xrange(1,d+1)]).kernel()
         #if ker.dimension()<ker.degree():
         #    print ker
         return ker.dimension()==0,"",[ker]
@@ -817,13 +842,13 @@ class KamiennyCriterion:
             if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "dep (%s,%s)" % (i, d - i)
             assert dependancy.degree() == len(self.coset_representatives_H()) * (d - i) + 2 * i - d
             assert dependancy.degree() - dependancy.dimension() <= self.S.dimension()
-            if dimension(dependancy) == 0:
+            if dependancy.dimension() == 0:
                 if self.verbose: print "...no dependancies found"
-            elif dimension(dependancy) > 12:
+            elif dependancy.dimension() > 12:
                 satisfied=False
                 print "dependancy dimension to large to search through"
             else:
-                if self.verbose: print "dependancy dimension is:", dimension(dependancy)
+                if self.verbose: print "dependancy dimension is:", dependancy.dimension()
                 min_dist = LinearCodeFromVectorSpace(dependancy).minimum_distance()
                 if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "min dist"
                 if self.verbose: print "...the smallest dependancy has %s nonzero coefficients." % (min_dist)

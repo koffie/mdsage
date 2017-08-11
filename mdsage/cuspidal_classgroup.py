@@ -1,3 +1,22 @@
+from sage.all import (Cusp,
+                      gcd,
+                      infinity,
+                      Integers,
+                      prime_range,
+                      oo,
+                      prod,
+                      QQ,
+                      Matrix,
+                      ModularSymbols,
+                      ZZ)
+
+from maartens_sage_functions import (integral_period_mapping,
+                                     cuspidal_integral_structure_matrix,
+                                     galois_action,
+                                     galois_orbits,
+                                     modular_unit_lattice,
+                                     rational_modular_unit_lattice)
+
 def intersection(self,other):
     """Returns the intersection of two quotient modules self = V1/W and other V2/W
     V1 and V2 should be submodulus of the same ambient module.
@@ -43,7 +62,7 @@ def cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(G):
     L,D=modular_unit_lattice(G)
     Lrat,Drat=rational_modular_unit_lattice(G)
     DmodL=D.quotient(L)
-    DmodLrat=Drat.quotient(Lrat)
+    #DmodLrat=Drat.quotient(Lrat)
     kernels=[]
     for g in unit_gens:
         m=Matrix([ZZcusp.gen(G.cusps().index(G.reduce_cusp(galois_action(c,g,N)))) for c in G.cusps() ])
@@ -75,7 +94,6 @@ def upper_bound_index_cusps_in_JG_torsion(G,d, bound = 60):
     """
     N = G.level()
     M=ModularSymbols(G);
-    S=M.cuspidal_subspace()
     Sint=cuspidal_integral_structure(M)
     kill_mat=(M.star_involution().matrix().restrict(Sint)-1)
     kill=kill_mat.transpose().change_ring(ZZ).row_module()
@@ -131,7 +149,6 @@ def JG_torsion_upperbound(G, bound = 60):
     """
     N = G.level()
     M=ModularSymbols(G);
-    S=M.cuspidal_subspace()
     Sint=cuspidal_integral_structure(M)
     kill_mat=(M.star_involution().matrix().restrict(Sint)-1)
     kill=kill_mat.transpose().change_ring(ZZ).row_module()
@@ -147,7 +164,7 @@ def JG_torsion_upperbound(G, bound = 60):
     #    return 1
     d = prod(kill_mat.smith_form()[0].diagonal())    
     pm=integral_period_mapping(M)
-    period_images1=[sum([M.coordinate_vector(M([c,infinity])) for c in cusps])*pm for cusps in galois_orbits(G)]
+    #period_images1=[sum([M.coordinate_vector(M([c,infinity])) for c in cusps])*pm for cusps in galois_orbits(G)]
     period_images2=[M.coordinate_vector(M([c,infinity]))*pm for c in G.cusps() if c != Cusp(oo)]
     
     m=(Matrix(period_images2)*kill_mat).stack(kill_mat)
