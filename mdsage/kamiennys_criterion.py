@@ -7,7 +7,7 @@ AUTHOR:
     - Maarten Derickx, 2010-2012
 """
 
-Kamienny_Version = "1.4"
+Kamienny_Version = "1.5"
 
 import os
 
