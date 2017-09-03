@@ -140,6 +140,7 @@ def cuspsums_on_Gamma1_of_degree(N,degree):
         
     EXAMPLES::
         
+        sage: from mdsage import *
         sage: sorted(cuspsums_on_Gamma1_of_degree(5,3))
         [(0, 0, 3), (0, 1, 2), (0, 2, 1), (0, 3, 0), (1, 0, 1), (1, 1, 0)]
       

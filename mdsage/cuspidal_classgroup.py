@@ -23,6 +23,7 @@ def intersection(self,other):
     
     EXAMPLE::
         
+        sage: from mdsage import *
         sage: W = (ZZ^3).scale(100)
         sage: V1 = (ZZ^3).span([[5,5,0],[0,10,20],[0,0,50]]) + W
         sage: V2 = (ZZ^3).span([[5,0,0],[0,25,50]]) + W
@@ -50,6 +51,7 @@ def cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(G):
     
     EXAMPLES::
         
+        sage: from mdsage import *
         sage: cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(Gamma1(26))
         ()
     """
@@ -86,7 +88,8 @@ def upper_bound_index_cusps_in_JG_torsion(G,d, bound = 60):
     - an integer `i` such that #J_G(Q)_tors/d is a divisor of `i`.
     
     EXAMPLES::
-        
+
+        sage: from mdsage import *
         sage: d = rational_cuspidal_classgroup(Gamma1(23)).cardinality()
         sage: upper_bound_index_cusps_in_JG_torsion(Gamma1(23),d)
         1
@@ -142,9 +145,10 @@ def JG_torsion_upperbound(G, bound = 60):
 
     EXAMPLES::
         
-        #sage: d = rational_cuspidal_classgroup(Gamma1(23)).cardinality()
-        #sage: upper_bound_index_cusps_in_JG_torsion(Gamma1(23),d)
-        #1
+        sage: from mdsage import *
+        sage: d = rational_cuspidal_classgroup(Gamma1(23)).cardinality()
+        sage: upper_bound_index_cusps_in_JG_torsion(Gamma1(23),d)
+        1
 
     """
     N = G.level()

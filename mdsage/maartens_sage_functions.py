@@ -1,3 +1,11 @@
+"""
+First import everything::
+
+    sage: from mdsage import *
+    sage: counts("113")
+    [('1', 2), ('3', 1)]
+"""
+
 import sage
 from sage.all import (AbelianGroup,
                       cached_function,
@@ -38,6 +46,7 @@ def gonality_lower_bound(G,lambda1 = 0.238):
     
     EXAMPLES::
         
+        sage: from mdsage import *
         sage: gonality_lower_bound(Gamma1(171))
         129
     
@@ -53,7 +62,8 @@ def counts(list):
     the distinct elements of l and c indicates how often each element occurs.
     
     EXAMPLE::
-    
+
+        sage: from mdsage import *
         sage: l = "A string is also iterable!"
         sage: counts(l)
         [(' ', 4), ('!', 1), ('A', 1), ('a', 2), ('b', 1), ('e', 2), ('g', 1), ('i', 3), ('l', 2), ('n', 1), ('o', 1), ('r', 2), ('s', 3), ('t', 2)]
@@ -66,7 +76,8 @@ def positive_part(v):
     Returns the vector consisting only of the postive entries of the given vector
     
     EXAMPLES::
-        
+
+        sage: from mdsage import *
         sage: v = vector([1,-1,2,-2,3,-3])
         sage: positive_part(v)
         (1, 0, 2, 0, 3, 0)
@@ -85,7 +96,8 @@ def tate_normal_form(E,p):
 
     We show in this example how to calculate the diamond operators
     on X_1(5) which is isomorphic to P1:
- 
+
+        sage: from mdsage import *
         sage: R.<b> = QQ[]
 
     This is a model of the universal elliptic curve over X_1(5):
@@ -122,7 +134,8 @@ def diamond_operator(E,d):
     - a1,a2,a3,a4,a6 - the a invatiants of E after writing  (E,d*(0,0)) in tate normal form.
         
     EXAMPLES::
-    
+
+        sage: from mdsage import *
         sage: E = EllipticCurve([11,10,10,0,0])
         sage: diamond_operator(E,2)
         [9/10, -1/10, -1/10, 0, 0]
@@ -196,7 +209,8 @@ def cuspidal_integral_structure_matrix(M,verbose=False):
     - a matrix whose rows give a ZZ basis for the cuspidals supspace with respect to the standard basis of M
     
     Tests::
-    
+
+        sage: from mdsage import *
         sage: M = ModularSymbols(Gamma1(15))
         sage: cuspidal_integral_structure_matrix(M)
         [ 0  0  0  0  0  0  0  0  0  0  1  0  0  0  0 -1  0]
@@ -334,7 +348,8 @@ def generators_of_subgroups_of_unit_group(R):
     - An iterator which yields a set of generators for each subgroup of R^*
     
     EXAMPLES::
-        
+
+        sage: from mdsage import *
         sage: list(generators_of_subgroups_of_unit_group(Integers(28)))
         [[15, 17], [11], [3], [13, 15], [15], [27], [17], [9], [13], []]
     
@@ -357,7 +372,8 @@ def congruence_groups_between_gamma0_and_gamma1(N):
     - The set of all congruence subgroups contained in Gamma0(N) that contain Gamma1(N)
     
     EXAMPLES::
-    
+
+        sage: from mdsage import *
         sage: congruence_groups_between_gamma0_and_gamma1(1)
         {Modular Group SL(2,Z)}
     
@@ -390,7 +406,8 @@ def count_points_J_H(G,p):
     - the number of F_p points on the jacobian of the modular curve X_H
     
     EXAMPLES::
-        
+
+        sage: from mdsage import *
         sage: count_points_J_H(Gamma0(29),19)
         196
     """

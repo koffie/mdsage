@@ -20,7 +20,7 @@ from sage.all import (cputime,
                       identity_matrix,
                       is_prime,
                       Integers,
-                      LinearCodeFromVectorSpace,
+                      LinearCode,
                       loads,
                       oo,
                       QQ,
@@ -237,13 +237,16 @@ class KamiennyCriterion:
 
     EXAMPLES::
 
+        sage: from mdsage import *
         sage: C = KamiennyCriterion(31); C
         Kamienny's Criterion for p=31
         sage: C.dbd(2)
         26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
+        sage: C.dbd(2)^15==1
+        True
         sage: C.T(2)
         26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
-        sage: C.t1()
+        sage: C.t1(n=3)
         26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
         sage: C.t2()
         26 x 26 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
@@ -266,6 +269,7 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29, algorithm="custom", verbose=False); C
             Kamienny's Criterion for p=29
             sage: C.use_custom_algorithm
@@ -324,6 +328,7 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: KamiennyCriterion(29).__repr__()
             "Kamienny's Criterion for p=29"
         """
@@ -331,6 +336,19 @@ class KamiennyCriterion:
 
     @cached_method
     def coset_representatives_H(self):
+        """
+        Return representatives of Z/NZ^*/H where H is a subgroup of the
+        diamond operators and N is the level. H=Z/NZ^* for Gamma0 and H=1 
+        for Gamma1
+
+        EXAMPLES::
+
+            sage: from mdsage import *
+            sage: C = KamiennyCriterion(GammaH(31,[3^5]))
+            sage: C.coset_representatives_H()
+            (1, 2, 3, 4, 8)
+            sage: C = KamiennyCriterion(13)
+        """
         G = self.congruence_group
         coset_reps = []
         done = set([])
@@ -356,9 +374,12 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.dbd(2)
             22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
+            sage: C.dbd(2)^14==1
+            True
             sage: C.dbd(2)[0]
             (0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1)
         """
@@ -409,6 +430,7 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.T(2)
             22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
@@ -443,11 +465,16 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
-            sage: C.t1()
+            sage: C.t1(n=3)
             22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
-            sage: C.t1() == 1
+            sage: C.t1(n=3) == 1
             True
+            sage: C.t1()
+            Traceback (most recent call last):
+            ...
+            ValueError: T_5 needs to be a generator of the hecke algebra
             sage: C = KamiennyCriterion(37)
             sage: C.t1()[0]
             (1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0) 
@@ -518,10 +545,11 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.t1_prime()
             22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
-            sage: C.t1_prime() == 1
+            sage: C.t1_prime(n=3) == 1
             True
             sage: C = KamiennyCriterion(37)
             sage: C.t1_prime()[0]
@@ -604,9 +632,10 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.t2()[0]
-            (0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1)
+            (1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0)
         """
         if q==2 or self.p % q == 0 or not is_prime(q):
             raise ValueError("q must be prime, unequal to 2 and not divide self.p")
@@ -633,9 +662,10 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.t()[0]
-            (0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1)
+            (0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0)
         """
         t2 = self.t2(q)
         if p == None:
@@ -663,7 +693,8 @@ class KamiennyCriterion:
             - a list of lists containing hecke operators
             
         EXAMPLES::
-            
+
+            sage: from mdsage import *            
             sage: C = KamiennyCriterion(29,verbose=False)
             sage: Id=C.t().parent().identity_matrix()
             sage: C.t()==C.tdbdTi(C.t(),2,Id)[0][0]
@@ -726,7 +757,7 @@ class KamiennyCriterion:
             for i in range(len(dependancy_spaces[0])):
                 intersection=reduce(lambda x,y:x.intersection(y), [s[i] for s in dependancy_spaces])
                 intersected_dependancy_spaces.append(intersection)
-            satisfied=all([d.dimension()<13 and (d.dimension()==0 or LinearCodeFromVectorSpace(d).minimum_distance()>degree) 
+            satisfied=all([d.dimension()<13 and (d.dimension()==0 or LinearCode(d).minimum_distance()>degree) 
                                         for d in intersected_dependancy_spaces])
             results.append({"torsion_order":torsion_order,"congruence_type":congruence_type,
                             "algorithm":algorithm,"degree":degree,"n":(n_min,n_max),"p":t1mod,
@@ -737,7 +768,7 @@ class KamiennyCriterion:
 
         
 
-    def verify_criterion(self, d, t=None, n=5, p=65521, q=3, v=None, use_rand_vec=True, verbose=False):
+    def verify_criterion(self, d, t=None, n=5, p=65521, q=3, v=None, use_rand_vec=False, verbose=False):
         """
         Attempt to verify the criterion at p using the input t. If t is not
         given compute it using n, p and q
@@ -760,48 +791,73 @@ class KamiennyCriterion:
 
         We can't get p=29 to work no matter what I try, which nicely illustrates
         the various ways the criterion can fail::
-        
+
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.verify_criterion(4,n=5)
-            J = []
-            partition 4=4...
-            partition 4=1+3...
-            partition 4=2+2...
-            partition 4=1+1+2...
-            partition 4=1+1+1+1...
-            (False, 'Fails with partition 4=1+1+1+1 and d1=2, d2=5, d3=12')
-            sage: C = KamiennyCriterion(29)
-            sage: C.verify_criterion(4,n=5,q=7)
-            J = []
-            partition 4=4...
-            partition 4=1+3...
-            (False, 'Fails with partition 4=1+3 and d=12')
-            sage: C = KamiennyCriterion(29)
-            sage: C.verify_criterion(4,n=5,q=23)
-            J = []
-            partition 4=4...
-            (False, 'Fails with partition 4=4')
-
-        With p=31 the criterion is satisfied, thus proving that 31 is
+            dependancy dimension to large to search through
+            (False,
+             'There is a dependancy of weigt 2 in dependancies(3,1)',
+             [Vector space of degree 4 and dimension 0 over Finite Field of size 2
+              Basis matrix:
+              [], Vector space of degree 16 and dimension 8 over Finite Field of size 2
+              Basis matrix:
+              [1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0]
+              [0 1 0 0 0 0 1 0 1 1 0 1 1 1 0 0]
+              [0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0]
+              [0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0]
+              [0 0 0 0 1 0 1 0 1 1 0 1 1 1 0 0]
+              [0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0]
+              [0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0]
+              [0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0], Vector space of degree 28 and dimension 19 over Finite Field of size 2
+              Basis matrix:
+              [1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1]
+              [0 1 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 1 0 0 1 1 0]
+              [0 0 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0]
+              [0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+              [0 0 0 0 1 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 1 0 0 1 1 0]
+              [0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+              [0 0 0 0 0 0 1 0 0 1 0 0 1 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0]
+              [0 0 0 0 0 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 1 1 0 0 1 1]
+              [0 0 0 0 0 0 0 0 1 1 0 0 1 1 0 0 0 0 0 0 0 0 1 1 0 0 1 1]
+              [0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+              [0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 1 0 1 1 1]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 0 1 1 1]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0]])
+        
+        With p=43 the criterion is satisfied for d=4, thus proving that 43 is
         not the order of a torsion point on any elliptic curve over
         a quartic field::
 
-            sage: C = KamiennyCriterion(31); C
-            Kamienny's Criterion for p=31
-            sage: C.verify_criterion(4,n=5)
-            initializing t
-            J = []
-            ...
-            Checking dependancies(4,0)...
-            ...no dependancies found
-            Checking dependancies(3,1)...
-            ...the smallest dependancy has 15 nonzero coefficients.
-            3 1 passed
-            Checking dependancies(2,2)...
-            ...the smallest dependancy has 9 nonzero coefficients.
-            2 2 passed
-            (True, 'All conditions are satified')
-
+            sage: C = KamiennyCriterion(43); C
+            Kamienny's Criterion for p=43
+            sage: C.verify_criterion(4)
+            (True,
+             'All conditions are satified for Gamma1 d=4 p=43. Using n=5, modp=65521, q=3 in Kamienny Version 1.4 and SageMath version 8.1.beta3, Release Date: 2017-08-21',
+             [Vector space of degree 4 and dimension 0 over Finite Field of size 2
+              Basis matrix:
+              [], Vector space of degree 23 and dimension 2 over Finite Field of size 2
+              Basis matrix:
+              [1 1 0 1 0 0 1 1 1 0 1 0 1 1 1 1 1 1 0 0 1 0 0]
+              [0 0 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 1 1 1 0 0 0], Vector space of degree 42 and dimension 11 over Finite Field of size 2
+              Basis matrix:
+              [1 0 0 0 0 0 0 1 0 1 1 1 0 1 1 0 1 0 1 0 1 0 0 0 0 0 1 0 1 0 0 0 1 1 0 0 1 1 1 1 1 1]
+              [0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 1 0 0 0 0 0 1 0 1 1 0 0 1 0 0 0 1 1 1 1 0 0 0 1 0 0]
+              [0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 1 1 0 0 1 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 1 0 0 1 0]
+              [0 0 0 1 0 0 0 0 0 1 0 0 0 0 1 1 1 0 1 0 0 0 0 0 1 1 0 0 1 0 0 0 0 1 0 1 0 0 0 1 0 0]
+              [0 0 0 0 1 0 0 1 0 1 0 0 1 0 0 1 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0]
+              [0 0 0 0 0 1 0 1 0 0 0 1 1 0 0 1 1 1 1 1 1 0 1 0 0 1 1 0 0 1 1 1 0 0 1 0 0 0 1 1 0 1]
+              [0 0 0 0 0 0 1 0 0 0 1 0 1 1 1 0 1 1 0 1 0 0 1 0 0 0 1 0 1 0 1 0 0 1 1 0 0 0 1 1 1 1]
+              [0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 1 0 0 0 0]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 1]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 0 0 0 1 0 1 0 0 0 0 0 0 1 1 0]
+              [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 1 0 1 1 0 0 0]])
         """
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "verif start"
         if self.p < (1 + 2 ** (d / 2)) ** 2 and self.verbose:
@@ -849,7 +905,7 @@ class KamiennyCriterion:
                 print "dependancy dimension to large to search through"
             else:
                 if self.verbose: print "dependancy dimension is:", dependancy.dimension()
-                min_dist = LinearCodeFromVectorSpace(dependancy).minimum_distance()
+                min_dist = LinearCode(dependancy).minimum_distance()
                 if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "min dist"
                 if self.verbose: print "...the smallest dependancy has %s nonzero coefficients." % (min_dist)
                 if min_dist > d:
@@ -872,6 +928,7 @@ class KamiennyCriterion:
 
         EXAMPLES::
 
+            sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.is_independent([C.T(1), C.T(2), C.T(3), C.T(4)])
             True
@@ -965,6 +1022,8 @@ def matrix_modp(A, p=2, sparse=False):
         - a matrix over GF(p).
 
     EXAMPLES::
+
+        sage: from mdsage import *
         sage: matrix_modp(matrix(QQ,2,[1,3,5,2/3]))
         [1 1]
         [1 0]        
