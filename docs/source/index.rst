@@ -2,7 +2,7 @@
 Welcome to the mdsage's documentation!
 =======================================================================================
 
-mdsage is a package that SA repository for all the sage functions I've written. See: www.sagemath.org..
+mdsage is a package that contains all reusable SageMath functions I've written. See: www.sagemath.org..
 
 Installation
 ============
