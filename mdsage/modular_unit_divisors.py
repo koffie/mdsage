@@ -79,11 +79,12 @@ def conjectural_cuspidal_classgroup(N,degree_0_part = False):
         cusp_div = cusp_div.span([cusp_div.gen(i)  - degree_cusp(i,N) * cusp_div.gen(1) for i in range(N//2+1)])
     return cusp_div.quotient(cusp_div.span(LB_c(N)))
     
-def cusp_number_from_signature((v2, v3), N):
+def cusp_number_from_signature(signature, N):
     """
     The cusp signature of a cusp on X_1(N) is a pair (v2,v3). 
     Where v2 is the valuation of F_2 and v3 the valuation of F_3 
     """
+    v2,v3 = signature
     v2 = ZZ(v2); v3 = ZZ(v3); N = ZZ(N)
     if v3-v2 > 0:
         return v3*N/(4*v3-v2)

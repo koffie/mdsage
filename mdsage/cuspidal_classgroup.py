@@ -21,7 +21,7 @@ def intersection(self,other):
     """Returns the intersection of two quotient modules self = V1/W and other V2/W
     V1 and V2 should be submodulus of the same ambient module.
     
-    EXAMPLE::
+    EXAMPLES::
         
         sage: from mdsage import *
         sage: W = (ZZ^3).scale(100)
@@ -81,7 +81,7 @@ def upper_bound_index_cusps_in_JG_torsion(G,d, bound = 60):
     - G - a congruence subgroup
     - d - integer, the size of the rational cuspidal subgroup
     - bound (optional, default = 60) - the bound for the primes p up to which to use
-    the hecke matrix T_p - <p> - p for bounding the torsion subgroup
+      the hecke matrix T_p - <p> - p for bounding the torsion subgroup
     
     OUTPUT:
         
@@ -134,7 +134,7 @@ def JG_torsion_upperbound(G, bound = 60):
         
     - G - a congruence subgroup
     - bound (optional, default = 60) - the bound for the primes p up to which to use
-    the hecke matrix T_p - <p> - p for bounding the torsion subgroup
+      the hecke matrix T_p - <p> - p for bounding the torsion subgroup
     
     OUTPUT:
         

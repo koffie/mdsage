@@ -6,7 +6,7 @@ This module computes the answer to the Ultimate Question of Life,
 the Universe, and Everything, as defined in [HGG]_ using the power
 of Catalan numbers from SageMath.
 
-EXAMPLES ::
+EXAMPLES::
 
     sage: from mdsage import answer_to_ultimate_question
     sage: answer_to_ultimate_question()
@@ -32,7 +32,7 @@ def answer_to_ultimate_question():
 
     This uses SageMath Deep Thought supercomputer.
 
-    EXAMPLES ::
+    EXAMPLES::
 
         sage: from mdsage import answer_to_ultimate_question
         sage: answer_to_ultimate_question()

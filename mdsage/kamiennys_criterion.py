@@ -1,10 +1,10 @@
 """
 Kamienny's Criterion
 
-AUTHOR:
+AUTHORS:
 
     - William Stein, February 2010
-    - Maarten Derickx, 2010-2012
+    - Maarten Derickx, 2010-2017
 """
 
 Kamienny_Version = "1.5"
@@ -201,7 +201,7 @@ def run_criterion3(torsion_order,degrees,n_min,n_max,q_min,q_max,congruence_type
                         algorithm=algorithm,verbose=verbose, dump_dir=dump_dir)
 
     for degree in degrees:
-        result,dependancies=C.verify_criterion_range(degree,n_min,n_max,q_min,q_max,
+        result,dependencies=C.verify_criterion_range(degree,n_min,n_max,q_min,q_max,
                                 t1mod,use_rand_vec=use_rand_vec, verbose=verbose,stop_if_satisfied=stop_if_satisfied)
         results.extend(result)
     if dump_dir:
@@ -706,9 +706,9 @@ class KamiennyCriterion:
         """
         return [[t * (self.dbd(d) * (self.T(i) * v)) for d in self.coset_representatives_H()] for i in xrange(1, k + 1)]
     
-    def dependancies(self, t, k, l, v):
+    def dependencies(self, t, k, l, v):
         """
-        Return the vectorspace of dependancies between the t*dbd(d)*T(i)*v with d a set of coset 
+        Return the vectorspace of dependencies between the t*dbd(d)*T(i)*v with d a set of coset 
         representatives of (Z/NZ)*/(+/-H) and 0<i<=kl, and t*T(l+1),...,t*T(k)
         
         INPUT:
@@ -727,7 +727,7 @@ class KamiennyCriterion:
         torsion_order=self.p
         congruence_type=self.congruence_type
         algorithm=self.algorithm
-        dependancy_spaces=[]
+        dependency_spaces=[]
         results=[]
         for t1n in range(n_min,n_max):
             if self.t1_prime(t1n, t1mod) == 0:
@@ -740,8 +740,8 @@ class KamiennyCriterion:
             for t2q in prime_range(q_min,q_max):
                 if t2q==torsion_order:
                     continue
-                satisfied,message,dependancies=self.verify_criterion(degree,n=t1n,p=t1mod,q=t2q,use_rand_vec=use_rand_vec,verbose=verbose)
-                dependancy_spaces.append(dependancies)
+                satisfied,message,dependencies=self.verify_criterion(degree,n=t1n,p=t1mod,q=t2q,use_rand_vec=use_rand_vec,verbose=verbose)
+                dependency_spaces.append(dependencies)
                 results.append({"torsion_order":torsion_order,"congruence_type":congruence_type,
                             "algorithm":algorithm,"degree":degree,"n":t1n,"p":t1mod,
                             "q":t2q,"satisfied":satisfied,"message":message,"use_rand_vec":use_rand_vec,
@@ -751,19 +751,19 @@ class KamiennyCriterion:
             if stop_if_satisfied and satisfied:
                 break
 
-        print [len(i) for i in dependancy_spaces]
-        intersected_dependancy_spaces=[]
-        if dependancy_spaces:
-            for i in range(len(dependancy_spaces[0])):
-                intersection=reduce(lambda x,y:x.intersection(y), [s[i] for s in dependancy_spaces])
-                intersected_dependancy_spaces.append(intersection)
+        print [len(i) for i in dependency_spaces]
+        intersected_dependency_spaces=[]
+        if dependency_spaces:
+            for i in range(len(dependency_spaces[0])):
+                intersection=reduce(lambda x,y:x.intersection(y), [s[i] for s in dependency_spaces])
+                intersected_dependency_spaces.append(intersection)
             satisfied=all([d.dimension()<13 and (d.dimension()==0 or LinearCode(d).minimum_distance()>degree) 
-                                        for d in intersected_dependancy_spaces])
+                                        for d in intersected_dependency_spaces])
             results.append({"torsion_order":torsion_order,"congruence_type":congruence_type,
                             "algorithm":algorithm,"degree":degree,"n":(n_min,n_max),"p":t1mod,
                             "q":(q_min,q_max),"satisfied":satisfied,"message":"","use_rand_vec":use_rand_vec,
                             "result_type":"range"})
-        return results,dependancy_spaces
+        return results,dependency_spaces
 
 
         
@@ -787,7 +787,7 @@ class KamiennyCriterion:
             - bool -- True if criterion satisfied; otherwise, False
             - string -- message about what happened or went wrong
 
-        EXAMPLES::
+        EXAMPLES:
 
         We can't get p=29 to work no matter what I try, which nicely illustrates
         the various ways the criterion can fail::
@@ -795,9 +795,9 @@ class KamiennyCriterion:
             sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.verify_criterion(4,n=5)
-            dependancy dimension to large to search through
+            dependency dimension to large to search through
             (False,
-             'There is a dependancy of weigt 2 in dependancies(3,1)',
+             'There is a dependency of weigt 2 in dependencies(3,1)',
              [Vector space of degree 4 and dimension 0 over Finite Field of size 2
               Basis matrix:
               [], Vector space of degree 16 and dimension 8 over Finite Field of size 2
@@ -839,7 +839,7 @@ class KamiennyCriterion:
             Kamienny's Criterion for p=43
             sage: C.verify_criterion(4)
             (True,
-             'All conditions are satified for Gamma1 d=4 p=43. Using n=5, modp=65521, q=3 in Kamienny Version 1.4 and SageMath version 8.1.beta3, Release Date: 2017-08-21',
+             'All conditions are satified for Gamma1 d=4 p=43. Using n=5, modp=65521, q=3 in Kamienny Version 1.5 and SageMath version 8.1.beta3, Release Date: 2017-08-21',
              [Vector space of degree 4 and dimension 0 over Finite Field of size 2
               Basis matrix:
               [], Vector space of degree 23 and dimension 2 over Finite Field of size 2
@@ -871,13 +871,13 @@ class KamiennyCriterion:
             else:
                 v=t.parent()(1)
         if self.congruence_type==0:
-            verified,message,dependancies=self.verify_gamma0(d,t,v)
+            verified,message,dependencies=self.verify_gamma0(d,t,v)
         else:
-            verified,message,dependancies=self.verify_gamma1(d,t,v)
+            verified,message,dependencies=self.verify_gamma1(d,t,v)
         if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "total verif time"
         if not verified:
-            return verified,message,dependancies
-        return True, "All conditions are satified for Gamma%s d=%s p=%s. Using n=%s, modp=%s, q=%s in Kamienny Version %s and %s" % (self.congruence_type,d, self.p, n, p, q, Kamienny_Version, version()),dependancies
+            return verified,message,dependencies
+        return True, "All conditions are satified for Gamma%s d=%s p=%s. Using n=%s, modp=%s, q=%s in Kamienny Version %s and %s" % (self.congruence_type,d, self.p, n, p, q, Kamienny_Version, version()),dependencies
 
     def verify_gamma0(self,d,t,v):
         ker = matrix(GF(2),[(t * self.T(n) * v).list() for n in xrange(1,d+1)]).kernel()
@@ -886,33 +886,33 @@ class KamiennyCriterion:
         return ker.dimension()==0,"",[ker]
     
     def verify_gamma1(self,d,t,v):
-        dependancies=[]
+        dependencies=[]
         if self.verbose: tm = cputime(); mem = get_memory_usage(); print "verif gamma1 start"
         satisfied=True
         message=""
         for i in xrange(d, (d - 1) // 2, -1):
-        #We only need to start at d/2 since the dependancies(k,l) contains all neccesary
+        #We only need to start at d/2 since the dependencies(k,l) contains all neccesary
         #checks for largest partition of zise at most k and second largest at most l
-            dependancy = self.dependancies(t, i, d - i, v)
-            dependancies.append(dependancy)
+            dependency = self.dependencies(t, i, d - i, v)
+            dependencies.append(dependency)
             if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "dep (%s,%s)" % (i, d - i)
-            assert dependancy.degree() == len(self.coset_representatives_H()) * (d - i) + 2 * i - d
-            assert dependancy.degree() - dependancy.dimension() <= self.S.dimension()
-            if dependancy.dimension() == 0:
-                if self.verbose: print "...no dependancies found"
-            elif dependancy.dimension() > 12:
+            assert dependency.degree() == len(self.coset_representatives_H()) * (d - i) + 2 * i - d
+            assert dependency.degree() - dependency.dimension() <= self.S.dimension()
+            if dependency.dimension() == 0:
+                if self.verbose: print "...no dependencies found"
+            elif dependency.dimension() > 12:
                 satisfied=False
-                print "dependancy dimension to large to search through"
+                print "dependency dimension to large to search through"
             else:
-                if self.verbose: print "dependancy dimension is:", dependancy.dimension()
-                min_dist = LinearCode(dependancy).minimum_distance()
+                if self.verbose: print "dependency dimension is:", dependency.dimension()
+                min_dist = LinearCode(dependency).minimum_distance()
                 if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "min dist"
-                if self.verbose: print "...the smallest dependancy has %s nonzero coefficients." % (min_dist)
+                if self.verbose: print "...the smallest dependency has %s nonzero coefficients." % (min_dist)
                 if min_dist > d:
                     if self.verbose: print i, d - i, "passed"
                 else:
-                    satisfied,message= False, "There is a dependancy of weigt %s in dependancies(%s,%s)" % (min_dist, i, d - i)
-        return satisfied, message,dependancies
+                    satisfied,message= False, "There is a dependency of weigt %s in dependencies(%s,%s)" % (min_dist, i, d - i)
+        return satisfied, message,dependencies
 
     def is_independent(self, v):
         """

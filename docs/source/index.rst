@@ -13,10 +13,8 @@ Installation
 Download the source from the git repository::
 
     $ git clone https://github.com/koffie/mdsage.git
-
-Change to the root directory and run::
-
-    $ sage -pip install --upgrade --no-index -v .
+    $ cd mdsage
+    $ sage -pip install -v .
 
 For convenience this package contains a [makefile](makefile) with this
 and other often used commands. Should you wish too, you can use the
@@ -40,8 +38,10 @@ MD Sage
 .. toctree::
    :maxdepth: 2
 
-   ultimate_question
-
+   mdsage/cuspidal_classgroup
+   mdsage/kamiennys_criterion
+   mdsage/maartens_sage_functions
+   mdsage/modular_unit_divisors
 
 Indices and Tables
 ==================
