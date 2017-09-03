@@ -1,0 +1,5 @@
+prune mdsage
+include VERSION
+include mdsage/*.py
+include mdsage/*.pyx
+
