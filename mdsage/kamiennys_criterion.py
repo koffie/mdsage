@@ -839,7 +839,7 @@ class KamiennyCriterion:
             Kamienny's Criterion for p=43
             sage: C.verify_criterion(4)
             (True,
-             'All conditions are satified for Gamma1 d=4 p=43. Using n=5, modp=65521, q=3 in Kamienny Version 1.5 and SageMath version 8.1.beta3, Release Date: 2017-08-21',
+             'All conditions are satified for Gamma1 d=4 p=43. Using n=5, modp=65521, q=3 in Kamienny Version 1.5 and SageMath version ...',
              [Vector space of degree 4 and dimension 0 over Finite Field of size 2
               Basis matrix:
               [], Vector space of degree 23 and dimension 2 over Finite Field of size 2
