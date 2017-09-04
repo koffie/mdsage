@@ -32,7 +32,7 @@ Once the package is installed, you can use it in Sage. To do so you have to impo
     42
 
 
-MD Sage
+Modules in MD Sage
 =======================================================================================
 
 .. toctree::
