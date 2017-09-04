@@ -21,7 +21,7 @@ Download the source from the git repository::
     $ cd mdsage
     $ sage -pip install .
 
-For convenience this package contains a [makefile](makefile) with this
+For convenience this package contains a ``makefile`` with this
 and other often used commands. Should you wish too, you can use the
 shorthand::
 
@@ -72,7 +72,7 @@ Documentation
 ^^^^^^^^^^^^^
 
 The documentation of the package can be generated using Sage's
-``Sphinx`` installation::
+`Sphinx <http://www.spinx-doc.org>`_ installation::
 
     $ cd docs
     $ sage -sh -c "make html"

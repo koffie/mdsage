@@ -2,7 +2,7 @@
 Welcome to the mdsage's documentation!
 =======================================================================================
 
-mdsage is a package that contains all reusable SageMath functions I've written. See: www.sagemath.org..
+mdsage is a package that contains all reusable `SageMath <http://www.sagemath.org>`_ functions I've written.
 
 Installation
 ============
@@ -16,7 +16,7 @@ Download the source from the git repository::
     $ cd mdsage
     $ sage -pip install -v .
 
-For convenience this package contains a [makefile](makefile) with this
+For convenience this package contains a ``makefile`` with this
 and other often used commands. Should you wish too, you can use the
 shorthand::
 
@@ -27,7 +27,7 @@ shorthand::
 
 Once the package is installed, you can use it in Sage. To do so you have to import it with::
 
-    sage: from mdsage import *
+    sage: from mdsage import answer_to_ultimate_question()
     sage: answer_to_ultimate_question()
     42
 
