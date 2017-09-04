@@ -133,7 +133,7 @@ extlinks = {
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'sage'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -144,7 +144,7 @@ html_theme_options = {}
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
 #html_theme_path = [os.path.join(SAGE_DOC_SRC, 'common', 'themes')]
-html_theme_path = [os.path.join(SAGE_DOC_SRC, 'common', 'themes', 'sage')]
+html_theme_path = [os.path.join(SAGE_DOC_SRC, 'common', 'themes')]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -309,7 +309,7 @@ if (os.environ.get('SAGE_DOC_MATHJAX', 'no') != 'no'
 
     from sage.misc.latex_macros import sage_mathjax_macros
     # this is broken for now
-    # html_theme_options['mathjax_macros'] = sage_mathjax_macros()
+    html_theme_options['mathjax_macros'] = sage_mathjax_macros()
 
     from pkg_resources import Requirement, working_set
     sagenb_path = working_set.find(Requirement.parse('sagenb')).location
