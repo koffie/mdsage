@@ -1,7 +1,11 @@
 ===================================================
 MD Sage
 ===================================================
-.. image:: https://travis-ci.org/koffie/mdsage.svg?branch=master
+Master: |master| Develop: |develop|
+
+.. |master| image:: https://travis-ci.org/koffie/mdsage.svg?branch=master
+    :target: https://travis-ci.org/koffie/mdsage
+.. |develop| image:: https://travis-ci.org/koffie/mdsage.svg?branch=develop
     :target: https://travis-ci.org/koffie/mdsage
 
 This package is a `SageMath <http://www.sagemath.org>`_ package that contains all reusable sage code that I have written.
