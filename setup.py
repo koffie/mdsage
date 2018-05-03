@@ -13,7 +13,7 @@ else:
     sage = 'sage'
 
 # Obtain the different Sage versions
-def get_all_version_names(mirror_url, idx = None, distribution = 'Ubuntu_14.04-x86_64'):
+def get_all_version_names(mirror_url, idx = None, distribution = 'Ubuntu_14.04-x86_64', broken = []):
     import urllib2
     if idx is None:
         idx = 0
@@ -24,7 +24,8 @@ def get_all_version_names(mirror_url, idx = None, distribution = 'Ubuntu_14.04-x
     all_version_names = []
     for fname, ver in ans:
         if fname not in all_version_names:
-            all_version_names.append(fname)
+            if not any(fname.startswith(i) for i in broken):
+                all_version_names.append(fname)
     return all_version_names[idx]
 
 # Get information from separate files (README, VERSION)
