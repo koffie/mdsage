@@ -37,6 +37,8 @@ Once the package is installed, you can use it in Sage with::
     sage: answer_to_ultimate_question()
     42
 
+More detailed documentation can be found at https://koffie.github.io/mdsage/doc/html/
+
 Developer's guide
 -----------------
 Want to contribute or modify mdsage? Excellent! This section presents some useful information on what is included in the package.
