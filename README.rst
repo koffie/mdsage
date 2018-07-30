@@ -16,8 +16,8 @@ The full documentation for the package can be found at https://koffie.github.io/
 Installation
 ------------
 
-Local install from source
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Easiest way to install 
+^^^^^^^^^^^^^^^^^^^^^^
 
 Download the source from the git repository::
 
@@ -25,12 +25,17 @@ Download the source from the git repository::
     $ cd mdsage
     $ sage -pip install .
 
+
+Installing for developers
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 For convenience this package contains a ``makefile`` with this
 and other often used commands. Should you wish too, you can use the
 shorthand::
 
     $ make install
 
+At some point this package should be put on Pypi.
 
 Usage
 -----
