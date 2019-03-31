@@ -22,8 +22,7 @@ Easiest way to install
 Download the source from the git repository::
 
     $ git clone https://github.com/koffie/mdsage.git
-    $ cd mdsage
-    $ sage -pip install .
+    $ sage -pip install ./mdsage
 
 
 Installing for developers
