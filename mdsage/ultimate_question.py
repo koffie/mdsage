@@ -23,7 +23,7 @@ AUTHORS:
 - Viviane Pons: initial implementation
 """
 from sage.combinat.combinat import catalan_number
-from one_cython_file import quick_question
+from mdsage.one_cython_file import quick_question
 
 def answer_to_ultimate_question():
     r"""
