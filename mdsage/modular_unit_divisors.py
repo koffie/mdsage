@@ -17,7 +17,7 @@ from sage.all import (ceil,
                       vector,
                       ZZ)
 
-from maartens_sage_functions import counts
+from .maartens_sage_functions import counts
 
 def Phi(d):
     """
