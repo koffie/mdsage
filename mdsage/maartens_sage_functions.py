@@ -32,7 +32,7 @@ from sage.all import (AbelianGroup,
                       zero_matrix,
                       ZZ)
 
-from kamiennys_criterion import matrix_modp
+from .kamiennys_criterion import matrix_modp
 from copy import copy
 
 def gonality_lower_bound(G,lambda1 = 0.238):
