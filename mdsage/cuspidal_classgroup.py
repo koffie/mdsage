@@ -24,7 +24,7 @@ from sage.all import (Cusp,
                       ModularSymbols,
                       ZZ)
 
-from maartens_sage_functions import (integral_period_mapping,
+from .maartens_sage_functions import (integral_period_mapping,
                                      cuspidal_integral_structure_matrix,
                                      galois_action,
                                      galois_orbits,
