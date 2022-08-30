@@ -220,4 +220,8 @@ def cuspidal_integral_structure(M):
     """
     Returns the integral structure of a modular symbols space."""
     B = cuspidal_integral_structure_matrix(M)
-    return B.row_ambient_module(QQ).submodule_with_basis(B).change_ring(ZZ)
+    try
+        B_row_ambient =  B.row_ambient_module(QQ)
+    except AttributeError:
+        B_row_ambient = B._row_ambient_module(QQ)
+    return B_row_ambient.submodule_with_basis(B).change_ring(ZZ)
