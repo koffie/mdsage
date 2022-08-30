@@ -1,7 +1,11 @@
 ===================================================
 MD Sage
 ===================================================
-.. image:: https://travis-ci.org/koffie/mdsage.svg?branch=master
+Master: |master| Develop: |develop|
+
+.. |master| image:: https://travis-ci.org/koffie/mdsage.svg?branch=master
+    :target: https://travis-ci.org/koffie/mdsage
+.. |develop| image:: https://travis-ci.org/koffie/mdsage.svg?branch=develop
     :target: https://travis-ci.org/koffie/mdsage
 
 This package is a `SageMath <http://www.sagemath.org>`_ package that contains all reusable sage code that I have written.
@@ -12,14 +16,17 @@ The full documentation for the package can be found at https://koffie.github.io/
 Installation
 ------------
 
-Local install from source
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Easiest way to install 
+^^^^^^^^^^^^^^^^^^^^^^
 
 Download the source from the git repository::
 
     $ git clone https://github.com/koffie/mdsage.git
-    $ cd mdsage
-    $ sage -pip install .
+    $ sage -pip install ./mdsage
+
+
+Installing for developers
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For convenience this package contains a ``makefile`` with this
 and other often used commands. Should you wish too, you can use the
@@ -27,6 +34,7 @@ shorthand::
 
     $ make install
 
+At some point this package should be put on Pypi.
 
 Usage
 -----
