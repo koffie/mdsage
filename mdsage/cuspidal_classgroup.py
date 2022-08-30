@@ -24,12 +24,14 @@ from sage.all import (Cusp,
                       ModularSymbols,
                       ZZ)
 
-from .maartens_sage_functions import (integral_period_mapping,
-                                            cuspidal_integral_structure_matrix,
-                                            galois_action,
-                                            galois_orbits,
-                                            modular_unit_lattice,
-                                            rational_modular_unit_lattice)
+from .maartens_sage_functions import (
+    integral_period_mapping,
+    cuspidal_integral_structure_matrix,
+    galois_action,
+    galois_orbits,
+    modular_unit_lattice,
+    rational_modular_unit_lattice
+)
 from functools import reduce
 
 def intersection(self, other):
