@@ -1,5 +1,7 @@
 language: python
-sudo: required
+python:
+  - "3.10"
+dist: jammy
 
 env:
   global:
@@ -9,17 +11,12 @@ env:
 matrix:
   include:
   - env: CACHE_NAME=latest DEPLOY_DOC_FROM_BRANCH=master DEPLOY_DOC_TO_REPOSITORY=koffie/mdsage
-      DEPLOY_DOC_TO_DIRECTORY=doc/html
-      SAGE_AGE=0
-  - env: CACHE_NAME=older SAGE_AGE=1
-  allow_failures:
-  - env: CACHE_NAME=older SAGE_AGE=1
+      DEPLOY_DOC_TO_DIRECTORY=doc/html SAGE_AGE=-1
 addons:
   apt:
     packages:
     - gfortran
-install:
-- ./.travis-install.sh
+    - sagemath
 script:
 - ./.travis-test.sh
 cache:
@@ -29,8 +26,8 @@ cache:
   timeout: 1000
 before_cache:
 - rm -Rf $HOME/SageMath/logs $HOME/SageMath/.BUILDSTART
-after_success:
-- ./.travis-deploy-doc.sh
+#after_success:
+#- ./.travis-deploy-doc.sh
 before_script:
 - openssl aes-256-cbc -K $encrypted_76f5f4384669_key -iv $encrypted_76f5f4384669_iv
   -in .travis_ci_gh_pages_deploy_key.enc -out .travis_ci_gh_pages_deploy_key -d || true

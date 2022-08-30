@@ -16,7 +16,6 @@ from sage.all import (AbelianGroup,
                       Gamma0,
                       GammaH,
                       gcd,
-                      get_memory_usage,
                       infinity,
                       Integer,
                       Integers,
@@ -32,8 +31,10 @@ from sage.all import (AbelianGroup,
                       zero_matrix,
                       ZZ)
 
-from .kamiennys_criterion import matrix_modp
 from copy import copy
+
+from .kamiennys_criterion import matrix_modp
+from .sage_bugs import get_memory_usage
 
 def gonality_lower_bound(G,lambda1 = 0.238):
     """
@@ -105,7 +106,7 @@ def tate_normal_form(E,p):
         sage: E_univ([0,0])*5
         (0 : 1 : 0)
         sage: tate_normal_form(E_univ,2*(E_univ(0,0)))
-        [(-b + 1)/-b, -1/b, 1/-b, 0, 0]
+        [(b - 1)/b, -1/b, -1/b, 0, 0]
         
     This shows that <2> works on the above model of X_1(5) by sending b to -1/b.
     """
@@ -146,7 +147,7 @@ def diamond_orbit(E,N=None):
     """
     if N==None:
         N=E([0,0]).order()
-    for d in xrange(1,N):
+    for d in range(1,N):
         if gcd(d,N)==1:
             yield diamond_operator(E,d)
 
@@ -156,39 +157,39 @@ def ambient_integral_structure_matrix(M,verbose=False):
     an ambient modular symbol space. I wrote this because for high level this is very slow
     in sage because there is no good sparse hermite normal form code in sage for huge matrices.
     """
-    if verbose: tm = cputime(); mem = get_memory_usage(); print "Int struct start"
+    if verbose: tm = cputime(); mem = get_memory_usage(); print("Int struct start")
     #This code is the same as the firs part of M.integral_structure
     G = set([i for i, _ in M._mod2term])
     G = list(G)
     G.sort()
     #if there is a two term relation between two manin symbols we only need one of the two
     #so that's why we only use elements from G instead of all manin symbols.
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "G"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "G")
     B = M._manin_gens_to_basis.matrix_from_rows(list(G)).sparse_matrix()
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "B"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "B")
     #The collums of B now span M.integral_structure as ZZ-module
     B, d = B._clear_denom()
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Clear denom"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Clear denom")
     if d == 1:
         #for explanation see d == 2
-        assert len(set([B.nonzero_positions_in_row(i)[0] for i in xrange(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 1])) == B.ncols(), "B doesn't contain the Identity"
-        if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Check Id"
+        assert len(set([B.nonzero_positions_in_row(i)[0] for i in range(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 1])) == B.ncols(), "B doesn't contain the Identity"
+        if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Check Id")
         ZZbasis = MatrixSpace(QQ, B.ncols(), sparse=True)(1)
-        if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis"
+        if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis")
     elif d == 2:
         #in this case the matrix B will contain 2*Id as a minor this allows us to compute the hermite normal form of B in a very efficient way. This will give us the integral basis ZZbasis.
         #if it turns out to be nessecarry this can be generalized to the case d%4==2 if we don't mind to only get the right structure localized at 2
-        assert len(set([B.nonzero_positions_in_row(i)[0] for i in xrange(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 2])) == B.ncols(), "B doesn't contain 2*Identity"    
-        if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Check 2*Id"
+        assert len(set([B.nonzero_positions_in_row(i)[0] for i in range(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 2])) == B.ncols(), "B doesn't contain 2*Identity"    
+        if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Check 2*Id")
         E = matrix_modp(B,sparse=True)
-        if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "matmodp"
+        if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "matmodp")
         E = E.echelon_form()
-        if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "echelon"
+        if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "echelon")
         ZZbasis = MatrixSpace(QQ, B.ncols(), sparse=True)(1)
         for (pivot_row, pivot_col) in zip(E.pivot_rows(), E.pivots()):
             for j in E.nonzero_positions_in_row(pivot_row):
                 ZZbasis[pivot_col, j] = QQ(1) / 2 
-        if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis"
+        if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis")
     else:
         raise NotImplementedError
     return ZZbasis
@@ -212,26 +213,27 @@ def cuspidal_integral_structure_matrix(M,verbose=False):
         sage: from mdsage import *
         sage: M = ModularSymbols(Gamma1(15))
         sage: cuspidal_integral_structure_matrix(M)
-        [ 0  0  0  0  0  0  0  0  0  0  1  0  0  0  0 -1  0]
-        [ 0  0  0  0  0  1  0  0  1  0  0 -1  0  0  0  0  0]
+        [ 0  0  0  0  0  0  0  0 -1  0  0  0  0  0  1  0  0]
+        [ 0  0  0  0  0  1  0  0 -1  0  0  0  0  0  0  0  1]
+
     
     """
     #now we compute the integral kernel of the boundary map with respect to the integral basis. This will give us the integral cuspidal submodule.
     if verbose: tm = cputime(); mem = get_memory_usage(); 
     ZZbasis = ambient_integral_structure_matrix(M,verbose=verbose)              
     boundary_matrix = M.boundary_map().matrix()
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Boundary matrix"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Boundary matrix")
     ZZboundary_matrix=(ZZbasis*boundary_matrix).change_ring(ZZ)
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZBoundary matrix"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZBoundary matrix")
     left_kernel_matrix=ZZboundary_matrix.transpose().dense_matrix()._right_kernel_matrix(algorithm='pari')
     if type(left_kernel_matrix)==tuple:
         left_kernel_matrix=left_kernel_matrix[1]
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "kernel matrix"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "kernel matrix")
     ZZcuspidal_basis=left_kernel_matrix*ZZbasis
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZkernel matrix"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZkernel matrix")
     S=M.cuspidal_subspace()
     assert ZZcuspidal_basis.change_ring(QQ).echelon_form()==S.basis_matrix() , "the calculated integral basis does not span the right QQ vector space" # a little sanity check. This shows that the colums of ZZcuspidal_basis really span the right QQ vectorspace
-    if verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "finnished"
+    if verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "finnished")
     return ZZcuspidal_basis
 
 
@@ -256,7 +258,7 @@ def galois_action(self, t, N):
 def galois_orbit(cusp,G):
     N=G.level()
     orbit=set([])
-    for i in xrange(1,N):
+    for i in range(1,N):
         if gcd(i,N)==1:
             orbit.add(G.reduce_cusp(galois_action(cusp,i,N)))
     return tuple(sorted(orbit))
@@ -303,7 +305,7 @@ def modular_unit_lattice(G,return_ambient=True,ambient_degree_zero=True):
     assert cusps[-1]==Cusp(infinity)
     n=len(cusps)
     D=ZZ**n
-    D0=D.submodule_with_basis([D.gen(i)-D.gen(n-1) for i in xrange(n-1)])
+    D0=D.submodule_with_basis([D.gen(i)-D.gen(n-1) for i in range(n-1)])
     period_images=[M.coordinate_vector(M([c,infinity]))*period_mapping for c in cusps if not c.is_infinity()]
     m=Matrix(period_images).transpose().augment(H1QQ.basis_matrix()).transpose()
     mint=(m*m.denominator()).change_ring(ZZ)
@@ -350,7 +352,7 @@ def generators_of_subgroups_of_unit_group(R):
 
         sage: from mdsage import *
         sage: list(generators_of_subgroups_of_unit_group(Integers(28)))
-        [[15, 17], [11], [3], [13, 15], [15], [27], [17], [9], [13], []]
+        [[15, 17], [11], [3], [15, 13], [15], [27], [17], [9], [13], []]
     
     """
     gens = R.unit_gens()
@@ -494,13 +496,13 @@ def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bo
         for l2 in range(l2_step,deg**2*2-l2_step+1,l2_step):
             short_vectors=pari_gs.qfminim(l2,qfminim_bound)
             if verbose:
-                print short_vectors[:2]
+                print(short_vectors[:2])
             
             count = 0
             for i in short_vectors[2]:
                 count+=1
                 if verbose and count%10000==0:
-                    print count
+                    print(count)
                 v=vector(QQ,i.list())*M
                 if v.norm(1)/2 == deg:
                     return True,L(v)
@@ -509,13 +511,13 @@ def has_modular_unit_of_degree(G,deg,rational = True, verbose = False,qfminim_bo
     short_vectors=pari_gs.qfminim(deg**2*2,qfminim_bound)
     
     if verbose:
-        print short_vectors[:2]
+        print(short_vectors[:2])
     
     count = 0
     for i in short_vectors[2]:
         count+=1
         if verbose and count%10000==0:
-            print count
+            print(count)
         v=vector(QQ,i.list())*M
         if v.norm(1)/2 == deg:
             return True,L(v)
@@ -553,13 +555,13 @@ def modular_units_of_degree(G,deg,rational = True, verbose = False,qfminim_bound
     short_vectors=pari_gs.qfminim(deg**2*2,qfminim_bound)
     
     if verbose:
-        print short_vectors[:2]
+        print(short_vectors[:2])
     
     count = 0
     for i in short_vectors[2]:
         count+=1
         if verbose and count%10000==0:
-            print count
+            print(count)
         v=vector(QQ,i.list())*M
         if v.norm(1)/2 == deg:
             yield L(v)

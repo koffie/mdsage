@@ -16,7 +16,6 @@ from sage.all import (cputime,
                       Gamma0,
                       GammaH,
                       GF,
-                      get_memory_usage,
                       identity_matrix,
                       is_prime,
                       Integers,
@@ -35,6 +34,7 @@ from sage.all import (cputime,
                       version,
                       zero_matrix,
                       ZZ)
+from functools import reduce
 try:
     from sqlalchemy import Column,Table,create_engine,MetaData
     from sqlalchemy import Integer as SQLInteger
@@ -46,6 +46,7 @@ except ImportError:
 
 from sage.misc.cachefunc import cached_method
 
+from .sage_bugs import get_memory_usage
 
 def verify_result(i,result_dir="kamienny_run",verbose=True):
     if i['result_type']=='single' and i['satisfied']:
@@ -59,7 +60,7 @@ def verify_result(i,result_dir="kamienny_run",verbose=True):
         satisfied,message,dependencies = C.verify_criterion(i['degree'],n=i['n'],
                 q=i['q'],p=i['p'],v=v,use_rand_vec=i['use_rand_vec'])
         if verbose and not satisfied:
-            print "The following result is corrupt: %s"%(i)
+            print("The following result is corrupt: %s"%(i))
         return satisfied
     return True
 
@@ -91,7 +92,7 @@ def get_all_results_in_range(begin,end,result_dir="kamienny_run"):
 
 def get_missing_primes_in_range_for_deg(prime_range,d,result_list,filter=lambda i:True):
     prime_range=set(prime_range)
-    verified_primes=[i['torsion_order'] for i in result_list if i['satisfied'] and i['degree']==d and filter(i)]
+    verified_primes=[i['torsion_order'] for i in result_list if i['satisfied'] and i['degree']==d and list(filter(i))]
     return prime_range.difference(verified_primes)
 
 
@@ -211,7 +212,7 @@ def run_criterion3(torsion_order,degrees,n_min,n_max,q_min,q_max,congruence_type
     return results
 
 
-def criterion_iterator(torsion_order,degrees=range(3,8),t1n_bound=12,t1mod=65521,t2q_bound=14):
+def criterion_iterator(torsion_order,degrees=list(range(3,8)),t1n_bound=12,t1mod=65521,t2q_bound=14):
     iterator=[]
     for deg in degrees:
         for t1n in range(2,t1n_bound):
@@ -281,7 +282,7 @@ class KamiennyCriterion:
         """
         self.verbose = verbose
         self.dump_dir = dump_dir
-        if self.verbose: tm = cputime(); mem = get_memory_usage(); print "init"
+        if self.verbose: tm = cputime(); mem = get_memory_usage(); print("init")
         assert congruence_type == 0 or congruence_type == 1
         self.congruence_type=congruence_type
         try:
@@ -300,25 +301,25 @@ class KamiennyCriterion:
         self.sign=sign
         
         self.M = ModularSymbols(self.congruence_group, sign=sign)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "modsym"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "modsym")
         self.S = self.M.cuspidal_submodule()
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "cuspsub"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "cuspsub")
         self.use_custom_algorithm = False
         if algorithm=="custom":
             self.use_custom_algorithm = True
         if self.use_custom_algorithm:
             int_struct = self.integral_cuspidal_subspace()
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "custom int_struct"
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "custom int_struct")
         else:    
             int_struct = self.S.integral_structure()
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "sage int_struct"
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "sage int_struct")
         self.S_integral = int_struct
         v = VectorSpace(GF(2), self.S.dimension()).random_element()
         self.v=v
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "rand_vect"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "rand_vect")
         if dump_dir:
             v.dump(dump_dir+"/vector%s_%s" % (p,congruence_type))
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "dump"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "dump")
 
 
 
@@ -381,10 +382,10 @@ class KamiennyCriterion:
             sage: C.dbd(2)^14==1
             True
             sage: C.dbd(2)[0]
-            (0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1)
+            (0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         """
         d=ZZ(d)
-        if self.verbose: tm = cputime(); mem = get_memory_usage(); print "dbd start"
+        if self.verbose: tm = cputime(); mem = get_memory_usage(); print("dbd start")
         try: return self._dbd[d % self.p]
         except AttributeError: pass
         # Find generators of the integers modulo p:
@@ -393,25 +394,25 @@ class KamiennyCriterion:
         # Compute corresponding <z> operator on integral cuspidal modular symbols
         
         X = [self.M.diamond_bracket_operator(z).matrix() for z in gens]
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "create d"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "create d")
         X = [x.restrict(self.S_integral, check=False) for x in X]
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "restrict d"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "restrict d")
         
         X = [matrix_modp(x) for x in X]
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "mod d"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "mod d")
         # Take combinations to make list self._dbd of all dbd's such that
         # self._dbd[d] = <d>
         from itertools import product
         v = [None] * self.p
-        for ei in product(*[range(i) for i in orders]):
+        for ei in product(*[list(range(i)) for i in orders]):
             di = prod(g**e for e,g in zip(ei,gens)).lift()
             m = prod(g**e for e,g in zip(ei,X))
             v[di] = m
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "mul"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "mul")
 
         assert v.count(None) == (self.p-euler_phi(self.p))
         self._dbd = v
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "bdb finnished"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "bdb finnished")
         return v[d % self.p]
 
     @cached_method
@@ -435,16 +436,16 @@ class KamiennyCriterion:
             sage: C.T(2)
             22 x 22 dense matrix over Finite Field of size 2 (use the '.str()' method to see the entries)
             sage: C.T(2)[0]
-            (1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1)
+            (0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0)
         """
-        if self.verbose: tm = cputime(); mem = get_memory_usage(); print "T(%s) start" % (n)
+        if self.verbose: tm = cputime(); mem = get_memory_usage(); print("T(%s) start" % (n))
         
         T = self.M.hecke_matrix(n).restrict(self.S_integral, check=False)
     
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "T created"
-        if self.verbose: print "sparsity", len(T.nonzero_positions()) / RR(T.nrows()**2), T.nrows()
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "T created")
+        if self.verbose: print("sparsity", len(T.nonzero_positions()) / RR(T.nrows()**2), T.nrows())
         T = matrix_modp(T)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "T reduced"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "T reduced")
         #self.M._hecke_matrices={}
         #self.S._hecke_matrices={}
         #if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "T freed"
@@ -477,8 +478,8 @@ class KamiennyCriterion:
             ValueError: T_5 needs to be a generator of the hecke algebra
             sage: C = KamiennyCriterion(37)
             sage: C.t1()[0]
-            (1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0) 
-        """
+             (1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1)
+            """
         T = self.S.hecke_matrix(n)
         f = T.charpoly()
         F = f.factor()
@@ -506,7 +507,7 @@ class KamiennyCriterion:
                 J.append(i)
 
 
-        if self.verbose: print "J =", J
+        if self.verbose: print("J =", J)
         if len(J) == 0:
             # The annihilator of e is the 0 ideal.
             return matrix_modp(identity_matrix(T.nrows()))
@@ -553,29 +554,29 @@ class KamiennyCriterion:
             True
             sage: C = KamiennyCriterion(37)
             sage: C.t1_prime()[0]
-            (1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0)
+            (1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1)
         """
-        if self.verbose: tm = cputime(); mem = get_memory_usage(); print "t1 start"
+        if self.verbose: tm = cputime(); mem = get_memory_usage(); print("t1 start")
         T = self.S.hecke_matrix(n)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "hecke 1"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "hecke 1")
         f = self.hecke_polynomial(n) # this is the same as T.charpoly()
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "char 1"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "char 1")
         Fint = f.factor()
         if all(i[1]!=1 for i in Fint):
             return matrix_modp(zero_matrix(T.nrows()))
         #    raise ValueError("T_%s needs to be a generator of the hecke algebra"%n)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "factor 1, Fint = %s"%(Fint)
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "factor 1, Fint = %s"%(Fint))
         R = f.parent().change_ring(GF(p))
         F = Fint.base_change(R)
         # Compute the iterators of T acting on the winding element.
         e = self.M([0, oo]).element().dense_vector().change_ring(GF(p))
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "wind"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "wind")
         t = matrix_modp(self.M.hecke_matrix(n).dense_matrix(), p)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "hecke 2"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "hecke 2")
         g = t.charpoly()
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "char 2"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "char 2")
         Z = t.iterates(e, t.nrows(), rows=True)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "iter"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "iter")
         # We find all factors F[i][0] for f such that
         # (g/F[i][0])(t) * e = 0.
         # We do this by computing the polynomial
@@ -593,9 +594,9 @@ class KamiennyCriterion:
             v = vector(GF(p), h.padded_list(t.nrows()))
             if v * Z == 0:
                 J.append(i)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "zero check"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "zero check")
 
-        if self.verbose: print "J =", J
+        if self.verbose: print("J =", J)
         if len(J) == 0:
             # The annihilator of e is the 0 ideal.
             return matrix_modp(identity_matrix(T.nrows()))
@@ -607,11 +608,11 @@ class KamiennyCriterion:
         # reduction of T2 with respect to the right basis (e.g., the
         # integral basis in case use_integral_structure is true.
         Tmod2 = self.T(n)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "hecke mod" 
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "hecke mod") 
         g = prod(Fint[i][0].change_ring(GF(2)) ** Fint[i][1] for i in J)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "g has degree %s"%(g.degree())
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "g has degree %s"%(g.degree()))
         t1 = g(Tmod2)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "t1 finnished"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "t1 finnished")
         return t1        
 
 
@@ -635,7 +636,7 @@ class KamiennyCriterion:
             sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.t2()[0]
-            (1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0)
+            (0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)
         """
         if q==2 or self.p % q == 0 or not is_prime(q):
             raise ValueError("q must be prime, unequal to 2 and not divide self.p")
@@ -665,7 +666,7 @@ class KamiennyCriterion:
             sage: from mdsage import *
             sage: C = KamiennyCriterion(29)
             sage: C.t()[0]
-            (0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0)
+            (1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0)
         """
         t2 = self.t2(q)
         if p == None:
@@ -704,7 +705,7 @@ class KamiennyCriterion:
             sage: C.t()*C.dbd(2)*C.T(2)==C.tdbdTi(C.t(),2,Id)[1][1]
             True
         """
-        return [[t * (self.dbd(d) * (self.T(i) * v)) for d in self.coset_representatives_H()] for i in xrange(1, k + 1)]
+        return [[t * (self.dbd(d) * (self.T(i) * v)) for d in self.coset_representatives_H()] for i in range(1, k + 1)]
     
     def dependencies(self, t, k, l, v):
         """
@@ -719,7 +720,7 @@ class KamiennyCriterion:
         """
         T = self.T
         span = sum(self.tdbdTi(t, l, v), [])
-        span += [(t * (T(i) * v)) for i in xrange(l + 1, k + 1)]
+        span += [(t * (T(i) * v)) for i in range(l + 1, k + 1)]
         return matrix(GF(2), [i.list() for i in span]).kernel()
 
 
@@ -751,7 +752,7 @@ class KamiennyCriterion:
             if stop_if_satisfied and satisfied:
                 break
 
-        print [len(i) for i in dependency_spaces]
+        print([len(i) for i in dependency_spaces])
         intersected_dependency_spaces=[]
         if dependency_spaces:
             for i in range(len(dependency_spaces[0])):
@@ -859,12 +860,12 @@ class KamiennyCriterion:
               [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 0 0 0 1 0 1 0 0 0 0 0 0 1 1 0]
               [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 1 0 1 1 0 0 0]])
         """
-        if self.verbose: tm = cputime(); mem = get_memory_usage(); print "verif start"
+        if self.verbose: tm = cputime(); mem = get_memory_usage(); print("verif start")
         if self.p < (1 + 2 ** (d / 2)) ** 2 and self.verbose:
-            print "WARNING: p must be at least (1+2^(d/2))^2 for the criterion to work."
+            print("WARNING: p must be at least (1+2^(d/2))^2 for the criterion to work.")
         if t == None:
             t = self.t(n, p, q)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "t"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "t")
         if v==None:
             if use_rand_vec:
                 v=self.v
@@ -874,42 +875,42 @@ class KamiennyCriterion:
             verified,message,dependencies=self.verify_gamma0(d,t,v)
         else:
             verified,message,dependencies=self.verify_gamma1(d,t,v)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "total verif time"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "total verif time")
         if not verified:
             return verified,message,dependencies
         return True, "All conditions are satified for Gamma%s d=%s p=%s. Using n=%s, modp=%s, q=%s in Kamienny Version %s and %s" % (self.congruence_type,d, self.p, n, p, q, Kamienny_Version, version()),dependencies
 
     def verify_gamma0(self,d,t,v):
-        ker = matrix(GF(2),[(t * self.T(n) * v).list() for n in xrange(1,d+1)]).kernel()
+        ker = matrix(GF(2),[(t * self.T(n) * v).list() for n in range(1,d+1)]).kernel()
         #if ker.dimension()<ker.degree():
         #    print ker
         return ker.dimension()==0,"",[ker]
     
     def verify_gamma1(self,d,t,v):
         dependencies=[]
-        if self.verbose: tm = cputime(); mem = get_memory_usage(); print "verif gamma1 start"
+        if self.verbose: tm = cputime(); mem = get_memory_usage(); print("verif gamma1 start")
         satisfied=True
         message=""
-        for i in xrange(d, (d - 1) // 2, -1):
+        for i in range(d, (d - 1) // 2, -1):
         #We only need to start at d/2 since the dependencies(k,l) contains all neccesary
         #checks for largest partition of zise at most k and second largest at most l
             dependency = self.dependencies(t, i, d - i, v)
             dependencies.append(dependency)
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "dep (%s,%s)" % (i, d - i)
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "dep (%s,%s)" % (i, d - i))
             assert dependency.degree() == len(self.coset_representatives_H()) * (d - i) + 2 * i - d
             assert dependency.degree() - dependency.dimension() <= self.S.dimension()
             if dependency.dimension() == 0:
-                if self.verbose: print "...no dependencies found"
+                if self.verbose: print("...no dependencies found")
             elif dependency.dimension() > 12:
                 satisfied=False
-                print "dependency dimension to large to search through"
+                print("dependency dimension to large to search through")
             else:
-                if self.verbose: print "dependency dimension is:", dependency.dimension()
+                if self.verbose: print("dependency dimension is:", dependency.dimension())
                 min_dist = LinearCode(dependency).minimum_distance()
-                if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "min dist"
-                if self.verbose: print "...the smallest dependency has %s nonzero coefficients." % (min_dist)
+                if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "min dist")
+                if self.verbose: print("...the smallest dependency has %s nonzero coefficients." % (min_dist))
                 if min_dist > d:
-                    if self.verbose: print i, d - i, "passed"
+                    if self.verbose: print(i, d - i, "passed")
                 else:
                     satisfied,message= False, "There is a dependency of weigt %s in dependencies(%s,%s)" % (min_dist, i, d - i)
         return satisfied, message,dependencies
@@ -949,58 +950,58 @@ class KamiennyCriterion:
         This code is mainly a way to compute the integral structe faster than sage does now. 
         It returns None if it cannot find the integral subspace. 
         """
-        if self.verbose: tm = cputime(); mem = get_memory_usage(); print "Int struct start"
+        if self.verbose: tm = cputime(); mem = get_memory_usage(); print("Int struct start")
         #This code is the same as the firs part of self.M.integral_structure
         G = set([i for i, _ in self.M._mod2term])
         G = list(G)
         G.sort()
         #if there is a two term relation between two manin symbols we only need one of the two
         #so that's why we only use elements from G instead of all manin symbols.
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "G"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "G")
         B = self.M._manin_gens_to_basis.matrix_from_rows(list(G)).sparse_matrix()
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "B"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "B")
         #The collums of B now span self.M.integral_structure as ZZ-module
         B, d = B._clear_denom()
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Clear denom"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Clear denom")
         if d == 1:
             #for explanation see d == 2
-            assert len(set([B.nonzero_positions_in_row(i)[0] for i in xrange(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 1])) == B.ncols(), "B doesn't contain the Identity"
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Check Id"
+            assert len(set([B.nonzero_positions_in_row(i)[0] for i in range(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 1])) == B.ncols(), "B doesn't contain the Identity"
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Check Id")
             ZZbasis = MatrixSpace(QQ, B.ncols(), sparse=True)(1)
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis"
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis")
         elif d == 2:
             #in this case the matrix B will contain 2*Id as a minor this allows us to compute the hermite normal form of B in a very efficient way. This will give us the integral basis ZZbasis.
             #if it turns out to be nessecarry this can be generalized to the case d%4==2 if we don't mind to only get the right structure localized at 2
-            assert len(set([B.nonzero_positions_in_row(i)[0] for i in xrange(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 2])) == B.ncols(), "B doesn't contain 2*Identity"    
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Check 2*Id"
+            assert len(set([B.nonzero_positions_in_row(i)[0] for i in range(B.nrows()) if len(B.nonzero_positions_in_row(i)) == 1 and B[i, B.nonzero_positions_in_row(i)[0]] == 2])) == B.ncols(), "B doesn't contain 2*Identity"    
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Check 2*Id")
             E = matrix_modp(B,sparse=True)
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "matmodp"
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "matmodp")
             E = E.echelon_form()
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "echelon"
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "echelon")
             ZZbasis = MatrixSpace(QQ, B.ncols(), sparse=True)(1)
             for (pivot_row, pivot_col) in zip(E.pivot_rows(), E.pivots()):
                 for j in E.nonzero_positions_in_row(pivot_row):
                     ZZbasis[pivot_col, j] = QQ(1) / 2 
-            if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis"
+            if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZbasis")
         else:
             return None
         #now we compute the integral kernel of the boundary map with respect to the integral basis. This will give us the integral cuspidal submodule.                 
         boundary_matrix = self.M.boundary_map().matrix()
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "Boundary matrix"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "Boundary matrix")
         ZZboundary_matrix=(ZZbasis*boundary_matrix).change_ring(ZZ)
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZBoundary matrix"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZBoundary matrix")
         left_kernel_matrix=ZZboundary_matrix.transpose().dense_matrix()._right_kernel_matrix(algorithm='pari')
         if type(left_kernel_matrix)==tuple:
             left_kernel_matrix=left_kernel_matrix[1]
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "kernel matrix"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "kernel matrix")
         ZZcuspidal_basis=left_kernel_matrix*ZZbasis
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "ZZkernel matrix"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "ZZkernel matrix")
         assert ZZcuspidal_basis.change_ring(QQ).echelon_form()==self.S.basis_matrix() , "the calculated integral basis does not span the right QQ vector space" # a little sanity check. This shows that the colums of ZZcuspidal_basis really span the right QQ vectorspace
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "check"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "check")
         #finally create the sub-module, we delibarately do this as a QQ vector space with custom basis, because this is faster then dooing the calculations over ZZ since sage will then use a slow hermite normal form algorithm.
         ambient_module=VectorSpace(QQ,ZZcuspidal_basis.ncols())
         int_struct = ambient_module.submodule_with_basis(ZZcuspidal_basis.rows())
-        if self.verbose: print "time and mem", cputime(tm), get_memory_usage(mem), "finnished"
+        if self.verbose: print("time and mem", cputime(tm), get_memory_usage(mem), "finnished")
         return int_struct
 
         
