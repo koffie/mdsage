@@ -1,4 +1,5 @@
 language: python
+dist: jammy
 sudo: required
 
 env:
@@ -10,16 +11,11 @@ matrix:
   include:
   - env: CACHE_NAME=latest DEPLOY_DOC_FROM_BRANCH=master DEPLOY_DOC_TO_REPOSITORY=koffie/mdsage
       DEPLOY_DOC_TO_DIRECTORY=doc/html
-      SAGE_AGE=0
-  - env: CACHE_NAME=older SAGE_AGE=1
-  allow_failures:
-  - env: CACHE_NAME=older SAGE_AGE=1
 addons:
   apt:
     packages:
     - gfortran
-install:
-- ./.travis-install.sh
+    - sagemath
 script:
 - ./.travis-test.sh
 cache:
