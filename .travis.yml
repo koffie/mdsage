@@ -12,7 +12,7 @@ env:
 matrix:
   include:
   - env: CACHE_NAME=latest DEPLOY_DOC_FROM_BRANCH=master DEPLOY_DOC_TO_REPOSITORY=koffie/mdsage
-      DEPLOY_DOC_TO_DIRECTORY=doc/html
+      DEPLOY_DOC_TO_DIRECTORY=doc/html SAGE_AGE=-1
 addons:
   apt:
     packages:
