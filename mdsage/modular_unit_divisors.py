@@ -40,7 +40,7 @@ def degree_cusp(i,N):
     """
     Function DegreeCusp in Mark his code 
     
-    returns the degree over Q of the cusp $q^(i/n)\zeta_n^j$ on X_1(N)
+    returns the degree over Q of the cusp $q^(i/n)\\zeta_n^j$ on X_1(N)
     """
     i = ZZ(i); N = ZZ(N)
     d = euler_phi(gcd(i,N))
