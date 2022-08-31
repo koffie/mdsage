@@ -62,3 +62,6 @@ docs/_build/
 
 # IDE
 .idea/
+
+# OS
+.DS_Store
