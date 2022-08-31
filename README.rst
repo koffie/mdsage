@@ -3,10 +3,10 @@ MD Sage
 ===================================================
 Master: |master| Develop: |develop|
 
-.. |master| image:: https://travis-ci.org/koffie/mdsage.svg?branch=master
-    :target: https://travis-ci.org/koffie/mdsage
-.. |develop| image:: https://travis-ci.org/koffie/mdsage.svg?branch=develop
-    :target: https://travis-ci.org/koffie/mdsage
+.. |master| image:: https://app.travis-ci.com/koffie/mdsage.svg?branch=master
+    :target: https://app.travis-ci.com/github/koffie/mdsage
+.. |develop| image:: https://app.travis-ci.com/koffie/mdsage.svg?branch=develop
+    :target: https://app.travis-ci.com/github/koffie/mdsage
 
 This package is a `SageMath <http://www.sagemath.org>`_ package that contains all reusable sage code that I have written.
 

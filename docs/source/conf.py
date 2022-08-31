@@ -13,11 +13,11 @@
 # serve to show the default.
 
 # General information about the project.
-project = u"MD Sage"
-copyright = u"2017, Maarten Derickx"
+project = "MD Sage"
+copyright = "2022, Maarten Derickx"
 package_name = "mdsage"
 package_folder = "../../mdsage"
-authors = u"Maarten Derickx"
+authors = "Maarten Derickx"
 
 import sys
 import os
@@ -46,8 +46,8 @@ sys.path.append(os.path.join(SAGE_SRC, "sage_setup", "docbuild", "ext"))
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    #'sphinx.ext.autodoc',
-    'sage_autodoc',
+    'sphinx.ext.autodoc',
+    #'sage_docbuild.ext.sage_autodoc',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
@@ -133,7 +133,8 @@ extlinks = {
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sage'
+# html_theme = 'sage'
+html_theme = 'classic'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -233,7 +234,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', package_name + '.tex', u'Documentation of ' + unicode(package_name),
+  ('index', package_name + '.tex', u'Documentation of ' + package_name,
    authors, 'manual'),
 ]
 
@@ -263,7 +264,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', package_name, unicode(package_name) + u" documentation",
+    ('index', package_name, package_name + ' documentation',
      [authors], 1)
 ]
 
@@ -277,7 +278,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', package_name, unicode(package_name) + u" documentation",
+  ('index', package_name, package_name + ' documentation',
    authors, package_name, project,
    'Miscellaneous'),
 ]
@@ -323,7 +324,11 @@ if (os.environ.get('SAGE_DOC_MATHJAX', 'no') != 'no'
     exclude_patterns=['**/'+os.path.join(mathjax_relative, i) for i in ('docs', 'README*', 'test',
                                                                         'unpacked', 'LICENSE')]
 else:
-     extensions.append('sphinx.ext.pngmath')
+     extensions.append('sphinx.ext.imgmath')
+     imgmath_latex_preamble = """% maartens tex additions
+\\newcommand{\\field}[1]{\\mathbb{#1}}  % the font for a mathematical field is blackboard
+\\newcommand{\QQ}{\\field{Q}}
+"""
 
 # This is to make the verbatim font smaller;
 # Verbatim environment is not breaking long lines
