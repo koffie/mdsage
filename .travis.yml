@@ -17,6 +17,7 @@ addons:
     packages:
     - gfortran
     - sagemath
+    - texlive
 script:
 - ./.travis-test.sh
 cache:
