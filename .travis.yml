@@ -18,6 +18,7 @@ addons:
     - gfortran
     - sagemath
     - texlive-latex-extra
+    - dvipng
 script:
 - ./.travis-test.sh
 cache:
