@@ -22,7 +22,6 @@ if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "${DEPLOY_DOC
     git config user.name "Travis CI"
     git config user.email "nobody@example.org"
     if git commit -m "Automatic upload of documentation built from ${TRAVIS_COMMIT}"; then
-	git push origin gh-pages
+	    git push origin gh-pages
     fi
 fi
-/usr/bin/killall python2

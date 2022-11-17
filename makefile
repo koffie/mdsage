@@ -3,11 +3,7 @@
 # Package folder
 PACKAGE = mdsage
 
-# change to your sage command if needed
-ifndef SAGE
-	SAGE = /Applications/sagedev/sage
-	export SAGE
-endif
+SAGE = sage
 
 all: install test
 
