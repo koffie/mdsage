@@ -10,10 +10,11 @@ jobs:
       options: --user root
 
     steps:
-      - name: Install make
+      - name: Install git and make
         run: |
           sudo apt-get update
-          sudo apt-get install make -y
+          sudo apt-get install git make -y
+      - uses: actions/checkout@v2
       - name: make test
         run: |
           make test
