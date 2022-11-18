@@ -10,6 +10,10 @@ jobs:
       options: --user root
 
     steps:
+      - name: Install make
+        run: |
+          sudo apt-get update
+          sudo apt-get install make -y
       - name: make test
         run: |
           make test
