@@ -1,6 +1,122 @@
 from collections import defaultdict
 
-from .class_numbers import small_class_number_discriminants, _small_class_number_cache
+from sage.all import kronecker_symbol, gcd, prime_to_m_part, prime_divisors, valuation
+
+from .class_numbers import small_class_number_discriminants, _small_class_number_cache, class_number
+
+
+def _c1(p, d, N):
+    # assert is_prime(p)
+    # assert N%d == 0
+    # assert gcd(d,N//d) == 1
+    # assert (N//d)%p==0
+    # assert d%p != 0 #consequence of previous assertions actually
+
+    if p > 2:
+        return _c2(p, d)
+
+    if d % 4 == 1:
+        if N % 4 == 0:
+            return 0
+        return 1
+
+    if N % 8 == 0:
+        return 3 * (1 + kronecker_symbol(-d, p))
+
+    if N % 4 == 0:
+        return 3 + kronecker_symbol(-d, p)
+
+    return 2
+
+
+def _c2(p, d):
+    # assert d >= 4
+    # assert d%4 == 3
+    # assert is_prime(p)
+    # assert d%p != 0
+    # assert p>2 or d%4==3
+
+    if d % 4 == 3:
+        return 1 + kronecker_symbol(-d, p)
+    return 1 + kronecker_symbol(-4 * d, p)
+
+
+def atkin_lehner_ramification_degree(N, d):
+    """
+    Returns the ramification degree of X_0(N) -> X_0(N)/w_d. See:
+    Hyperelliptic Quotients of Modular Curves X_0(N)
+    by Masahiro FURUMOTO and Yuji HASEGAWA
+    for correctnes. If gcd(d, N/d) != 1 it replaces d by the largest
+    divisor of N that has still the same prime divisors as d.
+
+    INPUT:
+
+        - N - an positive integer
+        - d - an positive integer dividing N
+
+    OUTPUT:
+
+        The ramification degree of X_0(N) -> X_0(N)/w_d
+
+    EXAMPLES::
+
+        sage: from mdsage import *
+        sage: [(d, atkin_lehner_ramification_degree(105, d)) for d in 105.divisors()]
+        [(1, 0), (3, 0), (5, 8), (7, 0), (15, 0), (21, 8), (35, 16), (105, 8)]
+        sage: G = Gamma0(105)
+        sage: M = ModularSymbols(G,sign=1)
+        sage: S = M.cuspidal_submodule()
+        sage: S.dimension()
+        13
+        sage: [(d, (S.atkin_lehner_operator(d) - 1).kernel().dimension()) for d in 105.divisors()]
+        [(1, 13), (3, 7), (5, 5), (7, 7), (15, 7), (21, 5), (35, 3), (105, 5)]
+
+    """
+    assert d > 0 and N > 0
+    if d == 1:
+        return 0
+
+    assert N % d == 0
+    if not gcd(d, N // d) == 1:
+        d1 = prime_to_m_part(N, d)
+        d = N // d1
+
+    assert gcd(d, N // d) == 1
+
+    divs_N_d = prime_divisors(N // d)
+
+    c1_prod = 1
+
+    for p in divs_N_d:
+        c1_prod *= _c1(p, d, N)
+
+    v_d = c1_prod * class_number(-4 * d)
+
+    c2_prod = 1
+
+    if d == 2:
+        for p in divs_N_d:
+            c2_prod *= 1 + kronecker_symbol(-4, p)
+        v_d += c2_prod
+
+    elif d == 3:
+        for p in divs_N_d:
+            c2_prod *= 1 + kronecker_symbol(-3, p)
+        v_d += c2_prod
+
+    elif d == 4:
+        for p in divs_N_d:
+            v = valuation(N, p)
+            c2_prod *= p ** (v // 2) + p ** ((v - 1) // 2)
+        v_d += c2_prod
+
+    elif d > 4 and d % 4 == 3:
+        for p in divs_N_d:
+            c2_prod *= _c2(p, d)
+
+        v_d += c2_prod * class_number(-d)
+
+    return v_d
 
 def small_ramification(bound):
     """
