@@ -28,7 +28,7 @@ from .maartens_sage_functions import (
 
 from .modular_unit_divisors import cuspsums_on_Gamma1_of_degree
 
-from .class_numbers import (
+from .quadratic_class_numbers import (
     class_number,
     class_numbers,
     cm_orders2,
