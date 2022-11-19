@@ -461,7 +461,7 @@ def _small_class_number_cache(bound):
     """
     Examples::
 
-        sage: from mdsage.class_numbers import _small_class_number_cache
+        sage: from mdsage.quadratic_class_numbers import _small_class_number_cache
         sage: _small_class_number_cache(1)
         {-163: 1,
          -67: 1,
