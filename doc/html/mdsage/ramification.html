@@ -17,6 +17,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class Numbers" href="quadratic_class_numbers.html" />
     <link rel="prev" title="Modular Unit Divisors" href="modular_unit_divisors.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -25,6 +26,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quadratic_class_numbers.html" title="Class Numbers"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="modular_unit_divisors.html" title="Modular Unit Divisors"
              accesskey="P">previous</a> |</li>
@@ -39,8 +46,121 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="ramification">
-<h1>Ramification<a class="headerlink" href="#ramification" title="Permalink to this headline">¶</a></h1>
+  <section id="module-mdsage.ramification">
+<span id="ramification"></span><h1>Ramification<a class="headerlink" href="#module-mdsage.ramification" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.ramification.atkin_lehner_ramification_degree">
+<span class="sig-prename descclassname"><span class="pre">mdsage.ramification.</span></span><span class="sig-name descname"><span class="pre">atkin_lehner_ramification_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.ramification.atkin_lehner_ramification_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the ramification degree of X_0(N) -&gt; X_0(N)/w_d. See:
+Hyperelliptic Quotients of Modular Curves X_0(N)
+by Masahiro FURUMOTO and Yuji HASEGAWA
+for correctnes. If gcd(d, N/d) != 1 it replaces d by the largest
+divisor of N that has still the same prime divisors as d.</p>
+<p>INPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>N - an positive integer</p></li>
+<li><p>d - an positive integer dividing N</p></li>
+</ul>
+</div></blockquote>
+<p>OUTPUT:</p>
+<blockquote>
+<div><p>The ramification degree of X_0(N) -&gt; X_0(N)/w_d</p>
+</div></blockquote>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="p">[(</span><span class="n">d</span><span class="p">,</span> <span class="n">atkin_lehner_ramification_degree</span><span class="p">(</span><span class="mi">105</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="mf">105.</span><span class="n">divisors</span><span class="p">()]</span>
+<span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="p">(</span><span class="mi">105</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">G</span> <span class="o">=</span> <span class="n">Gamma0</span><span class="p">(</span><span class="mi">105</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">ModularSymbols</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">sign</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">cuspidal_submodule</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span>
+<span class="mi">13</span>
+<span class="n">sage</span><span class="p">:</span> <span class="p">[(</span><span class="n">d</span><span class="p">,</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">atkin_lehner_operator</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">kernel</span><span class="p">()</span><span class="o">.</span><span class="n">dimension</span><span class="p">())</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="mf">105.</span><span class="n">divisors</span><span class="p">()]</span>
+<span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">105</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.ramification.small_ramification">
+<span class="sig-prename descclassname"><span class="pre">mdsage.ramification.</span></span><span class="sig-name descname"><span class="pre">small_ramification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.ramification.small_ramification" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a dictionary of all N for such that the ramification degree of $X_0(N)      o X_0(N)^+$ is small</p>
+<p>INPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bound (optional) - an integer up to which ramification degree to compute the levels N</p></li>
+</ul>
+</div></blockquote>
+<p>OUTPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a dictionary whose keys are ramification degrees and whose values are lists of levels N
+such that $X_0(N)     o X_0(N)^+$  has that ramification degree.</p></li>
+</ul>
+</div></blockquote>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">small_ramification</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+ <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">58</span><span class="p">]}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="c1"># if the following fails the data in our article is also incorrect</span>
+<span class="n">sage</span><span class="p">:</span> <span class="p">{(</span><span class="n">k</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">small_ramification</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">58</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">253</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">652</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">1012</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">1318</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">173</span><span class="p">,</span> <span class="mi">2608</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">2293</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">329</span><span class="p">,</span> <span class="mi">4048</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">5692</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">225</span><span class="p">,</span> <span class="mi">5377</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">6637</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">576</span><span class="p">,</span> <span class="mi">10432</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">11302</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">257</span><span class="p">,</span> <span class="mi">13297</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">14422</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">790</span><span class="p">,</span> <span class="mi">18748</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">18397</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">482</span><span class="p">,</span> <span class="mi">22768</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">74</span><span class="p">,</span> <span class="mi">30493</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">785</span><span class="p">,</span> <span class="mi">30178</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">29437</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="mi">375</span><span class="p">,</span> <span class="mi">34318</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">46</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">47338</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">1618</span><span class="p">,</span> <span class="mi">41728</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">77</span><span class="p">,</span> <span class="mi">43717</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">389</span><span class="p">,</span> <span class="mi">50317</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">54</span><span class="p">,</span> <span class="mi">125</span><span class="p">,</span> <span class="mi">48742</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">992</span><span class="p">,</span> <span class="mi">62302</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">58</span><span class="p">,</span> <span class="mi">77</span><span class="p">,</span> <span class="mi">48778</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">817</span><span class="p">,</span> <span class="mi">83218</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">85402</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1857</span><span class="p">,</span> <span class="mi">106177</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">92698</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="mi">493</span><span class="p">,</span> <span class="mi">102958</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">94378</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1963</span><span class="p">,</span> <span class="mi">134773</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="mi">104</span><span class="p">,</span> <span class="mi">91228</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">76</span><span class="p">,</span> <span class="mi">506</span><span class="p">,</span> <span class="mi">121972</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">78</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">92458</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">2309</span><span class="p">,</span> <span class="mi">120712</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">82</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span> <span class="mi">151237</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">1019</span><span class="p">,</span> <span class="mi">166798</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">86</span><span class="p">,</span> <span class="mi">106</span><span class="p">,</span> <span class="mi">137197</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">88</span><span class="p">,</span> <span class="mi">1413</span><span class="p">,</span> <span class="mi">150382</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">238</span><span class="p">,</span> <span class="mi">149053</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">92</span><span class="p">,</span> <span class="mi">577</span><span class="p">,</span> <span class="mi">189352</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">94</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">184438</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">4289</span><span class="p">,</span> <span class="mi">198958</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">98</span><span class="p">,</span> <span class="mi">132</span><span class="p">,</span> <span class="mi">161302</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">844</span><span class="p">,</span> <span class="mi">200722</span><span class="p">)}</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 
@@ -54,6 +174,11 @@
     <h4>Previous topic</h4>
     <p class="topless"><a href="modular_unit_divisors.html"
                           title="previous chapter">Modular Unit Divisors</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="quadratic_class_numbers.html"
+                          title="next chapter">Class Numbers</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -82,6 +207,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quadratic_class_numbers.html" title="Class Numbers"
+             >next</a> |</li>
         <li class="right" >
           <a href="modular_unit_divisors.html" title="Modular Unit Divisors"
              >previous</a> |</li>

@@ -38,12 +38,12 @@ Modules in MD Sage
 .. toctree::
    :maxdepth: 2
 
-   mdsage/class_numbers
    mdsage/cuspidal_classgroup
    mdsage/kamiennys_criterion
    mdsage/maartens_sage_functions
    mdsage/modular_unit_divisors
    mdsage/ramification
+   mdsage/quadratic_class_numbers
 
 Indices and Tables
 ==================

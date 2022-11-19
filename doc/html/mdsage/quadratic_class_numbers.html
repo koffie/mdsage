@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Class Numbers &#8212; MD Sage 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Ramification" href="ramification.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ramification.html" title="Ramification"
+             accesskey="P">previous</a> |</li>
+<li class="nav-item nav-item-0"><a href="../index.html">MD Sage 0.1.0 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Class Numbers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-mdsage.quadratic_class_numbers">
+<span id="class-numbers"></span><h1>Class Numbers<a class="headerlink" href="#module-mdsage.quadratic_class_numbers" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.quadratic_class_numbers.class_number">
+<span class="sig-prename descclassname"><span class="pre">mdsage.quadratic_class_numbers.</span></span><span class="sig-name descname"><span class="pre">class_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">D</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.quadratic_class_numbers.class_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>INPUT:</p>
+<ul class="simple">
+<li><p>D - an negative integer that is 0 or 1 mod 4</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>An integer that is the classnumber of the quadratic order of discriminant D</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">class_number</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">class_number</span><span class="p">(</span><span class="o">-</span><span class="mi">47</span><span class="p">)</span>
+<span class="mi">5</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">class_number</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="o">*</span><span class="mi">31</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="mi">32</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">class_number</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="o">*</span><span class="mi">29</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="mi">28</span>
+</pre></div>
+</div>
+<p>see <a class="reference external" href="http://www.math.toronto.edu/~ila/Cox-Primes_of_the_form_x2+ny2.pdf">http://www.math.toronto.edu/~ila/Cox-Primes_of_the_form_x2+ny2.pdf</a>
+could maybe use theorem 7.24 to speed this up</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.quadratic_class_numbers.class_numbers">
+<span class="sig-prename descclassname"><span class="pre">mdsage.quadratic_class_numbers.</span></span><span class="sig-name descname"><span class="pre">class_numbers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clnr_D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.quadratic_class_numbers.class_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>computes the class number h(D*f**2) for a bunch of f’s at the same time
+using theorem 7.24 from <a class="reference external" href="http://www.math.toronto.edu/~ila/Cox-Primes_of_the_form_x2+ny2.pdf">http://www.math.toronto.edu/~ila/Cox-Primes_of_the_form_x2+ny2.pdf</a></p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p>D - an negative integer that 0 or 1 mod 4</p></li>
+<li><p>fs - a list of integers</p></li>
+<li><p>clnr_D (optional) - an integer that equals class_number(D) to speed up the computation</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>a list of tuples of integers equalling [(f,class_number(D*f**2)) for f in fs]</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">class_numbers</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">31</span><span class="p">]))</span>
+<span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.quadratic_class_numbers.cm_orders2">
+<span class="sig-prename descclassname"><span class="pre">mdsage.quadratic_class_numbers.</span></span><span class="sig-name descname"><span class="pre">cm_orders2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.quadratic_class_numbers.cm_orders2" title="Permalink to this definition">¶</a></dt>
+<dd><p>yields all triples (h(D*f**2),D,f) such that h(D*f**2) &lt;= bound</p>
+<p>INPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bound - an integer up to which to generate the cm_orders</p></li>
+</ul>
+</div></blockquote>
+<p>OUTPUT:</p>
+<blockquote>
+<div><p>an iterator over all triples (h(D*f**2),D,f) such that h(D*f**2) &lt;= bound</p>
+</div></blockquote>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cm_orders2</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">19</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">43</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">67</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.quadratic_class_numbers.small_class_number_discriminants">
+<span class="sig-prename descclassname"><span class="pre">mdsage.quadratic_class_numbers.</span></span><span class="sig-name descname"><span class="pre">small_class_number_discriminants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.quadratic_class_numbers.small_class_number_discriminants" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a dictionary of all imaginary quadratic fundamental discriminants of small class number</p>
+<p>INPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bound (optional) - an integer up to which class number to compute the fundamental discriminants</p></li>
+</ul>
+</div></blockquote>
+<p>OUTPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a dictionary whose keys are class numbers and whose values are lists of discriminants having that class number</p></li>
+</ul>
+</div></blockquote>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">small_class_number_discriminants</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">27</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">28</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">19</span><span class="p">,</span> <span class="o">-</span><span class="mi">43</span><span class="p">,</span> <span class="o">-</span><span class="mi">67</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">],</span>
+ <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">48</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">75</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">147</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">36</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">64</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">100</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">112</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">32</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">72</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">99</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">15</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">60</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">20</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">24</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">35</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">40</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">51</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">52</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">88</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">91</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">115</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">123</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">148</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">187</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">232</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">235</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">267</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">403</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">427</span><span class="p">]}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="c1"># if the following fails the data in our article is also incorrect</span>
+<span class="n">sage</span><span class="p">:</span> <span class="p">{(</span><span class="n">h</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">discs</span><span class="p">),</span><span class="nb">min</span><span class="p">(</span><span class="n">discs</span><span class="p">))</span> <span class="k">for</span> <span class="n">h</span><span class="p">,</span><span class="n">discs</span> <span class="ow">in</span> <span class="n">small_class_number_discriminants</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="o">-</span><span class="mi">427</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">907</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">84</span><span class="p">,</span> <span class="o">-</span><span class="mi">1555</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="o">-</span><span class="mi">2683</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="o">-</span><span class="mi">4075</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="o">-</span><span class="mi">5923</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">208</span><span class="p">,</span> <span class="o">-</span><span class="mi">7987</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="o">-</span><span class="mi">10627</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="o">-</span><span class="mi">13843</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="o">-</span><span class="mi">15667</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">379</span><span class="p">,</span> <span class="o">-</span><span class="mi">19723</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="o">-</span><span class="mi">20563</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="o">-</span><span class="mi">30067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="o">-</span><span class="mi">34483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">531</span><span class="p">,</span> <span class="o">-</span><span class="mi">35275</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">37123</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">291</span><span class="p">,</span> <span class="o">-</span><span class="mi">48427</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="o">-</span><span class="mi">38707</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">502</span><span class="p">,</span> <span class="o">-</span><span class="mi">58843</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span> <span class="o">-</span><span class="mi">61483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">184</span><span class="p">,</span> <span class="o">-</span><span class="mi">85507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="o">-</span><span class="mi">90787</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">1042</span><span class="p">,</span> <span class="o">-</span><span class="mi">111763</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="o">-</span><span class="mi">93307</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">227</span><span class="p">,</span> <span class="o">-</span><span class="mi">103027</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="mi">136</span><span class="p">,</span> <span class="o">-</span><span class="mi">103387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">623</span><span class="p">,</span> <span class="o">-</span><span class="mi">126043</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">94</span><span class="p">,</span> <span class="o">-</span><span class="mi">166147</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">473</span><span class="p">,</span> <span class="o">-</span><span class="mi">137083</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">83</span><span class="p">,</span> <span class="o">-</span><span class="mi">133387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">1231</span><span class="p">,</span> <span class="o">-</span><span class="mi">164803</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">158</span><span class="p">,</span> <span class="o">-</span><span class="mi">222643</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">261</span><span class="p">,</span> <span class="o">-</span><span class="mi">189883</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="o">-</span><span class="mi">210907</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">1303</span><span class="p">,</span> <span class="o">-</span><span class="mi">217627</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="o">-</span><span class="mi">158923</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">283</span><span class="p">,</span> <span class="o">-</span><span class="mi">289963</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="mi">162</span><span class="p">,</span> <span class="o">-</span><span class="mi">253507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">1418</span><span class="p">,</span> <span class="o">-</span><span class="mi">274003</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="mi">125</span><span class="p">,</span> <span class="o">-</span><span class="mi">296587</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">595</span><span class="p">,</span> <span class="o">-</span><span class="mi">301387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">43</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="o">-</span><span class="mi">300787</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="mi">909</span><span class="p">,</span> <span class="o">-</span><span class="mi">319867</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">231</span><span class="p">,</span> <span class="o">-</span><span class="mi">308323</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">46</span><span class="p">,</span> <span class="mi">328</span><span class="p">,</span> <span class="o">-</span><span class="mi">462883</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">117</span><span class="p">,</span> <span class="o">-</span><span class="mi">375523</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">2893</span><span class="p">,</span> <span class="o">-</span><span class="mi">335203</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">49</span><span class="p">,</span> <span class="mi">146</span><span class="p">,</span> <span class="o">-</span><span class="mi">393187</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">443</span><span class="p">,</span> <span class="o">-</span><span class="mi">389467</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="mi">217</span><span class="p">,</span> <span class="o">-</span><span class="mi">546067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">1003</span><span class="p">,</span> <span class="o">-</span><span class="mi">457867</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">53</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="o">-</span><span class="mi">425107</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">54</span><span class="p">,</span> <span class="mi">806</span><span class="p">,</span> <span class="o">-</span><span class="mi">532123</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">177</span><span class="p">,</span> <span class="o">-</span><span class="mi">452083</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">1809</span><span class="p">,</span> <span class="o">-</span><span class="mi">494323</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">57</span><span class="p">,</span> <span class="mi">237</span><span class="p">,</span> <span class="o">-</span><span class="mi">615883</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">58</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="o">-</span><span class="mi">586987</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">59</span><span class="p">,</span> <span class="mi">144</span><span class="p">,</span> <span class="o">-</span><span class="mi">474307</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">2352</span><span class="p">,</span> <span class="o">-</span><span class="mi">662803</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">61</span><span class="p">,</span> <span class="mi">149</span><span class="p">,</span> <span class="o">-</span><span class="mi">606643</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">386</span><span class="p">,</span> <span class="o">-</span><span class="mi">647707</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="mi">311</span><span class="p">,</span> <span class="o">-</span><span class="mi">991027</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">2915</span><span class="p">,</span> <span class="o">-</span><span class="mi">693067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="o">-</span><span class="mi">703123</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="mi">856</span><span class="p">,</span> <span class="o">-</span><span class="mi">958483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">67</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="o">-</span><span class="mi">652723</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="mi">1227</span><span class="p">,</span> <span class="o">-</span><span class="mi">819163</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">69</span><span class="p">,</span> <span class="mi">292</span><span class="p">,</span> <span class="o">-</span><span class="mi">888427</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">702</span><span class="p">,</span> <span class="o">-</span><span class="mi">821683</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">71</span><span class="p">,</span> <span class="mi">176</span><span class="p">,</span> <span class="o">-</span><span class="mi">909547</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">4046</span><span class="p">,</span> <span class="o">-</span><span class="mi">947923</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">73</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="o">-</span><span class="mi">886867</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="mi">472</span><span class="p">,</span> <span class="o">-</span><span class="mi">951043</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">353</span><span class="p">,</span> <span class="o">-</span><span class="mi">916507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">76</span><span class="p">,</span> <span class="mi">1381</span><span class="p">,</span> <span class="o">-</span><span class="mi">1086187</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">77</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="o">-</span><span class="mi">1242763</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">78</span><span class="p">,</span> <span class="mi">921</span><span class="p">,</span> <span class="o">-</span><span class="mi">1004347</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">79</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">1333963</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">3851</span><span class="p">,</span> <span class="o">-</span><span class="mi">1165483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">81</span><span class="p">,</span> <span class="mi">338</span><span class="p">,</span> <span class="o">-</span><span class="mi">1030723</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">82</span><span class="p">,</span> <span class="mi">486</span><span class="p">,</span> <span class="o">-</span><span class="mi">1446547</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">83</span><span class="p">,</span> <span class="mi">174</span><span class="p">,</span> <span class="o">-</span><span class="mi">1074907</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">2990</span><span class="p">,</span> <span class="o">-</span><span class="mi">1225387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">246</span><span class="p">,</span> <span class="o">-</span><span class="mi">1285747</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">86</span><span class="p">,</span> <span class="mi">553</span><span class="p">,</span> <span class="o">-</span><span class="mi">1534723</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">87</span><span class="p">,</span> <span class="mi">313</span><span class="p">,</span> <span class="o">-</span><span class="mi">1261747</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">88</span><span class="p">,</span> <span class="mi">2769</span><span class="p">,</span> <span class="o">-</span><span class="mi">1265587</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">89</span><span class="p">,</span> <span class="mi">206</span><span class="p">,</span> <span class="o">-</span><span class="mi">1429387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">1508</span><span class="p">,</span> <span class="o">-</span><span class="mi">1548523</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="mi">249</span><span class="p">,</span> <span class="o">-</span><span class="mi">1391083</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">92</span><span class="p">,</span> <span class="mi">1590</span><span class="p">,</span> <span class="o">-</span><span class="mi">1452067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">93</span><span class="p">,</span> <span class="mi">354</span><span class="p">,</span> <span class="o">-</span><span class="mi">1475203</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">94</span><span class="p">,</span> <span class="mi">598</span><span class="p">,</span> <span class="o">-</span><span class="mi">1587763</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">95</span><span class="p">,</span> <span class="mi">273</span><span class="p">,</span> <span class="o">-</span><span class="mi">1659067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">7265</span><span class="p">,</span> <span class="o">-</span><span class="mi">1684027</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">208</span><span class="p">,</span> <span class="o">-</span><span class="mi">1842523</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">98</span><span class="p">,</span> <span class="mi">707</span><span class="p">,</span> <span class="o">-</span><span class="mi">2383747</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="mi">396</span><span class="p">,</span> <span class="o">-</span><span class="mi">1480627</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2310</span><span class="p">,</span> <span class="o">-</span><span class="mi">1856563</span><span class="p">)}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.quadratic_class_numbers.small_class_number_fundamental_discriminants">
+<span class="sig-prename descclassname"><span class="pre">mdsage.quadratic_class_numbers.</span></span><span class="sig-name descname"><span class="pre">small_class_number_fundamental_discriminants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.quadratic_class_numbers.small_class_number_fundamental_discriminants" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a dictionary of all imaginary quadratic fundamental discriminants of small class number</p>
+<p>INPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bound (optional) - an integer speciefiel</p></li>
+</ul>
+</div></blockquote>
+<p>OUTPUT:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a dictionary whose keys are class numbers and whose values are lists of discriminants having that class number</p></li>
+</ul>
+</div></blockquote>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">small_class_number_fundamental_discriminants</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">19</span><span class="p">,</span> <span class="o">-</span><span class="mi">43</span><span class="p">,</span> <span class="o">-</span><span class="mi">67</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">],</span>
+ <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">20</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">24</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">35</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">40</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">51</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">52</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">88</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">91</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">115</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">123</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">148</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">187</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">232</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">235</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">267</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">403</span><span class="p">,</span>
+  <span class="o">-</span><span class="mi">427</span><span class="p">]}</span>
+<span class="n">sage</span><span class="p">:</span> <span class="c1"># we verify that our data matched with that of watkins</span>
+<span class="n">sage</span><span class="p">:</span> <span class="p">{(</span><span class="n">h</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">discs</span><span class="p">),</span><span class="nb">min</span><span class="p">(</span><span class="n">discs</span><span class="p">))</span> <span class="k">for</span> <span class="n">h</span><span class="p">,</span><span class="n">discs</span> <span class="ow">in</span> <span class="n">small_class_number_fundamental_discriminants</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="o">-</span><span class="mi">163</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="o">-</span><span class="mi">427</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">907</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="o">-</span><span class="mi">1555</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">2683</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="o">-</span><span class="mi">3763</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="o">-</span><span class="mi">5923</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">131</span><span class="p">,</span> <span class="o">-</span><span class="mi">6307</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="o">-</span><span class="mi">10627</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="o">-</span><span class="mi">13843</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="o">-</span><span class="mi">15667</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">206</span><span class="p">,</span> <span class="o">-</span><span class="mi">17803</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="o">-</span><span class="mi">20563</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="o">-</span><span class="mi">30067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="o">-</span><span class="mi">34483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">322</span><span class="p">,</span> <span class="o">-</span><span class="mi">31243</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="o">-</span><span class="mi">37123</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="o">-</span><span class="mi">48427</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="o">-</span><span class="mi">38707</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="o">-</span><span class="mi">58507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="o">-</span><span class="mi">61483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">139</span><span class="p">,</span> <span class="o">-</span><span class="mi">85507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="o">-</span><span class="mi">90787</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">511</span><span class="p">,</span> <span class="o">-</span><span class="mi">111763</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="o">-</span><span class="mi">93307</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="o">-</span><span class="mi">103027</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="o">-</span><span class="mi">103387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">457</span><span class="p">,</span> <span class="o">-</span><span class="mi">126043</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">83</span><span class="p">,</span> <span class="o">-</span><span class="mi">166147</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="o">-</span><span class="mi">134467</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="o">-</span><span class="mi">133387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">708</span><span class="p">,</span> <span class="o">-</span><span class="mi">164803</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="o">-</span><span class="mi">222643</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">219</span><span class="p">,</span> <span class="o">-</span><span class="mi">189883</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="o">-</span><span class="mi">210907</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">668</span><span class="p">,</span> <span class="o">-</span><span class="mi">217627</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="o">-</span><span class="mi">158923</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">38</span><span class="p">,</span> <span class="mi">237</span><span class="p">,</span> <span class="o">-</span><span class="mi">289963</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="mi">115</span><span class="p">,</span> <span class="o">-</span><span class="mi">253507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">912</span><span class="p">,</span> <span class="o">-</span><span class="mi">260947</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">41</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="o">-</span><span class="mi">296587</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">339</span><span class="p">,</span> <span class="o">-</span><span class="mi">280267</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">43</span><span class="p">,</span> <span class="mi">106</span><span class="p">,</span> <span class="o">-</span><span class="mi">300787</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">44</span><span class="p">,</span> <span class="mi">691</span><span class="p">,</span> <span class="o">-</span><span class="mi">319867</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">154</span><span class="p">,</span> <span class="o">-</span><span class="mi">308323</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">46</span><span class="p">,</span> <span class="mi">268</span><span class="p">,</span> <span class="o">-</span><span class="mi">462883</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="o">-</span><span class="mi">375523</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">1365</span><span class="p">,</span> <span class="o">-</span><span class="mi">335203</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">49</span><span class="p">,</span> <span class="mi">132</span><span class="p">,</span> <span class="o">-</span><span class="mi">393187</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">345</span><span class="p">,</span> <span class="o">-</span><span class="mi">389467</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="mi">159</span><span class="p">,</span> <span class="o">-</span><span class="mi">546067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="mi">770</span><span class="p">,</span> <span class="o">-</span><span class="mi">439147</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">53</span><span class="p">,</span> <span class="mi">114</span><span class="p">,</span> <span class="o">-</span><span class="mi">425107</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">54</span><span class="p">,</span> <span class="mi">427</span><span class="p">,</span> <span class="o">-</span><span class="mi">532123</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="o">-</span><span class="mi">452083</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">1205</span><span class="p">,</span> <span class="o">-</span><span class="mi">494323</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">57</span><span class="p">,</span> <span class="mi">179</span><span class="p">,</span> <span class="o">-</span><span class="mi">615883</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">58</span><span class="p">,</span> <span class="mi">291</span><span class="p">,</span> <span class="o">-</span><span class="mi">586987</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">59</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="o">-</span><span class="mi">474307</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">1302</span><span class="p">,</span> <span class="o">-</span><span class="mi">662803</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">61</span><span class="p">,</span> <span class="mi">132</span><span class="p">,</span> <span class="o">-</span><span class="mi">606643</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">323</span><span class="p">,</span> <span class="o">-</span><span class="mi">647707</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="mi">216</span><span class="p">,</span> <span class="o">-</span><span class="mi">991027</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1672</span><span class="p">,</span> <span class="o">-</span><span class="mi">693067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">164</span><span class="p">,</span> <span class="o">-</span><span class="mi">703123</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">66</span><span class="p">,</span> <span class="mi">530</span><span class="p">,</span> <span class="o">-</span><span class="mi">958483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">67</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="o">-</span><span class="mi">652723</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="mi">976</span><span class="p">,</span> <span class="o">-</span><span class="mi">819163</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">69</span><span class="p">,</span> <span class="mi">209</span><span class="p">,</span> <span class="o">-</span><span class="mi">888427</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">560</span><span class="p">,</span> <span class="o">-</span><span class="mi">811507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">71</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="o">-</span><span class="mi">909547</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">1930</span><span class="p">,</span> <span class="o">-</span><span class="mi">947923</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">73</span><span class="p">,</span> <span class="mi">119</span><span class="p">,</span> <span class="o">-</span><span class="mi">886867</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="mi">407</span><span class="p">,</span> <span class="o">-</span><span class="mi">951043</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">237</span><span class="p">,</span> <span class="o">-</span><span class="mi">916507</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">76</span><span class="p">,</span> <span class="mi">1075</span><span class="p">,</span> <span class="o">-</span><span class="mi">1086187</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">77</span><span class="p">,</span> <span class="mi">216</span><span class="p">,</span> <span class="o">-</span><span class="mi">1242763</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">78</span><span class="p">,</span> <span class="mi">561</span><span class="p">,</span> <span class="o">-</span><span class="mi">1004347</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">79</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="o">-</span><span class="mi">1333963</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">2277</span><span class="p">,</span> <span class="o">-</span><span class="mi">1165483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">81</span><span class="p">,</span> <span class="mi">228</span><span class="p">,</span> <span class="o">-</span><span class="mi">1030723</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">82</span><span class="p">,</span> <span class="mi">402</span><span class="p">,</span> <span class="o">-</span><span class="mi">1446547</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">83</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="o">-</span><span class="mi">1074907</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">1715</span><span class="p">,</span> <span class="o">-</span><span class="mi">1225387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">85</span><span class="p">,</span> <span class="mi">221</span><span class="p">,</span> <span class="o">-</span><span class="mi">1285747</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">86</span><span class="p">,</span> <span class="mi">472</span><span class="p">,</span> <span class="o">-</span><span class="mi">1534723</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">87</span><span class="p">,</span> <span class="mi">222</span><span class="p">,</span> <span class="o">-</span><span class="mi">1261747</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">88</span><span class="p">,</span> <span class="mi">1905</span><span class="p">,</span> <span class="o">-</span><span class="mi">1265587</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">89</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="o">-</span><span class="mi">1429387</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">801</span><span class="p">,</span> <span class="o">-</span><span class="mi">1548523</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="mi">214</span><span class="p">,</span> <span class="o">-</span><span class="mi">1391083</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">92</span><span class="p">,</span> <span class="mi">1248</span><span class="p">,</span> <span class="o">-</span><span class="mi">1452067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">93</span><span class="p">,</span> <span class="mi">262</span><span class="p">,</span> <span class="o">-</span><span class="mi">1475203</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">94</span><span class="p">,</span> <span class="mi">509</span><span class="p">,</span> <span class="o">-</span><span class="mi">1587763</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">95</span><span class="p">,</span> <span class="mi">241</span><span class="p">,</span> <span class="o">-</span><span class="mi">1659067</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">3283</span><span class="p">,</span> <span class="o">-</span><span class="mi">1684027</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="o">-</span><span class="mi">1842523</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">98</span><span class="p">,</span> <span class="mi">580</span><span class="p">,</span> <span class="o">-</span><span class="mi">2383747</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="mi">289</span><span class="p">,</span> <span class="o">-</span><span class="mi">1480627</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1736</span><span class="p">,</span> <span class="o">-</span><span class="mi">1856563</span><span class="p">)}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ramification.html"
+                          title="previous chapter">Ramification</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/mdsage/quadratic_class_numbers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ramification.html" title="Ramification"
+             >previous</a> |</li>
+<li class="nav-item nav-item-0"><a href="../index.html">MD Sage 0.1.0 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Class Numbers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Maarten Derickx.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

@@ -27,6 +27,9 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="modular_unit_divisors.html" title="Modular Unit Divisors"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -43,8 +46,282 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="miscellaneous-functions">
-<h1>Miscellaneous Functions<a class="headerlink" href="#miscellaneous-functions" title="Permalink to this headline">¶</a></h1>
+  <section id="module-mdsage.maartens_sage_functions">
+<span id="miscellaneous-functions"></span><h1>Miscellaneous Functions<a class="headerlink" href="#module-mdsage.maartens_sage_functions" title="Permalink to this headline">¶</a></h1>
+<p>First import everything:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">counts</span><span class="p">(</span><span class="s2">&quot;113&quot;</span><span class="p">)</span>
+<span class="p">[(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.Gamma11">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">Gamma11</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.Gamma11" title="Permalink to this definition">¶</a></dt>
+<dd><p>sage doesn’t have  the congruence subgroup
+for the curve X_1(m,mn) but the
+group G defined here is conjugate to the group
+defining the modular curve X_1(m,mn)the one we are
+interested in so give isomorphic modular curves
+where the isomorphism even has a moduli interpretation
+In particular I use the surjection X_1(m^2n) -&gt; X_1(m,mn)
+Which sends (E,P) to (E/&lt;mnP&gt;, Q mod &lt;mnP&gt;, P mod &lt;mnP&gt;) where Q in E
+is such that &lt;Q,mnP&gt; = zeta_m
+note that this surjection is defined over Q &lt;=&gt; m=2.</p>
+<p>If d is a unit in Z/m^2nZ then sometimes (E,P) and (E,dP) are
+mapped to the same point on X_1(m,mn)
+This happens precicely if d is +- 1 modulo mn if j(E) is not 0 or 1728</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.QuadraticForm_from_quadric">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">QuadraticForm_from_quadric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.QuadraticForm_from_quadric" title="Permalink to this definition">¶</a></dt>
+<dd><p>On input a homogeneous polynomial of degree 2 return the Quadratic Form corresponding to it.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.ambient_integral_structure_matrix">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">ambient_integral_structure_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.ambient_integral_structure_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>In certatain cases (weight two any level) this might return the integral structure of a
+an ambient modular symbol space. I wrote this because for high level this is very slow
+in sage because there is no good sparse hermite normal form code in sage for huge matrices.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.congruence_groups_between_gamma0_and_gamma1">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">congruence_groups_between_gamma0_and_gamma1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.congruence_groups_between_gamma0_and_gamma1" title="Permalink to this definition">¶</a></dt>
+<dd><p>INPUT:</p>
+<ul class="simple">
+<li><p>N - an integer</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>The set of all congruence subgroups contained in Gamma0(N) that contain Gamma1(N)</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">congruence_groups_between_gamma0_and_gamma1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">{</span><span class="n">Modular</span> <span class="n">Group</span> <span class="n">SL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">Z</span><span class="p">)}</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="n">congruence_groups_between_gamma0_and_gamma1</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="p">{</span><span class="n">Congruence</span> <span class="n">Subgroup</span> <span class="n">Gamma_H</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">with</span> <span class="n">H</span> <span class="n">generated</span> <span class="n">by</span> <span class="p">[</span><span class="mi">14</span><span class="p">],</span>
+ <span class="n">Congruence</span> <span class="n">Subgroup</span> <span class="n">Gamma_H</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">with</span> <span class="n">H</span> <span class="n">generated</span> <span class="n">by</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
+ <span class="n">Congruence</span> <span class="n">Subgroup</span> <span class="n">Gamma0</span><span class="p">(</span><span class="mi">15</span><span class="p">)}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.count_points_J_H">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">count_points_J_H</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.count_points_J_H" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of points on J_H(GF(p))</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p>G - a congruence subgroup of type GammaH</p></li>
+<li><p>p - a prime</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>the number of F_p points on the jacobian of the modular curve X_H</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">count_points_J_H</span><span class="p">(</span><span class="n">Gamma0</span><span class="p">(</span><span class="mi">29</span><span class="p">),</span><span class="mi">19</span><span class="p">)</span>
+<span class="mi">196</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.counts">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>On input of some iterable l, this function returns a list of pairs (s,c) where s runs trough
+the distinct elements of l and c indicates how often each element occurs.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">l</span> <span class="o">=</span> <span class="s2">&quot;A string is also iterable!&quot;</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">counts</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="p">[(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;!&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.cuspidal_integral_structure_matrix">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">cuspidal_integral_structure_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.cuspidal_integral_structure_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the cuspidal integral structure matrix of a modular symbols space in a runningtime hopefully faster then that of sage</p>
+<p>Input:</p>
+<ul class="simple">
+<li><p>M - a modular symbols space</p></li>
+</ul>
+<p>Output:</p>
+<ul class="simple">
+<li><p>a matrix whose rows give a ZZ basis for the cuspidals supspace with respect to the standard basis of M</p></li>
+</ul>
+<p>Tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">ModularSymbols</span><span class="p">(</span><span class="n">Gamma1</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">cuspidal_integral_structure_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.cuspidal_integral_to_rational_basis">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">cuspidal_integral_to_rational_basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.cuspidal_integral_to_rational_basis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the base change matrix for the cuspidal subspace of M</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.diamond_operator">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">diamond_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.diamond_operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the tate normal form of the pair (E,d*(0,0))</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p>E - an elliptic curve in tate normal form</p></li>
+<li><p>d - an integer</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>a1,a2,a3,a4,a6 - the a invatiants of E after writing  (E,d*(0,0)) in tate normal form.</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">EllipticCurve</span><span class="p">([</span><span class="mi">11</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">diamond_operator</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">9</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.generators_of_subgroups_of_unit_group">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">generators_of_subgroups_of_unit_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.generators_of_subgroups_of_unit_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>INPUT:</p>
+<ul class="simple">
+<li><p>R - a commutative ring whose unit group is finite</p></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li><p>An iterator which yields a set of generators for each subgroup of R^*</p></li>
+</ul>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">generators_of_subgroups_of_unit_group</span><span class="p">(</span><span class="n">Integers</span><span class="p">(</span><span class="mi">28</span><span class="p">)))</span>
+<span class="p">[[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span> <span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="p">[</span><span class="mi">27</span><span class="p">],</span> <span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="p">[]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.gonality_lower_bound">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">gonality_lower_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.238</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.gonality_lower_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the gonality bound of the modular curve X(G)
+as given by Dan Abramovich in “A linear lower bound on the
+gonality of modular curves”</p>
+<p>lambda1 is conjectured to 1/4th, but has only been proven to
+be &gt; 0.238 [1, p. 3], bigger lambda1 means a better lowerbound.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">gonality_lower_bound</span><span class="p">(</span><span class="n">Gamma1</span><span class="p">(</span><span class="mi">171</span><span class="p">))</span>
+<span class="mi">129</span>
+</pre></div>
+</div>
+<p>[1] On the torsion of elliptic curves over quartic number fields - Daeyol Jeon, Chang Heon Kim and Euising Park</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.has_modular_unit_of_degree">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">has_modular_unit_of_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qfminim_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.has_modular_unit_of_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True,v if the modular curve X(G) has a modular unit v of degree equal to deg, and false,None otherwise.</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">G</span></code> - a congruence subgroup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deg</span></code> - int, the degree of modular unit to search for</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rational</span></code> - bool, true means modular unit should be defined over QQ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> - bool (default = false), wether or not to print progress</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">qfminim_bound</span></code> - int (default - 10^5), given to pari’s qfminim command, and is an upper bound on</dt><dd><p>how many vectors of short l2 norm are returned by pari
+this function will raise an error if pari finds more short
+vectors then it returns</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">l2_step</span></code> - int (default = 0) If l2_step&gt;0 this function first searches the modular units with l2 norm equal to l2_step</dt><dd><p>then 2*l2_step, 3*l2_step, e.t.c. instead of searching all vectors with l2 norm 2*deg^2.
+The l2 norm of a modular unit with divisor n1*c1 + … + nk*ck is the l2 norm of (n1,…nk).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.modular_units_of_degree">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">modular_units_of_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qfminim_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.modular_units_of_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator over all modular units on the curve X(G).</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">G</span></code> - a congruence subgroup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deg</span></code> - int, the degree of modular unit to search for</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rational</span></code> - bool, true means modular unit should be defined over QQ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> - bool (default = false), wether or not to print progress</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">qfminim_bound</span></code> - int (default - 10^5), given to pari’s qfminim command, and is an upper bound on</dt><dd><p>how many vectors of short l2 norm are returned by pari
+this function will raise an error if pari finds more short
+vectors then it returns</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.positive_part">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">positive_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.positive_part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the vector consisting only of the postive entries of the given vector</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">positive_part</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.rational_cuspidal_classgroup">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">rational_cuspidal_classgroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.rational_cuspidal_classgroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>On input a congruence subgroup G this function returns the lattice of sums of galois invariant orbits of cusps
+modulo divisors of modular units.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.maartens_sage_functions.tate_normal_form">
+<span class="sig-prename descclassname"><span class="pre">mdsage.maartens_sage_functions.</span></span><span class="sig-name descname"><span class="pre">tate_normal_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.maartens_sage_functions.tate_normal_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a pair (E,p) of elliptic curve with a point in tate normal form.</p>
+<p>On input a pair (E,p) where E is an elliptic curve and p a point of order &gt; 3 on E, this function
+returns the a invariants a1,a2,a3,a4,a6 after writing the pair (E,p) in the tate normal form.
+I.e. the form in which p=(0,0), a4=a6=0 and a2=a3 .</p>
+<p>EXAMPLES:</p>
+<p>We show in this example how to calculate the diamond operators
+on X_1(5) which is isomorphic to P1:</p>
+<blockquote>
+<div><p>sage: from mdsage import *
+sage: R.&lt;b&gt; = QQ[]</p>
+</div></blockquote>
+<p>This is a model of the universal elliptic curve over X_1(5):</p>
+<blockquote>
+<div><p>sage: E_univ = EllipticCurve(R.fraction_field(),[b+1,b,b,0,0])
+sage: E_univ([0,0])*5
+(0 : 1 : 0)
+sage: tate_normal_form(E_univ,2*(E_univ(0,0)))
+[(b - 1)/b, -1/b, -1/b, 0, 0]</p>
+</div></blockquote>
+<p>This shows that &lt;2&gt; works on the above model of X_1(5) by sending b to -1/b.</p>
+</dd></dl>
+
 </section>
 
 
@@ -91,6 +368,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="modular_unit_divisors.html" title="Modular Unit Divisors"
              >next</a> |</li>
