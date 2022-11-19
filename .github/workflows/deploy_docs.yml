@@ -18,6 +18,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install git make -y
       - uses: actions/checkout@v2
+      - name: Install mdsage
+        run: make install
       - name: Build documentation
         working-directory: ./docs
         run: sage -sh -c "make html"

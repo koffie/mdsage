@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from sage.all import kronecker_symbol, gcd, prime_to_m_part, prime_divisors, valuation
 
-from .class_numbers import (
+from .quadratic_class_numbers import (
     small_class_number_discriminants,
     _small_class_number_cache,
     class_number,

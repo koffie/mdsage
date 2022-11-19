@@ -3,6 +3,6 @@
 Class Numbers
 =============
 
-.. automodule:: mdsage.class_numbers
+.. automodule:: mdsage.quadratic_class_numbers
    :members:
    :show-inheritance:
