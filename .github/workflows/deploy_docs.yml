@@ -8,9 +8,6 @@ on:
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./docs
     container:
       image: sagemath/sagemath:9.6
       options: --user root
@@ -22,6 +19,7 @@ jobs:
           sudo apt-get install git make -y
       - uses: actions/checkout@v2
       - name: Build documentation
+        working-directory: ./docs
         run: sage -sh -c "make html"
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@v3
