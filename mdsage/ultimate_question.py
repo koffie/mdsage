@@ -25,6 +25,7 @@ AUTHORS:
 from sage.combinat.combinat import catalan_number
 from .one_cython_file import quick_question
 
+
 def answer_to_ultimate_question():
     r"""
     Return the answer to the Ultimate Question of Life, the Universe,

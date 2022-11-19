@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./docs
+    container:
+      image: sagemath/sagemath:9.6
+      options: --user root
+
+    steps:
+      - name: Install git and make
+        run: |
+          sudo apt-get update
+          sudo apt-get install git make -y
+      - uses: actions/checkout@v2
+      - name: Build documentation
+        run: sage -sh -c "make html"
+      - name: Deploy documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/build
+          destination_dir: docs/build
