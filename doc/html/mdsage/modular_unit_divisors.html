@@ -17,6 +17,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ramification" href="ramification.html" />
     <link rel="prev" title="Miscellaneous Functions" href="maartens_sage_functions.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -26,8 +27,8 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="ramification.html" title="Ramification"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="maartens_sage_functions.html" title="Miscellaneous Functions"
              accesskey="P">previous</a> |</li>
@@ -42,93 +43,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="module-mdsage.modular_unit_divisors">
-<span id="modular-unit-divisors"></span><h1>Modular Unit Divisors<a class="headerlink" href="#module-mdsage.modular_unit_divisors" title="Permalink to this headline">¶</a></h1>
-<p>This is a sage version of the original maple code by Mark van Hoeij. This maple
-code can be found at:</p>
-<blockquote>
-<div><p><a class="reference external" href="http://www.math.fsu.edu/~hoeij/files/X1N/cusp_divisors_program">http://www.math.fsu.edu/~hoeij/files/X1N/cusp_divisors_program</a></p>
-</div></blockquote>
-<p>The code is for computing divisors of the modular unit F_k as defined in:
-<a class="reference external" href="http://arxiv.org/abs/1307.5719">http://arxiv.org/abs/1307.5719</a></p>
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.Phi">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">Phi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.Phi" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function Phi in Mark his code</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.cusp_number_from_signature">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">cusp_number_from_signature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.cusp_number_from_signature" title="Permalink to this definition">¶</a></dt>
-<dd><p>The cusp signature of a cusp on X_1(N) is a pair (v2,v3). 
-Where v2 is the valuation of F_2 and v3 the valuation of F_3</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.cusp_sums_from_signature_to_standard_basis">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">cusp_sums_from_signature_to_standard_basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cuspsums</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signatures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.cusp_sums_from_signature_to_standard_basis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a list of cuspsums where each entry is a list of multiplicities with respect
-to the input signature order. To a list of cuspsums where each entry is a list of multiplicities
-with respect to the standard order of the cusps.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.cuspsums_on_Gamma1_of_degree">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">cuspsums_on_Gamma1_of_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.cuspsums_on_Gamma1_of_degree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns all rational sums of cusps on X_1(N) of a given degree.</p>
-<p>INPUT:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>N - an integer</p></li>
-<li><p>degree - an integer</p></li>
-</ul>
-</div></blockquote>
-<p>OUTPUT:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>A set of tuples of integers. Each output tuple (t_0,…,t_n) has length N//2+1 (i.e. n = N//2). A tuple (t_0,…,t_n) encodes the cuspsum t_0*C_0 + t_1*C_1 + … + t_n*C_n. Where the C_i are as defined on page 4 of <a class="reference external" href="http://arxiv.org/pdf/1307.5719v2.pdf">http://arxiv.org/pdf/1307.5719v2.pdf</a> .</p></li>
-</ul>
-</div></blockquote>
-<p>EXAMPLES:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">sage</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cuspsums_on_Gamma1_of_degree</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-<span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
-</pre></div>
-</div>
-<p>Note that the degrees of the cusps C_0,C_1,C_2 in this case are 2,1,1 respectively so each cusp sum above indeed has  total degree 3.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.degree_cusp">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">degree_cusp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.degree_cusp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function DegreeCusp in Mark his code</p>
-<p>returns the degree over Q of the cusp $q^(i/n)zeta_n^j$ on X_1(N)</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.divisor_F_bc">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">divisor_F_bc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.divisor_F_bc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function Divisor_F_bc in Mark his code, return the divisor of F_k as function on X_1(N)</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.inverse_gcd">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">inverse_gcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.inverse_gcd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function IG in Mark his code</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.min_formula">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">min_formula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.min_formula" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function MinFormula in Mark his code</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="mdsage.modular_unit_divisors.split_into_diamond_orbits">
-<span class="sig-prename descclassname"><span class="pre">mdsage.modular_unit_divisors.</span></span><span class="sig-name descname"><span class="pre">split_into_diamond_orbits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cuspsums</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_unit_divisors.split_into_diamond_orbits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input a list of cuspsums w.r.t. to the standard basis. Output a list of orbits of these cuspsums.</p>
-</dd></dl>
-
+  <section id="modular-unit-divisors">
+<h1>Modular Unit Divisors<a class="headerlink" href="#modular-unit-divisors" title="Permalink to this headline">¶</a></h1>
 </section>
 
 
@@ -138,9 +54,16 @@ with respect to the standard order of the cusps.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="maartens_sage_functions.html"
-                        title="previous chapter">Miscellaneous Functions</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="maartens_sage_functions.html"
+                          title="previous chapter">Miscellaneous Functions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ramification.html"
+                          title="next chapter">Ramification</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -169,8 +92,8 @@ with respect to the standard order of the cusps.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
+          <a href="ramification.html" title="Ramification"
+             >next</a> |</li>
         <li class="right" >
           <a href="maartens_sage_functions.html" title="Miscellaneous Functions"
              >previous</a> |</li>
@@ -181,7 +104,7 @@ with respect to the standard order of the cusps.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, Maarten Derickx.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
     </div>
   </body>
 </html>
