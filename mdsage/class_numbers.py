@@ -8,7 +8,7 @@ from sage.all import (
     cached_function,
     prod,
     euler_phi,
-    prime_range
+    prime_range,
 )
 
 from .utilities import load_json_data
@@ -92,6 +92,7 @@ def _small_euler_phis():
     for i in small_euler_phi_list:
         small_euler_phis[euler_phi(i)].append(i)
     return small_euler_phis
+
 
 def small_class_number_fundamental_discriminants(bound=100):
     """
@@ -236,7 +237,10 @@ def small_class_number_fundamental_discriminants(bound=100):
     if bound > 100:
         raise NotImplementedError("only implemented for bound <= 100")
     data = load_json_data("small_class_number_fundamental_discriminant.json")
-    return {int(h):discriminants for h,discriminants in data.items() if int(h)<=bound}
+    return {
+        int(h): discriminants for h, discriminants in data.items() if int(h) <= bound
+    }
+
 
 def cm_orders2(bound):
     """
@@ -270,7 +274,9 @@ def cm_orders2(bound):
 
     """
     small_euler_phis = _small_euler_phis()
-    small_class_nr_fundamental_discriminants = small_class_number_fundamental_discriminants(bound)
+    small_class_nr_fundamental_discriminants = (
+        small_class_number_fundamental_discriminants(bound)
+    )
 
     if bound > 100 or bound not in small_class_nr_fundamental_discriminants:
         raise NotImplementedError("only implemented for bound <= 100")
@@ -445,9 +451,10 @@ def small_class_number_discriminants(bound=100):
     """
     discriminants = defaultdict(list)
     for cls_nr, D, f in cm_orders2(bound):
-        discriminants[cls_nr].append(D * f ** 2)
+        discriminants[cls_nr].append(D * f**2)
 
     return dict(discriminants)
+
 
 @cached_function
 def _small_class_number_cache(bound):
@@ -473,6 +480,6 @@ def _small_class_number_cache(bound):
     """
     cls_nrs = {}
     for cls_nr, D, f in cm_orders2(bound):
-        cls_nrs[D * f ** 2] = cls_nr
+        cls_nrs[D * f**2] = cls_nr
 
     return cls_nrs

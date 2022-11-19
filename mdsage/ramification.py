@@ -2,7 +2,11 @@ from collections import defaultdict
 
 from sage.all import kronecker_symbol, gcd, prime_to_m_part, prime_divisors, valuation
 
-from .class_numbers import small_class_number_discriminants, _small_class_number_cache, class_number
+from .class_numbers import (
+    small_class_number_discriminants,
+    _small_class_number_cache,
+    class_number,
+)
 
 
 def _c1(p, d, N):
@@ -118,6 +122,7 @@ def atkin_lehner_ramification_degree(N, d):
 
     return v_d
 
+
 def small_ramification(bound):
     """
     returns a dictionary of all N for such that the ramification degree of $X_0(N) \to X_0(N)^+$ is small
@@ -195,16 +200,16 @@ def small_ramification(bound):
     discriminant_to_cls_nr = _small_class_number_cache(bound)
     small_class_nr_discriminants = small_class_number_discriminants(bound)
     _small_ramification = defaultdict(list)
-    todo = sum(small_class_nr_discriminants.values(),[])
-    todo = [-(N//4) for N in todo if N%4==0]
+    todo = sum(small_class_nr_discriminants.values(), [])
+    todo = [-(N // 4) for N in todo if N % 4 == 0]
     for N in todo:
-        ramification = discriminant_to_cls_nr[-4*N]
-        if N%4==3:
+        ramification = discriminant_to_cls_nr[-4 * N]
+        if N % 4 == 3:
             ramification += discriminant_to_cls_nr[-N]
-        if N<=4:
-            ramification=2
+        if N <= 4:
+            ramification = 2
         if N == 1:
-            ramification=0
+            ramification = 0
         if ramification <= bound:
             _small_ramification[ramification].append(N)
-    return {k:sorted(v) for k,v in _small_ramification.items()}
+    return {k: sorted(v) for k, v in _small_ramification.items()}

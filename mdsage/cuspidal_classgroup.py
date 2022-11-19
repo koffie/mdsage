@@ -12,17 +12,19 @@ EXAMPLES::
 
 """
 
-from sage.all import (Cusp,
-                      gcd,
-                      infinity,
-                      Integers,
-                      prime_range,
-                      oo,
-                      prod,
-                      QQ,
-                      Matrix,
-                      ModularSymbols,
-                      ZZ)
+from sage.all import (
+    Cusp,
+    gcd,
+    infinity,
+    Integers,
+    prime_range,
+    oo,
+    prod,
+    QQ,
+    Matrix,
+    ModularSymbols,
+    ZZ,
+)
 
 from .maartens_sage_functions import (
     integral_period_mapping,
@@ -30,9 +32,10 @@ from .maartens_sage_functions import (
     galois_action,
     galois_orbits,
     modular_unit_lattice,
-    rational_modular_unit_lattice
+    rational_modular_unit_lattice,
 )
 from functools import reduce
+
 
 def intersection(self, other):
     """Returns the intersection of two quotient modules self = V1/W and other V2/W
@@ -83,16 +86,21 @@ def cuspidal_rational_subgroup_mod_rational_cuspidal_subgroup(G):
     L, D = modular_unit_lattice(G)
     Lrat, Drat = rational_modular_unit_lattice(G)
     DmodL = D.quotient(L)
-    #DmodLrat = Drat.quotient(Lrat)
+    # DmodLrat = Drat.quotient(Lrat)
     kernels = []
     for g in unit_gens:
-        m = Matrix([ZZcusp.gen(G.cusps().index(G.reduce_cusp(galois_action(c, g, N))))
-                    for c in G.cusps()])
-        f = DmodL.hom([DmodL(i.lift() * (m-1)) for i in  DmodL.gens()])
+        m = Matrix(
+            [
+                ZZcusp.gen(G.cusps().index(G.reduce_cusp(galois_action(c, g, N))))
+                for c in G.cusps()
+            ]
+        )
+        f = DmodL.hom([DmodL(i.lift() * (m - 1)) for i in DmodL.gens()])
         kernels.append(f.kernel())
-        #print kernels[-1]
+        # print kernels[-1]
     rat_cusp_tors = reduce(intersection, kernels)
     return rat_cusp_tors.V().quotient(Drat + L).invariants()
+
 
 def upper_bound_index_cusps_in_JG_torsion(G, d, bound=60):
     """
@@ -123,30 +131,39 @@ def upper_bound_index_cusps_in_JG_torsion(G, d, bound=60):
 
     for p in prime_range(3, bound):
         if not N % p == 0:
-            kill += kill_torsion_coprime_to_q(p, M).restrict(Sint).change_ring(ZZ).transpose().row_module()
+            kill += (
+                kill_torsion_coprime_to_q(p, M)
+                .restrict(Sint)
+                .change_ring(ZZ)
+                .transpose()
+                .row_module()
+            )
         if kill.matrix().is_square() and kill.matrix().determinant() == d:
             break
     kill_mat = kill.matrix().transpose()
-    #print N,"index of torsion in stuff killed",kill.matrix().determinant()/d
+    # print N,"index of torsion in stuff killed",kill.matrix().determinant()/d
 
     if kill.matrix().determinant() == d:
         return 1
     pm = integral_period_mapping(M)
-    period_images1 = [sum([M.coordinate_vector(M([c, infinity])) for c in cusps]) * pm
-                      for cusps in galois_orbits(G)]
+    period_images1 = [
+        sum([M.coordinate_vector(M([c, infinity])) for c in cusps]) * pm
+        for cusps in galois_orbits(G)
+    ]
 
     m = (Matrix(period_images1) * kill_mat).stack(kill_mat)
     diag = m.change_ring(ZZ).echelon_form().diagonal()
-    #print diag,prod(diag)
+    # print diag,prod(diag)
     assert prod(diag) == kill.matrix().determinant() / d
 
-    period_images2 = [M.coordinate_vector(M([c, infinity]))*pm
-                      for c in G.cusps() if c != Cusp(oo)]
+    period_images2 = [
+        M.coordinate_vector(M([c, infinity])) * pm for c in G.cusps() if c != Cusp(oo)
+    ]
     m = (Matrix(period_images2) * kill_mat).stack(kill_mat)
     m, denom = m._clear_denom()
-    diag = (m.change_ring(ZZ).echelon_form()/denom).diagonal()
-    #print diag
-    #print prod(i.numerator() for i in diag),"if this is 1 then :)"
+    diag = (m.change_ring(ZZ).echelon_form() / denom).diagonal()
+    # print diag
+    # print prod(i.numerator() for i in diag),"if this is 1 then :)"
     return prod(i.numerator() for i in diag)
 
 
@@ -176,52 +193,58 @@ def JG_torsion_upperbound(G, bound=60):
     N = G.level()
     M = ModularSymbols(G)
     Sint = cuspidal_integral_structure(M)
-    kill_mat = (M.star_involution().matrix().restrict(Sint) - 1)
+    kill_mat = M.star_involution().matrix().restrict(Sint) - 1
     kill = kill_mat.transpose().change_ring(ZZ).row_module()
 
     for p in prime_range(3, bound):
         if not N % p == 0:
-            kill += kill_torsion_coprime_to_q(p, M).restrict(Sint).change_ring(ZZ).transpose().row_module()
-        #if kill.matrix().is_square() and kill.matrix().determinant() == d:
+            kill += (
+                kill_torsion_coprime_to_q(p, M)
+                .restrict(Sint)
+                .change_ring(ZZ)
+                .transpose()
+                .row_module()
+            )
+        # if kill.matrix().is_square() and kill.matrix().determinant() == d:
         #    #print p
         #    break
     kill_mat = kill.matrix().transpose()
-    #print N,"index of torsion in stuff killed",kill.matrix().determinant()/d
-    #if kill.matrix().determinant()==d:
+    # print N,"index of torsion in stuff killed",kill.matrix().determinant()/d
+    # if kill.matrix().determinant()==d:
     #    return 1
     d = prod(kill_mat.smith_form()[0].diagonal())
     pm = integral_period_mapping(M)
-    #period_images1 = [sum([M.coordinate_vector(M([c, infinity])) for c in cusps]) * pm
+    # period_images1 = [sum([M.coordinate_vector(M([c, infinity])) for c in cusps]) * pm
     #                  for cusps in galois_orbits(G)]
-    period_images2 = [M.coordinate_vector(M([c, infinity])) * pm
-                      for c in G.cusps() if c != Cusp(oo)]
+    period_images2 = [
+        M.coordinate_vector(M([c, infinity])) * pm for c in G.cusps() if c != Cusp(oo)
+    ]
 
     m = (Matrix(period_images2) * kill_mat).stack(kill_mat)
     m, d2 = m._clear_denom()
     d = gcd(d, d2)
 
-
-    #diag=(m.change_ring(ZZ).echelon_form()/denom).diagonal()
-    #print diag
-    #print prod(i.numerator() for i in diag),"if this is 1 then :)"
-    #return prod(i.numerator() for i in diag)
-
+    # diag=(m.change_ring(ZZ).echelon_form()/denom).diagonal()
+    # print diag
+    # print prod(i.numerator() for i in diag),"if this is 1 then :)"
+    # return prod(i.numerator() for i in diag)
 
 
 def kill_torsion_coprime_to_q(q, S):
     """This is with respect to the Xmu model"""
-    #print "computing diamond",q
+    # print "computing diamond",q
     dq = S.diamond_bracket_matrix(q)
-    #print "computing tq"
+    # print "computing tq"
     Tq = S.hecke_matrix(q)
     return Tq - dq - q
+
 
 def cuspidal_integral_structure(M):
     """
     Returns the integral structure of a modular symbols space."""
     B = cuspidal_integral_structure_matrix(M)
     try:
-        B_row_ambient =  B.row_ambient_module(QQ)
+        B_row_ambient = B.row_ambient_module(QQ)
     except AttributeError:
         B_row_ambient = B._row_ambient_module(QQ)
     return B_row_ambient.submodule_with_basis(B).change_ring(ZZ)

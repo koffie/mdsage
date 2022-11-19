@@ -1,10 +1,11 @@
 from sage.all import prod, Integers, GammaH
 
+
 def _unit_to_integer_map(ZN):
     gens = ZN.unit_gens()
 
     def unit_to_integer(u):
-        return prod(g ** e for g, e in zip(gens, u.exponents()))
+        return prod(g**e for g, e in zip(gens, u.exponents()))
 
     return unit_to_integer
 
