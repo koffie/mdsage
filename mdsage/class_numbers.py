@@ -300,7 +300,7 @@ def small_class_number_discriminants(bound=100):
 
     INPUT:
 
-        - bound (optional) - an integer speciefiel
+        - bound (optional) - an integer up to which class number to compute the fundamental discriminants
 
     OUTPUT:
 
@@ -448,3 +448,31 @@ def small_class_number_discriminants(bound=100):
         discriminants[cls_nr].append(D * f ** 2)
 
     return dict(discriminants)
+
+@cached_function
+def _small_class_number_cache(bound):
+    """
+    Examples::
+
+        sage: from mdsage.class_numbers import _small_class_number_cache
+        sage: _small_class_number_cache(1)
+        {-163: 1,
+         -67: 1,
+         -43: 1,
+         -28: 1,
+         -27: 1,
+         -19: 1,
+         -16: 1,
+         -12: 1,
+         -11: 1,
+         -8: 1,
+         -7: 1,
+         -4: 1,
+         -3: 1}
+
+    """
+    cls_nrs = {}
+    for cls_nr, D, f in cm_orders2(bound):
+        cls_nrs[D * f ** 2] = cls_nr
+
+    return cls_nrs

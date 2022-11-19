@@ -19,3 +19,5 @@ from .modular_unit_divisors import cuspsums_on_Gamma1_of_degree
 
 from .class_numbers import (class_number, class_numbers, cm_orders2, small_class_number_fundamental_discriminants,
                             small_class_number_discriminants)
+
+from .ramification import small_ramification
