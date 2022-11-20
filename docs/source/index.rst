@@ -38,6 +38,7 @@ Modules in MD Sage
 .. toctree::
    :maxdepth: 2
 
+   mdsage/canonical_rings
    mdsage/cuspidal_classgroup
    mdsage/kamiennys_criterion
    mdsage/maartens_sage_functions
