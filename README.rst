@@ -19,7 +19,11 @@ Installation
 Easiest way to install 
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Download the source from the git repository::
+The easiest way to install is with the following command::
+
+    $ sage -pip install git+https://github.com/koffie/mdsage.git
+
+Alternatively you can download the source from the git repository::
 
     $ git clone https://github.com/koffie/mdsage.git
     $ sage -pip install ./mdsage
@@ -34,6 +38,9 @@ shorthand::
 
     $ make install
 
+Before making a contribution ensure that the tests still pass by running::
+
+    $ make test
 At some point this package should be put on Pypi.
 
 Usage
