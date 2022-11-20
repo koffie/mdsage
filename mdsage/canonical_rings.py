@@ -18,8 +18,8 @@ def subhyperelliptic_primes(G, N=None):
     EXAMPLES::
 
         sage: from mdsage import *
-        sage: subhyperelliptic_primes(Gamma0(73))
-        []
+        sage: [subhyperelliptic_primes(Gamma0(N)) for N in [13, 34, 37, 48, 64, 72]]
+        [[0], [], [0], [0], [], []]
 
     The following is the only nonhyperelliptic modular curve of shimura type that becomes hyperelliptic mod a prime::
 
