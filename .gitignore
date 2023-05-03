@@ -65,3 +65,8 @@ docs/_build/
 
 # OS
 .DS_Store
+
+# local sage with pycharm
+sage.env
+scratch/
+.ipynb_checkpoints
