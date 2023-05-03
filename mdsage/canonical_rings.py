@@ -4,7 +4,7 @@ from sage.all import CuspForms, Matrix, ZZ, prime_divisors
 
 
 def subhyperelliptic_primes(G, N=None):
-    """
+    r"""
     INPUT:
 
         - G - A congruence subgroup of $\SL_2(\ZZ)$ or a list of q-expansions of one forms on a curve over $\ZZ$

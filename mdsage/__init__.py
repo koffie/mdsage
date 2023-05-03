@@ -41,3 +41,9 @@ from .ramification import small_ramification, atkin_lehner_ramification_degree
 from .congruence_subgroups import intermediate_modular_groups
 
 from .canonical_rings import subhyperelliptic_primes
+
+from .modular_degrees_oldforms import (
+    product_isogeny_map,
+    modular_symbol_elliptic_curves,
+    modular_symbol_elliptic_curves_range,
+)

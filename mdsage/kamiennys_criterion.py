@@ -1294,7 +1294,7 @@ class KamiennyCriterion:
             if self.verbose:
                 print("time and mem", cputime(tm), get_memory_usage(mem), "echelon")
             ZZbasis = MatrixSpace(QQ, B.ncols(), sparse=True)(1)
-            for (pivot_row, pivot_col) in zip(E.pivot_rows(), E.pivots()):
+            for pivot_row, pivot_col in zip(E.pivot_rows(), E.pivots()):
                 for j in E.nonzero_positions_in_row(pivot_row):
                     ZZbasis[pivot_col, j] = QQ(1) / 2
             if self.verbose:

@@ -41,6 +41,7 @@ shorthand::
 Before making a contribution ensure that the tests still pass by running::
 
     $ make test
+
 At some point this package should be put on Pypi.
 
 Usage
@@ -97,3 +98,4 @@ The documentation of the package can be generated using Sage's
 Shorthand::
 
     $ make doc
+
