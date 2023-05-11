@@ -1,4 +1,4 @@
-from sage.all import matrix, Gamma0, Hom, ModularSymbols
+from sage.all import matrix, Gamma0, Hom, ModularSymbols, gcd, ZZ, factor, moebius
 from sage.modular import abvar
 
 
@@ -120,3 +120,86 @@ def modular_symbol_elliptic_curves_range(N, sign=None):
     """
     for M in range(1, N):
         yield from modular_symbol_elliptic_curves(M, sign=sign)
+
+
+def _twisted_euler_phi(n, conductor=1):
+    """
+    Helper function for degree_pairing
+    """
+    result = 1
+    for p, e in factor(n):
+        if gcd(p, conductor) == 1:
+            result *= (p + 1) * p ** (e - 1)
+        else:
+            result *= p**e
+    return result
+
+
+def _hecke_integer(S, n):
+    """
+    Helper function for degree_pairing
+    """
+    M = S.level()
+    sf = n.squarefree_part()
+    s = ZZ((n // sf).sqrt()).prime_to_m_part(M)
+    t = sum(moebius(m) * S.hecke_matrix(n / m**2) for m in s.divisors() if moebius(m))
+    assert t.is_scalar()
+    return t[0, 0]
+
+
+def _degree_pairing(SE, d, d1, d2, degE):
+    """
+    Helper function for degree_pairing
+    """
+    M = SE.level()
+    gcd_prod = d1 * d2 // gcd(d1, d2) ** 2
+    return (
+        degE
+        * _twisted_euler_phi(d / gcd_prod, M * gcd_prod)
+        * _hecke_integer(SE, gcd_prod)
+    )
+
+
+def degree_pairing(E, N):
+    """
+    For a modular elliptic curve E of level M give an an integer N that is a mulitple of
+    M give the degree pairing on Hom(J0(N),E) as a matrix with respect to the basis
+    coming from the degeneracy maps.
+
+    EXAMPLES::
+
+        sage: from mdsage.modular_degrees_oldforms import *
+        sage: GN = Gamma0(37)
+        sage: SN = GN.modular_symbols().cuspidal_subspace()
+        sage: SE = SN.decomposition()[0]
+        sage: E = SE.abelian_variety()
+        sage: degree_pairing(E, 37*4*9)
+        [ 144  -96 -108   24   72   60  -18  -40   10]
+        [ -96  144   72  -96 -108  -40   72   60  -40]
+        [-108   72  144  -18  -96 -108   24   72  -18]
+        [  24  -96  -18  144   72   10 -108  -40   60]
+        [  72 -108  -96   72  144   72  -96 -108   72]
+        [  60  -40 -108   10   72  144  -18  -96   24]
+        [ -18   72   24 -108  -96  -18  144   72 -108]
+        [ -40   60   72  -40 -108  -96   72  144  -96]
+        [  10  -40  -18   60   72   24 -108  -96  144]
+
+
+    """
+    assert E.dimension() == 1
+
+    M = E.level()
+    assert N % M == 0
+
+    degE = E.modular_degree()
+    d = N // M
+
+    if d == 1:
+        return matrix(ZZ, [[degE]])
+
+    divs = d.divisors()
+    SE = E.modular_symbols()
+
+    pairing = [[_degree_pairing(SE, d, d1, d2, degE) for d1 in divs] for d2 in divs]
+
+    return matrix(ZZ, pairing)
