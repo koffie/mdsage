@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Modular degrees oldforms &#8212; MD Sage 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modular Unit Divisors" href="modular_unit_divisors.html" />
+    <link rel="prev" title="Miscellaneous Functions" href="maartens_sage_functions.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modular_unit_divisors.html" title="Modular Unit Divisors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="maartens_sage_functions.html" title="Miscellaneous Functions"
+             accesskey="P">previous</a> |</li>
+<li class="nav-item nav-item-0"><a href="../index.html">MD Sage 0.1.0 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Modular degrees oldforms</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-mdsage.modular_degrees_oldforms">
+<span id="modular-degrees-oldforms"></span><h1>Modular degrees oldforms<a class="headerlink" href="#module-mdsage.modular_degrees_oldforms" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.modular_degrees_oldforms.degree_pairing">
+<span class="sig-prename descclassname"><span class="pre">mdsage.modular_degrees_oldforms.</span></span><span class="sig-name descname"><span class="pre">degree_pairing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_degrees_oldforms.degree_pairing" title="Permalink to this definition">¶</a></dt>
+<dd><p>For a modular elliptic curve E of level M and an integer N that is a multiple of
+M give the degree pairing on $Hom(J0(N),E) otimes mathbb QQ$ as a matrix with
+respect to the basis coming from the degeneracy maps.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage.modular_degrees_oldforms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">GN</span> <span class="o">=</span> <span class="n">Gamma0</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">SN</span> <span class="o">=</span> <span class="n">GN</span><span class="o">.</span><span class="n">modular_symbols</span><span class="p">()</span><span class="o">.</span><span class="n">cuspidal_subspace</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">SE</span> <span class="o">=</span> <span class="n">SN</span><span class="o">.</span><span class="n">decomposition</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">SE</span><span class="o">.</span><span class="n">abelian_variety</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">degree_pairing</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="mi">37</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">9</span><span class="p">)</span>
+<span class="p">[</span> <span class="mi">144</span>  <span class="o">-</span><span class="mi">96</span> <span class="o">-</span><span class="mi">108</span>   <span class="mi">24</span>   <span class="mi">72</span>   <span class="mi">60</span>  <span class="o">-</span><span class="mi">18</span>  <span class="o">-</span><span class="mi">40</span>   <span class="mi">10</span><span class="p">]</span>
+<span class="p">[</span> <span class="o">-</span><span class="mi">96</span>  <span class="mi">144</span>   <span class="mi">72</span>  <span class="o">-</span><span class="mi">96</span> <span class="o">-</span><span class="mi">108</span>  <span class="o">-</span><span class="mi">40</span>   <span class="mi">72</span>   <span class="mi">60</span>  <span class="o">-</span><span class="mi">40</span><span class="p">]</span>
+<span class="p">[</span><span class="o">-</span><span class="mi">108</span>   <span class="mi">72</span>  <span class="mi">144</span>  <span class="o">-</span><span class="mi">18</span>  <span class="o">-</span><span class="mi">96</span> <span class="o">-</span><span class="mi">108</span>   <span class="mi">24</span>   <span class="mi">72</span>  <span class="o">-</span><span class="mi">18</span><span class="p">]</span>
+<span class="p">[</span>  <span class="mi">24</span>  <span class="o">-</span><span class="mi">96</span>  <span class="o">-</span><span class="mi">18</span>  <span class="mi">144</span>   <span class="mi">72</span>   <span class="mi">10</span> <span class="o">-</span><span class="mi">108</span>  <span class="o">-</span><span class="mi">40</span>   <span class="mi">60</span><span class="p">]</span>
+<span class="p">[</span>  <span class="mi">72</span> <span class="o">-</span><span class="mi">108</span>  <span class="o">-</span><span class="mi">96</span>   <span class="mi">72</span>  <span class="mi">144</span>   <span class="mi">72</span>  <span class="o">-</span><span class="mi">96</span> <span class="o">-</span><span class="mi">108</span>   <span class="mi">72</span><span class="p">]</span>
+<span class="p">[</span>  <span class="mi">60</span>  <span class="o">-</span><span class="mi">40</span> <span class="o">-</span><span class="mi">108</span>   <span class="mi">10</span>   <span class="mi">72</span>  <span class="mi">144</span>  <span class="o">-</span><span class="mi">18</span>  <span class="o">-</span><span class="mi">96</span>   <span class="mi">24</span><span class="p">]</span>
+<span class="p">[</span> <span class="o">-</span><span class="mi">18</span>   <span class="mi">72</span>   <span class="mi">24</span> <span class="o">-</span><span class="mi">108</span>  <span class="o">-</span><span class="mi">96</span>  <span class="o">-</span><span class="mi">18</span>  <span class="mi">144</span>   <span class="mi">72</span> <span class="o">-</span><span class="mi">108</span><span class="p">]</span>
+<span class="p">[</span> <span class="o">-</span><span class="mi">40</span>   <span class="mi">60</span>   <span class="mi">72</span>  <span class="o">-</span><span class="mi">40</span> <span class="o">-</span><span class="mi">108</span>  <span class="o">-</span><span class="mi">96</span>   <span class="mi">72</span>  <span class="mi">144</span>  <span class="o">-</span><span class="mi">96</span><span class="p">]</span>
+<span class="p">[</span>  <span class="mi">10</span>  <span class="o">-</span><span class="mi">40</span>  <span class="o">-</span><span class="mi">18</span>   <span class="mi">60</span>   <span class="mi">72</span>   <span class="mi">24</span> <span class="o">-</span><span class="mi">108</span>  <span class="o">-</span><span class="mi">96</span>  <span class="mi">144</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.modular_degrees_oldforms.degree_quadratic_form">
+<span class="sig-prename descclassname"><span class="pre">mdsage.modular_degrees_oldforms.</span></span><span class="sig-name descname"><span class="pre">degree_quadratic_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_degrees_oldforms.degree_quadratic_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>For a modular elliptic curve E of level M and an integer N that is a multiple of M,
+give the degree quadratic form on $Hom(J0(N),E) otimes mathbb QQ$ as a quadratic
+multivariate polynomial with respect to the basis coming from the degeneracy maps.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage.modular_degrees_oldforms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">GN</span> <span class="o">=</span> <span class="n">Gamma0</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">SN</span> <span class="o">=</span> <span class="n">GN</span><span class="o">.</span><span class="n">modular_symbols</span><span class="p">()</span><span class="o">.</span><span class="n">cuspidal_subspace</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">SE</span> <span class="o">=</span> <span class="n">SN</span><span class="o">.</span><span class="n">decomposition</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">SE</span><span class="o">.</span><span class="n">abelian_variety</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">degree_quadratic_form</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="mi">37</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+<span class="mi">24</span><span class="o">*</span><span class="n">x0</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">32</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*</span><span class="n">x1</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">36</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*</span><span class="n">x1</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*</span><span class="n">x2</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*</span><span class="n">x0</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">36</span><span class="o">*</span><span class="n">x1</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">32</span><span class="o">*</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*</span><span class="n">x3</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves">
+<span class="sig-prename descclassname"><span class="pre">mdsage.modular_degrees_oldforms.</span></span><span class="sig-name descname"><span class="pre">modular_symbol_elliptic_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves" title="Permalink to this definition">¶</a></dt>
+<dd><p>INPUT:</p>
+<ul class="simple">
+<li><p>N - an integer giving the conductor of the elliptic curves to be returned</p></li>
+<li><p>sign (optional) - an integer that should be +/-1. Only elliptic curves where
+atkin lehner acts with this sign on the associated newform are returned.
+If no sign is given then both elliptic curves of both signs will be returned.</p></li>
+</ul>
+<p>OUTPUT:</p>
+<p>An iterator of all strong weil elliptic curves of conductor N.
+The returned curves are returned as modular abelian varieties associated to modular
+symbol spaces rather then elliptic curves given by a Weierstrass equation.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage.modular_degrees_oldforms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modular_symbol_elliptic_curves</span><span class="p">(</span><span class="mi">37</span><span class="p">))</span>
+<span class="p">[</span><span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">),</span>
+ <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">)]</span>
+
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modular_symbol_elliptic_curves</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span><span class="n">sign</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="p">[</span><span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">)]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modular_symbol_elliptic_curves</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span><span class="n">sign</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+<span class="p">[</span><span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves_divisors">
+<span class="sig-prename descclassname"><span class="pre">mdsage.modular_degrees_oldforms.</span></span><span class="sig-name descname"><span class="pre">modular_symbol_elliptic_curves_divisors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves_divisors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the same as <a class="reference internal" href="#mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves" title="mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves()</span></code></a>
+but then all elliptic curves  of conductor strictly dividing N instead of equal to N.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage.modular_degrees_oldforms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modular_symbol_elliptic_curves_divisors</span><span class="p">(</span><span class="mi">210</span><span class="p">))</span>
+<span class="p">[</span><span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span>
+ <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">35</span><span class="p">),</span>
+ <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">42</span><span class="p">),</span>
+ <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">70</span><span class="p">),</span>
+ <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">105</span><span class="p">)]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modular_symbol_elliptic_curves_divisors</span><span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="p">[]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves_range">
+<span class="sig-prename descclassname"><span class="pre">mdsage.modular_degrees_oldforms.</span></span><span class="sig-name descname"><span class="pre">modular_symbol_elliptic_curves_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the same as <a class="reference internal" href="#mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves" title="mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves()</span></code></a>
+but then all elliptic curves of conductor &lt; N instead of equal to N.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage.modular_degrees_oldforms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modular_symbol_elliptic_curves_range</span><span class="p">(</span><span class="mi">37</span><span class="p">))</span>
+ <span class="p">[</span><span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">26</span><span class="p">),</span>
+  <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">26</span><span class="p">),</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">27</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">33</span><span class="p">),</span>
+  <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">34</span><span class="p">),</span>
+  <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">35</span><span class="p">),</span>
+  <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.modular_degrees_oldforms.product_isogeny_map">
+<span class="sig-prename descclassname"><span class="pre">mdsage.modular_degrees_oldforms.</span></span><span class="sig-name descname"><span class="pre">product_isogeny_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.modular_degrees_oldforms.product_isogeny_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>For a modular elliptic curve E of level M give and an integer N such that M divides N,
+this computes the map $E^n \to J_0(N)$ where $n$ is the number of divisors of N/M.
+The $i$-th coordinate of this map is given by the degeneracy map $J_0(M) to J_0(N)$
+corresponding to the $i$-th divisor of N/M.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage.modular_degrees_oldforms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">GN</span> <span class="o">=</span> <span class="n">Gamma0</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">SN</span> <span class="o">=</span> <span class="n">GN</span><span class="o">.</span><span class="n">modular_symbols</span><span class="p">()</span><span class="o">.</span><span class="n">cuspidal_subspace</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">SE</span> <span class="o">=</span> <span class="n">SN</span><span class="o">.</span><span class="n">decomposition</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">E</span> <span class="o">=</span> <span class="n">SE</span><span class="o">.</span><span class="n">abelian_variety</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">xi</span> <span class="o">=</span> <span class="n">product_isogeny_map</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="mi">37</span><span class="p">);</span> <span class="n">xi</span>
+<span class="n">Abelian</span> <span class="n">variety</span> <span class="n">morphism</span><span class="p">:</span>
+  <span class="n">From</span><span class="p">:</span> <span class="n">Abelian</span> <span class="n">subvariety</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span> <span class="n">of</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span> <span class="n">x</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span> <span class="n">x</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span> <span class="n">x</span> <span class="n">J0</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span>
+  <span class="n">To</span><span class="p">:</span>   <span class="n">Abelian</span> <span class="n">variety</span> <span class="n">J0</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">35</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">xi</span><span class="o">.</span><span class="n">kernel</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">invariants</span><span class="p">()</span>
+<span class="p">[]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="maartens_sage_functions.html"
+                          title="previous chapter">Miscellaneous Functions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="modular_unit_divisors.html"
+                          title="next chapter">Modular Unit Divisors</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/mdsage/modular_degrees_oldforms.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modular_unit_divisors.html" title="Modular Unit Divisors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="maartens_sage_functions.html" title="Miscellaneous Functions"
+             >previous</a> |</li>
+<li class="nav-item nav-item-0"><a href="../index.html">MD Sage 0.1.0 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Modular degrees oldforms</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Maarten Derickx.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>
