@@ -5,7 +5,7 @@ code can be found at:
     http://www.math.fsu.edu/~hoeij/files/X1N/cusp_divisors_program
 
 The code is for computing divisors of the modular unit F_k as defined in:
-http://arxiv.org/abs/1307.5719
+:arxiv:`1307.5719`
 """
 from sage.all import (
     ceil,

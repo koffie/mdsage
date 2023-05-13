@@ -46,4 +46,7 @@ from .modular_degrees_oldforms import (
     product_isogeny_map,
     modular_symbol_elliptic_curves,
     modular_symbol_elliptic_curves_range,
+    modular_symbol_elliptic_curves_divisors,
+    degree_pairing,
+    degree_quadratic_form,
 )

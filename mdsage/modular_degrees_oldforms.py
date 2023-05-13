@@ -1,11 +1,23 @@
-from sage.all import matrix, Gamma0, Hom, ModularSymbols
+from sage.all import (
+    matrix,
+    Gamma0,
+    Hom,
+    ModularSymbols,
+    gcd,
+    ZZ,
+    factor,
+    moebius,
+    divisors,
+    PolynomialRing,
+    vector,
+)
 from sage.modular import abvar
 
 
 def product_isogeny_map(E, N):
-    """
+    r"""
     For a modular elliptic curve E of level M give and an integer N such that M divides N,
-    this computes the map $E^n \to J_0(N)$ where $n$ is the number of divisors of N/M.
+    this computes the map $E^n \\to J_0(N)$ where $n$ is the number of divisors of N/M.
     The $i$-th coordinate of this map is given by the degeneracy map $J_0(M) \to J_0(N)$
     corresponding to the $i$-th divisor of N/M.
 
@@ -92,8 +104,8 @@ def modular_symbol_elliptic_curves(N, sign=None):
 
 def modular_symbol_elliptic_curves_range(N, sign=None):
     """
-    Does the same as `modular_symbol_elliptic_curves` but then all ellipic curves
-    of conductor < N instead of equal to N.
+    Does the same as :meth:`mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves`
+    but then all elliptic curves of conductor < N instead of equal to N.
 
     Examples::
 
@@ -120,3 +132,135 @@ def modular_symbol_elliptic_curves_range(N, sign=None):
     """
     for M in range(1, N):
         yield from modular_symbol_elliptic_curves(M, sign=sign)
+
+
+def modular_symbol_elliptic_curves_divisors(N, sign=None):
+    """
+    Does the same as :meth:`mdsage.modular_degrees_oldforms.modular_symbol_elliptic_curves`
+    but then all elliptic curves  of conductor strictly dividing N instead of equal to N.
+
+    Examples::
+
+        sage: from mdsage.modular_degrees_oldforms import *
+        sage: list(modular_symbol_elliptic_curves_divisors(210))
+        [Abelian variety J0(14) of dimension 1,
+         Abelian variety J0(15) of dimension 1,
+         Abelian variety J0(21) of dimension 1,
+         Abelian subvariety of dimension 1 of J0(30),
+         Abelian subvariety of dimension 1 of J0(35),
+         Abelian subvariety of dimension 1 of J0(42),
+         Abelian subvariety of dimension 1 of J0(70),
+         Abelian subvariety of dimension 1 of J0(105)]
+        sage: list(modular_symbol_elliptic_curves_divisors(210, sign=1))
+        []
+
+    """
+    for M in divisors(N):
+        if M == N:
+            continue
+        yield from modular_symbol_elliptic_curves(M, sign=sign)
+
+
+def _twisted_euler_phi(n, conductor=1):
+    """
+    Helper function for degree_pairing
+    """
+    result = 1
+    for p, e in factor(n):
+        if gcd(p, conductor) == 1:
+            result *= (p + 1) * p ** (e - 1)
+        else:
+            result *= p**e
+    return result
+
+
+def _hecke_integer(S, n):
+    """
+    Helper function for degree_pairing
+    """
+    M = S.level()
+    sf = n.squarefree_part()
+    s = ZZ((n // sf).sqrt()).prime_to_m_part(M)
+    t = sum(moebius(m) * S.hecke_matrix(n / m**2) for m in s.divisors() if moebius(m))
+    assert t.is_scalar()
+    return t[0, 0]
+
+
+def _degree_pairing(SE, d, d1, d2, degE):
+    """
+    Helper function for degree_pairing
+    """
+    M = SE.level()
+    gcd_prod = d1 * d2 // gcd(d1, d2) ** 2
+    return (
+        degE
+        * _twisted_euler_phi(d / gcd_prod, M * gcd_prod)
+        * _hecke_integer(SE, gcd_prod)
+    )
+
+
+def degree_pairing(E, N):
+    r"""
+    For a modular elliptic curve E of level M and an integer N that is a multiple of
+    M give the degree pairing on $Hom(J0(N),E) \otimes \mathbb QQ$ as a matrix with
+    respect to the basis coming from the degeneracy maps.
+
+    EXAMPLES::
+
+        sage: from mdsage.modular_degrees_oldforms import *
+        sage: GN = Gamma0(37)
+        sage: SN = GN.modular_symbols().cuspidal_subspace()
+        sage: SE = SN.decomposition()[0]
+        sage: E = SE.abelian_variety()
+        sage: degree_pairing(E, 37*4*9)
+        [ 144  -96 -108   24   72   60  -18  -40   10]
+        [ -96  144   72  -96 -108  -40   72   60  -40]
+        [-108   72  144  -18  -96 -108   24   72  -18]
+        [  24  -96  -18  144   72   10 -108  -40   60]
+        [  72 -108  -96   72  144   72  -96 -108   72]
+        [  60  -40 -108   10   72  144  -18  -96   24]
+        [ -18   72   24 -108  -96  -18  144   72 -108]
+        [ -40   60   72  -40 -108  -96   72  144  -96]
+        [  10  -40  -18   60   72   24 -108  -96  144]
+
+    """
+    assert E.dimension() == 1
+
+    M = E.level()
+    assert N % M == 0
+
+    degE = E.modular_degree()
+    d = N // M
+
+    if d == 1:
+        return matrix(ZZ, [[degE]])
+
+    divs = d.divisors()
+    SE = E.modular_symbols()
+
+    pairing = [[_degree_pairing(SE, d, d1, d2, degE) for d1 in divs] for d2 in divs]
+
+    return matrix(ZZ, pairing)
+
+
+def degree_quadratic_form(E, N):
+    r"""
+    For a modular elliptic curve E of level M and an integer N that is a multiple of M,
+    give the degree quadratic form on $Hom(J0(N),E) \otimes \mathbb QQ$ as a quadratic
+    multivariate polynomial with respect to the basis coming from the degeneracy maps.
+
+    EXAMPLES::
+
+        sage: from mdsage.modular_degrees_oldforms import *
+        sage: GN = Gamma0(37)
+        sage: SN = GN.modular_symbols().cuspidal_subspace()
+        sage: SE = SN.decomposition()[0]
+        sage: E = SE.abelian_variety()
+        sage: degree_quadratic_form(E, 37*2*3)
+        24*x0^2 - 32*x0*x1 + 24*x1^2 - 36*x0*x2 + 24*x1*x2 + 24*x2^2 + 24*x0*x3 - 36*x1*x3 - 32*x2*x3 + 24*x3^2
+
+    """
+    M = degree_pairing(E, N)
+    R = PolynomialRing(ZZ, M.ncols(), "x")
+    v = vector(R.gens())
+    return v * M * v

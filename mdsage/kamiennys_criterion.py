@@ -1339,7 +1339,7 @@ def matrix_modp(A, p=2, sparse=False):
     """
     Reduce a matrix mod p (default 2).  We use this function,
     since there are bugs in the mod 2 matrix reduction in sage. See
-    http://trac.sagemath.org/sage_trac/ticket/6904
+    :trac:`sage_trac/ticket/6904`
 
     INPUT:
 
