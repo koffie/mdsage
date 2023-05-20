@@ -36,9 +36,13 @@ from .quadratic_class_numbers import (
     small_class_number_discriminants,
 )
 
-from .ramification import small_ramification, atkin_lehner_ramification_degree
+from .ramification import (
+    small_ramification,
+    atkin_lehner_ramification_degree,
+    atkin_lehner_divisors,
+)
 
-from .congruence_subgroups import intermediate_modular_groups
+from .congruence_subgroups import intermediate_modular_groups, congruence_subgroup_repr
 
 from .canonical_rings import subhyperelliptic_primes
 

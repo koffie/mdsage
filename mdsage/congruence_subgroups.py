@@ -1,4 +1,4 @@
-from sage.all import prod, Integers, GammaH
+from sage.all import prod, Integers, Gamma0, Gamma1, GammaH
 
 
 def _unit_to_integer_map(ZN):
@@ -45,3 +45,30 @@ def intermediate_modular_groups(N, projective_only=True):
         G = GammaH(N, gens)
         if not projective_only or G.projective_index() == G.index():
             yield G
+
+
+def congruence_subgroup_repr(G):
+    """
+    Returns a string representation of the congruence subgroup G. This representation is shorter than that of sage.
+    Additionally this string representation is valid sage code and can be used to recreate the congruece subgroup.
+
+    EXAMPLES::
+
+        sage: from mdsage import *
+        sage: congruence_subgroup_repr(GammaH(37,[]))
+        'Gamma1(37)'
+        sage: congruence_subgroup_repr(GammaH(37,[4]))
+        'GammaH(37, [4])'
+        sage: congruence_subgroup_repr(GammaH(37,[2]))
+        'Gamma0(37)'
+
+    """
+    N = G.level()
+
+    if G == Gamma0(N):
+        return f"Gamma0({N})"
+
+    if G == Gamma1(N):
+        return f"Gamma1({N})"
+
+    return f"GammaH({N}, {G._generators_for_H()})"

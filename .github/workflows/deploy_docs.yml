@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'release/v[0-9].*'
   workflow_dispatch:
 
 
