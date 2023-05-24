@@ -18,6 +18,9 @@ from .quadratic_class_numbers import (
 
 
 def _c1(p, d, N):
+    """
+    Internal helper function for atkin_lehner_ramification_degree
+    """
     # assert is_prime(p)
     # assert N%d == 0
     # assert gcd(d,N//d) == 1
@@ -42,6 +45,9 @@ def _c1(p, d, N):
 
 
 def _c2(p, d):
+    """
+    Internal helper function for atkin_lehner_ramification_degree
+    """
     # assert d >= 4
     # assert d%4 == 3
     # assert is_prime(p)

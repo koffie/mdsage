@@ -5,10 +5,10 @@ PACKAGE = mdsage
 
 SAGE = sage
 
-all: install test
+all: install doc
 
 install:
-	$(SAGE) -pip install $(PIP_ARGS) --ignore-installed -v .
+	$(SAGE) -pip install $(PIP_ARGS) .
 
 uninstall:
 	$(SAGE) -pip uninstall .
@@ -16,11 +16,11 @@ uninstall:
 develop:
 	$(SAGE) -pip install --upgrade -e .
 
-test:
-	$(SAGE) setup.py test
+test: develop
+	$(SAGE) -tp --force-lib $(PACKAGE)
 
 coverage:
-	$(SAGE) -coverage $(PACKAGE)/*
+	$(SAGE) -coverage $(PACKAGE)
 
 doc:	install
 	cd docs && $(SAGE) -sh -c "make html"

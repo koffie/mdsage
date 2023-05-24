@@ -54,3 +54,5 @@ from .modular_degrees_oldforms import (
     degree_pairing,
     degree_quadratic_form,
 )
+
+from .ultimate_question import quick_question

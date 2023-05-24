@@ -23,7 +23,24 @@ AUTHORS:
 - Viviane Pons: initial implementation
 """
 from sage.combinat.combinat import catalan_number
-from .one_cython_file import quick_question
+
+try:
+    from .one_cython_file import quick_question
+except ImportError:
+
+    def quick_question(a):
+        """
+        provide a substitute if the cython files are not build
+
+        TESTS::
+            sage: from mdsage.ultimate_question import quick_question
+            sage: quick_question(1)
+            2
+        """
+        if a == 2**100:
+            raise OverflowError("Python int too large to convert to C long")
+
+        return a + 1
 
 
 def answer_to_ultimate_question():
