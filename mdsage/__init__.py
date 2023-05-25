@@ -44,7 +44,12 @@ from .ramification import (
 
 from .congruence_subgroups import intermediate_modular_groups, congruence_subgroup_repr
 
-from .canonical_rings import subhyperelliptic_primes
+from .canonical_rings import (
+    subhyperelliptic_primes,
+    kernel_matrix,
+    vanishing_quadratic_forms,
+    trigonal_or_plane_quintic_primes,
+)
 
 from .modular_degrees_oldforms import (
     product_isogeny_map,
