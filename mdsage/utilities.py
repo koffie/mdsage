@@ -47,7 +47,7 @@ class CPUTimeLogger:
 
     Note that only the cputime is logged, so time.sleep is logged as not taking any time.
 
-        sage: time.sleep(0.1)
+        sage: time.sleep(float(0.1))
         sage: logger.log("sleep completed", level = logging.WARNING) # random
         0.0016680000000000583 my algorithm sleep completed
 
