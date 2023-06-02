@@ -1,2 +1,2 @@
 sagemath >= 1.2.5
-cython >= 0.25
+# cython >= 0.25

@@ -36,11 +36,20 @@ from .quadratic_class_numbers import (
     small_class_number_discriminants,
 )
 
-from .ramification import small_ramification, atkin_lehner_ramification_degree
+from .ramification import (
+    small_ramification,
+    atkin_lehner_ramification_degree,
+    atkin_lehner_divisors,
+)
 
-from .congruence_subgroups import intermediate_modular_groups
+from .congruence_subgroups import intermediate_modular_groups, congruence_subgroup_repr
 
-from .canonical_rings import subhyperelliptic_primes
+from .canonical_rings import (
+    subhyperelliptic_primes,
+    kernel_matrix,
+    vanishing_quadratic_forms,
+    trigonal_or_plane_quintic_primes,
+)
 
 from .modular_degrees_oldforms import (
     product_isogeny_map,
@@ -50,3 +59,5 @@ from .modular_degrees_oldforms import (
     degree_pairing,
     degree_quadratic_form,
 )
+
+from .ultimate_question import quick_question

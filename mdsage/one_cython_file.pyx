@@ -4,7 +4,7 @@ def quick_question(int a):
     Adds one to an int
 
     EXAMPLES::
-        sage: from mdsage.one_cython_file import quick_question
+        sage: from mdsage import quick_question
         sage: quick_question(-2)
         -1
         sage: quick_question(1)

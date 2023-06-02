@@ -1,6 +1,14 @@
 from collections import defaultdict
 
-from sage.all import kronecker_symbol, gcd, prime_to_m_part, prime_divisors, valuation
+from sage.all import (
+    kronecker_symbol,
+    gcd,
+    prime_to_m_part,
+    prime_divisors,
+    valuation,
+    Set,
+    prod,
+)
 
 from .quadratic_class_numbers import (
     small_class_number_discriminants,
@@ -10,6 +18,9 @@ from .quadratic_class_numbers import (
 
 
 def _c1(p, d, N):
+    """
+    Internal helper function for atkin_lehner_ramification_degree
+    """
     # assert is_prime(p)
     # assert N%d == 0
     # assert gcd(d,N//d) == 1
@@ -34,6 +45,9 @@ def _c1(p, d, N):
 
 
 def _c2(p, d):
+    """
+    Internal helper function for atkin_lehner_ramification_degree
+    """
     # assert d >= 4
     # assert d%4 == 3
     # assert is_prime(p)
@@ -121,6 +135,25 @@ def atkin_lehner_ramification_degree(N, d):
         v_d += c2_prod * class_number(-d)
 
     return v_d
+
+
+def atkin_lehner_divisors(N):
+    """
+    Returns an iterator over all divisors M of N such that gcd(M, M/N) = 1.
+
+    EXAMPLES::
+
+        sage: from mdsage import *
+        sage: list(atkin_lehner_divisors(4*9))
+        [1, 4, 9, 36]
+    """
+
+    D = prime_divisors(N)
+    for T in Set(D).subsets():
+        M = prod(T)
+        M = N // prime_to_m_part(N, M)
+
+        yield M
 
 
 def small_ramification(bound):
