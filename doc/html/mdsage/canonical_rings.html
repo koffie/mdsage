@@ -49,6 +49,36 @@
   <section id="module-mdsage.canonical_rings">
 <span id="canonical-rings"></span><h1>Canonical Rings<a class="headerlink" href="#module-mdsage.canonical_rings" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="mdsage.canonical_rings.kernel_matrix">
+<span class="sig-prename descclassname"><span class="pre">mdsage.canonical_rings.</span></span><span class="sig-name descname"><span class="pre">kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.canonical_rings.kernel_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computing the kernel of a matrix over ZZ can sometimes be slow in sage.
+Especially since sage by default return the basis of the kernel in hermite
+normal form.</p>
+<p>This function can sometimes be faster in computing the kernel of an integer
+matrix. The returned matrix forms a basis of the kernel, however the output
+matrix is not put into hermite normal form.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span> <span class="o">=</span> <span class="n">kernel_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">);</span> <span class="n">K</span>
+<span class="p">[</span><span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">3</span> <span class="o">-</span><span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span> <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span><span class="p">]</span>
+<span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">V</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">kernel</span><span class="p">();</span> <span class="n">V</span>
+<span class="n">Free</span> <span class="n">module</span> <span class="n">of</span> <span class="n">degree</span> <span class="mi">6</span> <span class="ow">and</span> <span class="n">rank</span> <span class="mi">4</span> <span class="n">over</span> <span class="n">Integer</span> <span class="n">Ring</span>
+<span class="n">Echelon</span> <span class="n">basis</span> <span class="n">matrix</span><span class="p">:</span>
+<span class="p">[</span> <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">5</span>  <span class="mi">4</span><span class="p">]</span>
+<span class="p">[</span> <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">4</span>  <span class="mi">3</span><span class="p">]</span>
+<span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">3</span>  <span class="mi">2</span><span class="p">]</span>
+<span class="p">[</span> <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span> <span class="o">-</span><span class="mi">2</span>  <span class="mi">1</span><span class="p">]</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">K</span><span class="o">.</span><span class="n">row_module</span><span class="p">()</span> <span class="o">==</span> <span class="n">V</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mdsage.canonical_rings.subhyperelliptic_primes">
 <span class="sig-prename descclassname"><span class="pre">mdsage.canonical_rings.</span></span><span class="sig-name descname"><span class="pre">subhyperelliptic_primes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.canonical_rings.subhyperelliptic_primes" title="Permalink to this definition">¶</a></dt>
 <dd><p>INPUT:</p>
@@ -74,6 +104,54 @@ of the list of primes not dividing the level of G such that the X(G) has subhype
 <p>The following is the only nonhyperelliptic modular curve of shimura type that becomes hyperelliptic mod a prime:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">subhyperelliptic_primes</span><span class="p">(</span><span class="n">GammaH</span><span class="p">(</span><span class="mi">37</span><span class="p">,[</span><span class="mi">4</span><span class="p">]))</span>
 <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.canonical_rings.trigonal_or_plane_quintic_primes">
+<span class="sig-prename descclassname"><span class="pre">mdsage.canonical_rings.</span></span><span class="sig-name descname"><span class="pre">trigonal_or_plane_quintic_primes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.canonical_rings.trigonal_or_plane_quintic_primes" title="Permalink to this definition">¶</a></dt>
+<dd><p>On input of a congruence subgroup G compute the primes p such that
+the reduction associated modular curve $X(G)_{F_p}$ geometrically
+has trigonal or plane quintic reduction. If the output is [0] then
+$X(G)_{Q}$ is trigonal or plane quintic</p>
+<p>WARNING:</p>
+<p>This function assumes that neither $X(G)_{Q}$ or $X(G)_{F_p}$ ore
+sub hyperelliptic. This should be checked beforehand using
+<a class="reference internal" href="#mdsage.canonical_rings.subhyperelliptic_primes" title="mdsage.canonical_rings.subhyperelliptic_primes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mdsage.canonical_rings.subhyperelliptic_primes()</span></code></a>.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>A curve that is not trigonal in any characteristic:</p>
+<blockquote>
+<div><p>sage: trigonal_or_plane_quintic_primes(Gamma0(42))
+[]</p>
+</div></blockquote>
+<p>A trigonal curve over Q:</p>
+<blockquote>
+<div><p>sage: trigonal_or_plane_quintic_primes(Gamma0(43))
+[0]</p>
+</div></blockquote>
+<p>The following is the only nontrigonal modular curve of shimura type that becomes trigonal mod a prime:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="n">trigonal_or_plane_quintic_primes</span><span class="p">(</span><span class="n">Gamma0</span><span class="p">(</span><span class="mi">73</span><span class="p">))</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.canonical_rings.vanishing_quadratic_forms">
+<span class="sig-prename descclassname"><span class="pre">mdsage.canonical_rings.</span></span><span class="sig-name descname"><span class="pre">vanishing_quadratic_forms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.canonical_rings.vanishing_quadratic_forms" title="Permalink to this definition">¶</a></dt>
+<dd><p>On input of a congruence subgroup G of genus g compute the space of all
+quadratic forms that vanish on the image of the canonical embedding
+$X(G) \to \P^{g-1}$.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">vanishing_quadratic_forms</span><span class="p">(</span><span class="n">Gamma0</span><span class="p">(</span><span class="mi">47</span><span class="p">))</span>
+<span class="p">[</span><span class="n">x2</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x1</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x3</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span>
+ <span class="n">x1</span><span class="o">*</span><span class="n">x2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x0</span><span class="o">*</span><span class="n">x3</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">x3</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span>
+ <span class="n">x1</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x0</span><span class="o">*</span><span class="n">x2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">x2</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">8</span><span class="o">*</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span> <span class="o">-</span> <span class="mi">9</span><span class="o">*</span><span class="n">x3</span><span class="o">^</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
 </dd></dl>
