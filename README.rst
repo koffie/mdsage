@@ -21,12 +21,12 @@ Easiest way to install
 
 The easiest way to install is with the following command::
 
-    $ sage -pip install git+https://github.com/koffie/mdsage.git
+    sage -pip install git+https://github.com/koffie/mdsage.git
 
 Alternatively you can download the source from the git repository::
 
-    $ git clone https://github.com/koffie/mdsage.git
-    $ sage -pip install ./mdsage
+    git clone https://github.com/koffie/mdsage.git
+    sage -pip install ./mdsage
 
 
 Installing for developers
@@ -36,11 +36,11 @@ For convenience this package contains a ``makefile`` with this
 and other often used commands. Should you wish too, you can use the
 shorthand::
 
-    $ make install
+    make install
 
 Before making a contribution ensure that the tests still pass by running::
 
-    $ make test
+    make test
 
 At some point this package should be put on Pypi.
 
@@ -78,13 +78,13 @@ tests as well.
 Once the package is installed, one can use the SageMath test system
 configured in ``setup.py`` to run the tests::
 
-    $ sage setup.py test
+    sage setup.py test
 
 This is just calling ``sage -t`` with appropriate flags.
 
 Shorthand::
 
-    $ make test
+    make test
 
 Documentation
 ^^^^^^^^^^^^^
@@ -92,10 +92,10 @@ Documentation
 The documentation of the package can be generated using Sage's
 `Sphinx <http://www.spinx-doc.org>`_ installation::
 
-    $ cd docs
-    $ sage -sh -c "make html"
+    cd docs
+    sage -sh -c "make html"
 
 Shorthand::
 
-    $ make doc
+    make doc
 
