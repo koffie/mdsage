@@ -207,6 +207,9 @@ def trigonal_or_plane_quintic_primes(G):
     R = quadrics[0].parent()
     logger.log("vanishing_quadratic_forms")
 
+    # this code implictly assumes that (1 : 0 : 0 : ... : 0 ) is a point on the curve
+    # and uses lemma 4.2 of https://arxiv.org/pdf/2307.04864v1 to speed up the computation
+
     derivatives = [[f(x0=1).derivative(x) for x in R.gens()[1:]] for f in quadrics]
     logger.log("derivatives")
 
