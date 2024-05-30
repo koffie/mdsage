@@ -54,7 +54,7 @@ def kernel_matrix(M):
     return prod
 
 
-def vanishing_quadratic_forms(G, minimize_strategy: Optional[str] = None):
+def vanishing_quadratic_forms(G, minimize_strategy: str | None = None):
     r"""
     On input of a congruence subgroup G of genus g compute the space of all
     quadratic forms that vanish on the image of the canonical embedding
@@ -63,7 +63,7 @@ def vanishing_quadratic_forms(G, minimize_strategy: Optional[str] = None):
     INPUT::
 
         - G - A congruence subgroup of $\SL_2(\ZZ)$
-        - minimize_strategy : Optional[str] = None - Either None, "LLL" or "HNF".
+        - minimize_strategy : str | None = None - Either None, "LLL" or "HNF".
           in the latter two cases it tries to minimize the coefficients of the
           vanishing quadric froms by changing the basis of the space of vanishing
           quadrics.
