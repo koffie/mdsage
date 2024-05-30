@@ -142,10 +142,18 @@ sub hyperelliptic. This should be checked beforehand using
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mdsage.canonical_rings.vanishing_quadratic_forms">
-<span class="sig-prename descclassname"><span class="pre">mdsage.canonical_rings.</span></span><span class="sig-name descname"><span class="pre">vanishing_quadratic_forms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.canonical_rings.vanishing_quadratic_forms" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">mdsage.canonical_rings.</span></span><span class="sig-name descname"><span class="pre">vanishing_quadratic_forms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimize_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.canonical_rings.vanishing_quadratic_forms" title="Permalink to this definition">¶</a></dt>
 <dd><p>On input of a congruence subgroup G of genus g compute the space of all
 quadratic forms that vanish on the image of the canonical embedding
 $X(G) \to \P^{g-1}$.</p>
+<p>INPUT:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- G - A congruence subgroup of $\SL_2(\ZZ)$
+- minimize_strategy : str | None = None - Either None, &quot;LLL&quot; or &quot;HNF&quot;.
+  in the latter two cases it tries to minimize the coefficients of the
+  vanishing quadric froms by changing the basis of the space of vanishing
+  quadrics.
+</pre></div>
+</div>
 <p>EXAMPLES:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">sage</span><span class="p">:</span> <span class="n">vanishing_quadratic_forms</span><span class="p">(</span><span class="n">Gamma0</span><span class="p">(</span><span class="mi">47</span><span class="p">))</span>
