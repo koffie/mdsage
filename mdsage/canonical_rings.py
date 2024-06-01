@@ -1,5 +1,7 @@
 from collections.abc import Sized
 
+from typing import Optional
+
 from sage.all import CuspForms, Matrix, RR, ZZ, prime_divisors, PolynomialRing
 
 from .utilities import CPUTimeLogger
@@ -54,7 +56,7 @@ def kernel_matrix(M):
     return prod
 
 
-def vanishing_quadratic_forms(G, minimize_strategy: str | None = None):
+def vanishing_quadratic_forms(G, minimize_strategy: Optional[str] = None):
     r"""
     On input of a congruence subgroup G of genus g compute the space of all
     quadratic forms that vanish on the image of the canonical embedding
