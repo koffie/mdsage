@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from sage.all import (
     matrix,
     Gamma0,
@@ -14,7 +15,7 @@ from sage.all import (
 from sage.modular import abvar
 
 
-def product_isogeny_map(E, N):
+def product_isogeny_map(E_list, N):
     r"""
     For a modular elliptic curve E of level M give and an integer N such that M divides N,
     this computes the map $E^n \\to J_0(N)$ where $n$ is the number of divisors of N/M.
@@ -36,28 +37,41 @@ def product_isogeny_map(E, N):
         []
 
     """
-    M = E.conductor()
-    assert N % M == 0
-    GN = Gamma0(N)
-    SN = GN.modular_symbols().cuspidal_subspace()
-    J0N = SN.abelian_variety()
-
-    EtoJ0M = E.ambient_morphism()
-
-    J0M = EtoJ0M.codomain()
-
-    divs = (N // M).divisors()
-    n = len(divs)
-    En = E**n  # E**n = E^n
-    J0M_to_N = [J0M.degeneracy_map(N, d) for d in divs]
-
+    if not isinstance(E_list, Iterable):
+        E_list = [E_list]
     degeneracy_isogenies = []
+    En_list = []
+    
+    for E in E_list:
+        M = E.conductor()
+        assert N % M == 0
+        GN = Gamma0(N)
+        SN = GN.modular_symbols().cuspidal_subspace()
+        J0N = SN.abelian_variety()
 
-    for M_to_N in J0M_to_N:
-        degeneracy_isogenies.append([(M_to_N * EtoJ0M).matrix()])
+        EtoJ0M = E.ambient_morphism()
 
+        J0M = EtoJ0M.codomain()
+
+        divs = (N // M).divisors()
+        n = len(divs)
+        En_list.extend([E]*n)
+        J0M_to_N = [J0M.degeneracy_map(N, d) for d in divs]
+
+
+        for M_to_N in J0M_to_N:
+            degeneracy_isogenies.append([(M_to_N * EtoJ0M).matrix()])
+
+    if not En_list:
+        raise ValueError("There should be at least one elliptic curve in the list")
+    
+    # the product of the elliptic curves in E_list, but with the multiplicty they
+    # occur in J_0(N)
+    A = prod(En_list)
+    
+    
     product_isogeny_mat = matrix.block(degeneracy_isogenies, subdivide=False)
-    product_isogeny = abvar.morphism.Morphism(Hom(En, J0N), product_isogeny_mat)
+    product_isogeny = abvar.morphism.Morphism(Hom(A, J0N), product_isogeny_mat)
     return product_isogeny
 
 
