@@ -9,6 +9,7 @@ from sage.all import (
     factor,
     moebius,
     divisors,
+    prod,
     PolynomialRing,
     vector,
 )
