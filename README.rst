@@ -8,7 +8,8 @@ Master: |master| Develop: |develop|
 .. |develop| image:: https://app.travis-ci.com/koffie/mdsage.svg?branch=develop
     :target: https://app.travis-ci.com/github/koffie/mdsage
 
-This package is a `SageMath <http://www.sagemath.org>`_ package that contains all reusable sage code that I have written.
+A `SageMath <http://www.sagemath.org>`_ package that for doing computations with modular forms, modular symbols and  modular curves. It builds on top of the existing functionality in Sage, and includes some additional functionality that is not yet available in Sage.
+
 
 The full documentation for the package can be found at https://koffie.github.io/mdsage/doc/html/
 
@@ -75,16 +76,13 @@ strings, also known as ``doctests``. For examples, see this
 With additional configuration, it would be possible to include unit
 tests as well.
 
-Once the package is installed, one can use the SageMath test system
-configured in ``setup.py`` to run the tests::
+Once the package is installed, one can use make to run the tests::
 
-    sage setup.py test
+    make test
+
 
 This is just calling ``sage -t`` with appropriate flags.
 
-Shorthand::
-
-    make test
 
 Documentation
 ^^^^^^^^^^^^^
