@@ -2,35 +2,13 @@
 Welcome to the mdsage's documentation!
 =======================================================================================
 
-mdsage is a package that contains all reusable `SageMath <http://www.sagemath.org>`_ functions I've written.
+A `SageMath <http://www.sagemath.org>`_ package that for doing computations with modular forms, modular symbols and  modular curves. It builds on top of the existing functionality in Sage, and includes some additional functionality that is not yet available in Sage.
+
 
 Installation
 ============
 
-**Local install from source**
-
-
-Download the source from the git repository::
-
-    $ git clone https://github.com/koffie/mdsage.git
-    $ cd mdsage
-    $ sage -pip install -v .
-
-For convenience this package contains a ``makefile`` with this
-and other often used commands. Should you wish too, you can use the
-shorthand::
-
-    $ make install
-    
-**Usage**
-
-
-Once the package is installed, you can use it in Sage. To do so you have to import it with::
-
-    sage: from mdsage import answer_to_ultimate_question()
-    sage: answer_to_ultimate_question()
-    42
-
+The installation instructions can be found in the `README on github <https://github.com/koffie/mdsage>`_. The documentation found here is for the usage of the package after installation. Below you can find a list of the modules that are currently available in the package, and links to their documentation.
 
 Modules in MD Sage
 =======================================================================================
@@ -38,6 +16,7 @@ Modules in MD Sage
 .. toctree::
    :maxdepth: 2
 
+   mdsage/automorphisms_modsym
    mdsage/canonical_rings
    mdsage/cuspidal_classgroup
    mdsage/kamiennys_criterion
