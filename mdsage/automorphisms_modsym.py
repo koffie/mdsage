@@ -73,7 +73,7 @@ def V5_operator(S, check=True):
         sage: from mdsage import *
         sage: M = ModularSymbols(5**2*7)
         sage: S = M.cuspidal_subspace()
-        sage: S_25 = (S.atkin_lehner_operator(25)-1).kernel()
+        sage: S_25 = invariant_subspace(S, [S.atkin_lehner_operator(25)])
         sage: V5 = V5_operator(S_25)
         sage: V5.matrix().charpoly().factor()
         (x - 1)^4 * (x^2 + x + 1)^6
@@ -93,39 +93,68 @@ def V5_operator(S, check=True):
     return V5
 
 
-def V5_quotient_modular_symbols(N):
+def invariant_subspace(S, autormorphisms):
     """
-    Constructs the modular symbols space associated to the quotient of X_0(25M)/w_25 by the automorphism V_5.
+    Computes the subspace of S that is invariant under the given automorphisms.
 
     EXAMPLES::
 
         sage: from mdsage import *
-        sage: S = V5_quotient_modular_symbols(5**2*7)
+        sage: M = ModularSymbols(5**2*7)
+        sage: S = M.cuspidal_subspace()
+        sage: S_25 = invariant_subspace(S, [S.atkin_lehner_operator(25)])
+        sage: S_25.dimension()
+        16
+        sage: V5 = V5_operator(S_25)
+        sage: invariant_subspace(S_25, [V5]).dimension()
+        4
+    """
+    S_inv = S
+    for aut in autormorphisms:
+        S_inv = S_inv.intersection((aut - 1).kernel())
+    return S_inv
+
+
+def V5_invariant_modular_symbols(N):
+    """
+    Constructs the cuspidal modular symbols space associated to the quotient of X_0(25N)/w_25 by the automorphism V_5.
+
+    EXAMPLES::
+
+        sage: from mdsage import *
+        sage: S = V5_invariant_modular_symbols(7)
         sage: S.dimension()
         4
     """
-    M = ModularSymbols(N)
+    assert N % 5 != 0, "N = {N} must not be divisible by 5"
+    M = ModularSymbols(25 * N)
     S = M.cuspidal_subspace()
     S_25 = (S.atkin_lehner_operator(25) - 1).kernel()
     V5 = V5_operator(S_25)
     return (V5 - 1).kernel()
 
 
-
-def V5_quotient_frobenius_polynomial(N, p):
+def modsym_frobenius_polynomial(S, p):
     """
-    Computes the Frobenius polynomial of the Jacobian of (X_0(25M)/w_25)/V_5 at a prime p.
+    Computes the Frobenius polynomial as acting on the modular symbols space S.
 
     EXAMPLES::
 
         sage: from mdsage import *
-        sage: f = V5_quotient_frobenius_polynomial(5**2*7, 2); f
+        sage: S = V5_invariant_modular_symbols(7)
+        sage: f = modsym_frobenius_polynomial(S, 2); f
         x^4 - x^3 + 3*x^2 - 2*x + 4
         sage: f.is_weil_polynomial()
         True
     """
+    assert (
+        S.weight() == 2
+    ), "Currently only implemented for weight 2 modular symbols spaces"
+    assert (
+        S.character().order() == 1
+    ), "Currently only implemented for trivial character"
+    N = S.level()
     assert N % p != 0, "p = {p} must not divide N = {N}"
-    S = V5_quotient_modular_symbols(N)
     A = S.abelian_variety()
     # f = A.frobenius_polynomial(p)
     # the above has a bug! Instead, we compute the characteristic polynomial of Frobenius manually in terms of the hecke operator at p.
@@ -137,17 +166,21 @@ def V5_quotient_frobenius_polynomial(N, p):
     return f
 
 
-def V5_quotient_point_count(N, p, n=1):
+def modsym_point_count(S, p, n=1):
     """
-    Counts the number of points on (X_0(25M)/w_25)/V_5 over the finite field with p^n elements.
+    This function assumes that S is the weight 2 modular symbols space associated to a (quotient) modular curve X.
+    It counts the number of points on X of this quotient over the finite field with p^n elements.
+    The answer is computed using the Frobenius polynomial as acting on S, which is the characteristic polynomial of Frobenius on the Jacobian of X, and applying the Weil conjectures.
+    If S is not corresponding to a modular curve, the result may not be meaningful and potentially negative.
 
     EXAMPLES::
 
         sage: from mdsage import *
-        sage: V5_quotient_point_count(5**2*6, 7)
+        sage: S = V5_invariant_modular_symbols(6)
+        sage: modsym_point_count(S, 7)
         6
-        sage: V5_quotient_point_count(5**2*6, 7, n=2)
+        sage: modsym_point_count(S, 7, n=2)
         80
     """
-    f = V5_quotient_frobenius_polynomial(N, p)
-    return p**n+1-(matrix.companion(f)**n).trace()
+    f = modsym_frobenius_polynomial(S, p)
+    return p**n + 1 - (matrix.companion(f) ** n).trace()
