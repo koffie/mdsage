@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Automorphisms of Modular Symbols &#8212; MD Sage 0.1.0 documentation</title>
+    <title>Automorphisms on Modular Symbols &#8212; MD Sage 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     
@@ -37,7 +37,7 @@
              accesskey="P">previous</a> |</li>
 <li class="nav-item nav-item-0"><a href="../index.html">MD Sage 0.1.0 documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Automorphisms of Modular Symbols</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Automorphisms on Modular Symbols</a></li> 
       </ul>
     </div>  
 
@@ -46,14 +46,72 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="automorphisms-of-modular-symbols">
-<span id="automorphisms-modsym"></span><h1>Automorphisms of Modular Symbols<a class="headerlink" href="#automorphisms-of-modular-symbols" title="Permalink to this headline">¶</a></h1>
-<p>This module provides functions and classes for working with automorphisms of modular symbols.</p>
-<span class="target" id="module-mdsage.automorphisms_modsym"></span><p>Provides functions for computing automorphisms of modular curves
+  <section id="module-mdsage.automorphisms_modsym">
+<span id="automorphisms-on-modular-symbols"></span><span id="automorphisms-modsym"></span><h1>Automorphisms on Modular Symbols<a class="headerlink" href="#module-mdsage.automorphisms_modsym" title="Permalink to this headline">¶</a></h1>
+<p>Provides functions for computing automorphisms of modular curves
 using modular symbols. The main focus is on automorphisms that are
 not yet implemented in Sage. This includes automorphisms of X_0(N)
 beyond Atkin-Lehner operators, and the extra automorphism V_5 on
 X_0(25M)/w_25.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.automorphisms_modsym.V5_operator">
+<span class="sig-prename descclassname"><span class="pre">mdsage.automorphisms_modsym.</span></span><span class="sig-name descname"><span class="pre">V5_operator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.automorphisms_modsym.V5_operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the automorphism V_5 on X_0(25M)/w_25, where S is the modular symbols space associated to X_0(25M)/w_25.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">M</span> <span class="o">=</span> <span class="n">ModularSymbols</span><span class="p">(</span><span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">cuspidal_subspace</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S_25</span> <span class="o">=</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">atkin_lehner_operator</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">kernel</span><span class="p">()</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">V5</span> <span class="o">=</span> <span class="n">V5_operator</span><span class="p">(</span><span class="n">S_25</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">V5</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span><span class="o">.</span><span class="n">charpoly</span><span class="p">()</span><span class="o">.</span><span class="n">factor</span><span class="p">()</span>
+<span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">6</span>
+</pre></div>
+</div>
+<p>Note: The eigenvalues of V_5 are 1 and the primitive cube roots of unity, which is consistent with V_5 being an automorphism of order 3.
+The eigenspace for eigenvalue 1 has dimension 4, which is twice the genus of (X_0(25*7)/w_25).V_5, as expected.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.automorphisms_modsym.V5_quotient_frobenius_polynomial">
+<span class="sig-prename descclassname"><span class="pre">mdsage.automorphisms_modsym.</span></span><span class="sig-name descname"><span class="pre">V5_quotient_frobenius_polynomial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.automorphisms_modsym.V5_quotient_frobenius_polynomial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the Frobenius polynomial of the Jacobian of (X_0(25M)/w_25)/V_5 at a prime p.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span> <span class="o">=</span> <span class="n">V5_quotient_frobenius_polynomial</span><span class="p">(</span><span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="n">f</span>
+<span class="n">x</span><span class="o">^</span><span class="mi">4</span> <span class="o">-</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">4</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">is_weil_polynomial</span><span class="p">()</span>
+<span class="kc">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.automorphisms_modsym.V5_quotient_modular_symbols">
+<span class="sig-prename descclassname"><span class="pre">mdsage.automorphisms_modsym.</span></span><span class="sig-name descname"><span class="pre">V5_quotient_modular_symbols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.automorphisms_modsym.V5_quotient_modular_symbols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs the modular symbols space associated to the quotient of X_0(25M)/w_25 by the automorphism V_5.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S</span> <span class="o">=</span> <span class="n">V5_quotient_modular_symbols</span><span class="p">(</span><span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">dimension</span><span class="p">()</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.automorphisms_modsym.V5_quotient_point_count">
+<span class="sig-prename descclassname"><span class="pre">mdsage.automorphisms_modsym.</span></span><span class="sig-name descname"><span class="pre">V5_quotient_point_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.automorphisms_modsym.V5_quotient_point_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts the number of points on (X_0(25M)/w_25)/V_5 over the finite field with p^n elements.</p>
+<p>EXAMPLES:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sage</span><span class="p">:</span> <span class="kn">from</span> <span class="nn">mdsage</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">V5_quotient_point_count</span><span class="p">(</span><span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="mi">6</span>
+<span class="n">sage</span><span class="p">:</span> <span class="n">V5_quotient_point_count</span><span class="p">(</span><span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="mi">80</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="mdsage.automorphisms_modsym.apply">
 <span class="sig-prename descclassname"><span class="pre">mdsage.automorphisms_modsym.</span></span><span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ambient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.automorphisms_modsym.apply" title="Permalink to this definition">¶</a></dt>
@@ -72,8 +130,22 @@ ensure that g is a valid automorphism.</p>
 <span class="n">sage</span><span class="p">:</span> <span class="n">g</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">sage</span><span class="p">:</span> <span class="nb">all</span><span class="p">([</span><span class="n">apply</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="o">==</span> <span class="n">M</span><span class="o">.</span><span class="n">atkin_lehner_operator</span><span class="p">(</span><span class="mi">37</span><span class="p">)(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">basis</span><span class="p">()])</span>
 <span class="kc">True</span>
+<span class="n">sage</span><span class="p">:</span> <span class="nb">all</span><span class="p">([</span><span class="n">apply</span><span class="p">(</span><span class="n">m</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">M</span><span class="o">.</span><span class="n">atkin_lehner_operator</span><span class="p">(</span><span class="mi">37</span><span class="p">)(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">M</span><span class="o">.</span><span class="n">basis</span><span class="p">()])</span>
+<span class="kc">True</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.automorphisms_modsym.b_j">
+<span class="sig-prename descclassname"><span class="pre">mdsage.automorphisms_modsym.</span></span><span class="sig-name descname"><span class="pre">b_j</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.automorphisms_modsym.b_j" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that creates a matrix used in the definition of the automorphism V_5 on X_0(25M)/w_25.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mdsage.automorphisms_modsym.upsilon">
+<span class="sig-prename descclassname"><span class="pre">mdsage.automorphisms_modsym.</span></span><span class="sig-name descname"><span class="pre">upsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mdsage.automorphisms_modsym.upsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that creates a matrix used in the definition of the automorphism V_5 on X_0(25M)/w_25.</p>
 </dd></dl>
 
 </section>
@@ -133,7 +205,7 @@ ensure that g is a valid automorphism.</p>
              >previous</a> |</li>
 <li class="nav-item nav-item-0"><a href="../index.html">MD Sage 0.1.0 documentation</a> &#187;</li>
 
-        <li class="nav-item nav-item-this"><a href="">Automorphisms of Modular Symbols</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Automorphisms on Modular Symbols</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
