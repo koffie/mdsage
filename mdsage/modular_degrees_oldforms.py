@@ -42,7 +42,7 @@ def product_isogeny_map(E_list, N):
         E_list = [E_list]
     degeneracy_isogenies = []
     En_list = []
-    
+
     for E in E_list:
         M = E.conductor()
         assert N % M == 0
@@ -56,21 +56,19 @@ def product_isogeny_map(E_list, N):
 
         divs = (N // M).divisors()
         n = len(divs)
-        En_list.extend([E]*n)
+        En_list.extend([E] * n)
         J0M_to_N = [J0M.degeneracy_map(N, d) for d in divs]
-
 
         for M_to_N in J0M_to_N:
             degeneracy_isogenies.append([(M_to_N * EtoJ0M).matrix()])
 
     if not En_list:
         raise ValueError("There should be at least one elliptic curve in the list")
-    
+
     # the product of the elliptic curves in E_list, but with the multiplicty they
     # occur in J_0(N)
     A = prod(En_list)
-    
-    
+
     product_isogeny_mat = matrix.block(degeneracy_isogenies, subdivide=False)
     product_isogeny = abvar.morphism.Morphism(Hom(A, J0N), product_isogeny_mat)
     return product_isogeny
