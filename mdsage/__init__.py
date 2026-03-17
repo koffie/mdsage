@@ -64,7 +64,8 @@ from .ultimate_question import quick_question
 
 from .automorphisms_modsym import (
     V5_operator,
-    V5_quotient_modular_symbols,
-    V5_quotient_frobenius_polynomial,
-    V5_quotient_point_count,
+    V5_invariant_modular_symbols,
+    modsym_frobenius_polynomial,
+    modsym_point_count,
+    invariant_subspace,
 )
